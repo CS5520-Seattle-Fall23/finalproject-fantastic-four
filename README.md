@@ -184,7 +184,7 @@ classDiagram
 
 ```
 
-## Grantt Diagram
+## Gantt Diagram
 ```mermaid
 gantt
 dateFormat  YYYY-MM-DD
