@@ -222,4 +222,4 @@ Presentation               :  des6, after des5, 5d
 
 ## Instructions
 
-Your team's code and documentation will put here.
+Your team's code and documentation will be here.
