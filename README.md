@@ -8,7 +8,7 @@ Hao Luo, Xu Tan, Xuan Lei, Guodong Mao
 
 ## Purpose:
 
-1. Definitions: "Sweet Pets" is a comprehensive pet community application designed for cat and dog enthusiasts, mainly targeting pet owners.
+1. Definitions: "Sweet Pets" is a comprehensive pet community application designed for cat and dog enthusiasts, mainly targeting pet owner.
 
 2. Background: 66% of American households own pets, which translates to approximately 86.9 million households. Some of them even have multiple pets. Among them, there are 65.1 million households with dogs and 46.5 million households with cats. So the population of pet owners in the US is insane.
 
