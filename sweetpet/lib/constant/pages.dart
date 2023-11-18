@@ -4,4 +4,5 @@ class Pages {
   static const String health = "/health";
   static const String message = "/message";
   static const String mine = "/mine";
+  static const String indexDetail = "/indexDetail";
 }

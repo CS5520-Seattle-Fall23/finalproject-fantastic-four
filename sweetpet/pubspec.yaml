@@ -73,6 +73,9 @@ flutter:
   assets:
     - assets/images/Mainview.png
     - assets/images/Mine.png
+    - assets/images/search.png
+    - assets/images/world.png
+    - assets/images/like.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

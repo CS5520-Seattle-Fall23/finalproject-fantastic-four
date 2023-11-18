@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sweetpet/controller/home_controller/home_controller.dart';
+import 'package:sweetpet/page/index_page/index_page.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
@@ -13,7 +14,7 @@ class HomePage extends StatelessWidget {
         body: IndexedStack(
           index: homeController.currentIndex.value,
           children: [
-            Container(color: Colors.red),
+            IndexPage(),
             Container(color: Colors.blue),
             Container(color: Colors.orange),
           ],
