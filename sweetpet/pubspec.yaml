@@ -76,6 +76,13 @@ flutter:
     - assets/images/search.png
     - assets/images/world.png
     - assets/images/like.png
+    - assets/images/share.png
+    - assets/images/like.png
+    - assets/images/liked.png
+    - assets/images/fav.png
+    - assets/images/faved.png
+    - assets/images/comment.png
+    - assets/images/comment2.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
