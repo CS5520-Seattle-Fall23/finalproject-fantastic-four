@@ -4,6 +4,7 @@ import 'package:sweetpet/model/post.dart';
 import 'package:get/get.dart';
 
 import 'package:sweetpet/controller/index_controller/index_controller.dart';
+import 'package:sweetpet/page/mall_page/mall_page.dart';
 
 class IndexPage extends StatelessWidget {
   IndexPage({Key? key}) : super(key: key);
@@ -32,7 +33,7 @@ class IndexPage extends StatelessWidget {
                       indicatorColor: ColorLibrary.primary,
                       controller: controller.tabController,
                       tabs: const [
-                        Tab(text: "Follow"),
+                        Tab(text: "Health"),
                         Tab(text: "Find"),
                         Tab(text: "Mall"),
                       ],
@@ -91,7 +92,7 @@ class IndexPage extends StatelessWidget {
   }
 
   Widget buildShoppingPage() {
-    return const Center(child: Text("Coding"));
+    return PetDiscoveryPage();
   }
 
   Widget buildCardItem(Post post) {
