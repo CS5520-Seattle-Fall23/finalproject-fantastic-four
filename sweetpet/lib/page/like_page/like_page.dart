@@ -4,59 +4,35 @@ import 'package:sweetpet/model/post.dart';
 import 'package:get/get.dart';
 
 import 'package:sweetpet/controller/index_controller/index_controller.dart';
-import 'package:sweetpet/page/mall_page/mall_page.dart';
 
-class IndexPage extends StatelessWidget {
-  IndexPage({Key? key}) : super(key: key);
+class LikePage extends StatelessWidget {
+  LikePage({Key? key}) : super(key: key);
   final IndexController controller = Get.put(IndexController());
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => Navigator.of(context).pop(), // 添加返回功能
+          ),
+          title: const Text('Like Page'), // 可以根据您的需求自定义标题
+          // 其他 AppBar 配置...
+        ),
         backgroundColor: ColorLibrary.background,
         body: Column(
           children: [
-            Container(
-              color: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 52),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Spacer(),
-                  SizedBox(
-                    height: 40,
-                    width: 250,
-                    child: TabBar(
-                      labelColor: Colors.black,
-                      dividerColor: Colors.transparent,
-                      indicatorColor: ColorLibrary.primary,
-                      controller: controller.tabController,
-                      tabs: const [
-                        Tab(text: "Health"),
-                        Tab(text: "Find"),
-                        Tab(text: "Mall"),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Image.asset(
-                    "assets/images/search.png",
-                    width: 30,
-                    height: 30,
-                  ),
-                ],
-              ),
-            ),
+            // ... 其他组件
             Expanded(
               child: GetBuilder<IndexController>(
                 builder: (_) {
                   return TabBarView(
                     controller: controller.tabController,
                     children: [
-                      buildFollowPage(),
-                      buildDiscoverPage(),
-                      buildShoppingPage(),
+                      buildLikePage(),
+                      // ... 其他 Tab 视图
                     ],
                   );
                 },
@@ -68,18 +44,9 @@ class IndexPage extends StatelessWidget {
     );
   }
 
-  Widget buildFollowPage() {
-    return const Center(child: Text("Coding"));
-  }
-
-  Widget buildDiscoverPage() {
+  Widget buildLikePage() {
     return ListView(
       children: [
-        Image.asset(
-          "assets/images/test.png",
-          width: 300,
-          height: 200,
-        ),
         Row(
           children: [
             Column(
@@ -94,10 +61,6 @@ class IndexPage extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  Widget buildShoppingPage() {
-    return PetDiscoveryPage();
   }
 
   Widget buildCardItem(Post post) {

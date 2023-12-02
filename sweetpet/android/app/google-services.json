@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "517144691046",
+    "project_id": "sweetpet-e5c86",
+    "storage_bucket": "sweetpet-e5c86.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:517144691046:android:10c9933a0fdee6948c48a7",
+        "android_client_info": {
+          "package_name": "com.example.sweetpet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvLPq1UDq3D7CIpSJaYOPqZON0IyBEzUQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
