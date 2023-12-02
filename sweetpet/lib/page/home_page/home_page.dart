@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sweetpet/controller/home_controller/home_controller.dart';
 import 'package:sweetpet/page/index_page/index_page.dart';
+import 'package:sweetpet/page/message_page/message_page.dart';
+import 'package:sweetpet/page/publish_page/publish_page.dart';
+// import 'package:firebase_storage/firebase_storage.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
@@ -15,8 +18,9 @@ class HomePage extends StatelessWidget {
           index: homeController.currentIndex.value,
           children: [
             IndexPage(),
-            Container(color: Colors.blue),
-            Container(color: Colors.orange),
+            // Container(color: Colors.blue),
+            PublishPage(),
+            MessagePage(),
           ],
         ),
         bottomNavigationBar: Theme(

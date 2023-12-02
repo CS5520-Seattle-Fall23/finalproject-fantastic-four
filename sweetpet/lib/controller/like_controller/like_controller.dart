@@ -5,7 +5,7 @@ import 'package:sweetpet/model/post.dart';
 import 'package:get/get.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-class IndexController extends GetxController
+class LikeController extends GetxController
     with GetSingleTickerProviderStateMixin {
   late TabController tabController;
   List<Post> data = [];
@@ -26,6 +26,6 @@ class IndexController extends GetxController
   }
 
   void openIndexDetailPage(int id) {
-    Get.toNamed(Pages.indexDetail, arguments: {"id": id});
+    Get.toNamed(Pages.liked, arguments: {"id": id});
   }
 }
