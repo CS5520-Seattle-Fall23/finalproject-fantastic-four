@@ -38,7 +38,6 @@ dependencies:
   fl_chart: ^0.36.0
   image_picker: ^0.8.4+4
   cupertino_icons: ^1.0.2
-  intl: ^0.18.1
   get: ^4.6.5 
   get_storage: ^2.1.1 
   json_annotation: ^4.8.0 
