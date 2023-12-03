@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sweetpet/page/mall_page/shopping_list_page.dart';
 
 class PetShopPage extends StatelessWidget {
 
@@ -67,23 +68,31 @@ class PetProductWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            child: Image.asset(
-              product.imageUrl,
-              fit: BoxFit.cover,
+    return GestureDetector(
+       onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ShopList()),
+        );
+      },
+      child: Card(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: Image.asset(
+                product.imageUrl,
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0),
-            child: Text(
-              product.name,
-              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: Text(
+                product.name,
+                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
