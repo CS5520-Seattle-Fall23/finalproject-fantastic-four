@@ -8,7 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 class IndexController extends GetxController
     with GetSingleTickerProviderStateMixin {
   late TabController tabController;
-  List<Post> data = [];
+  late List<Post> data = [];
   final storageRef = FirebaseStorage.instance.ref();
 
   @override

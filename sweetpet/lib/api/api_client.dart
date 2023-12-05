@@ -1,47 +1,58 @@
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sweetpet/fakeData/fake.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:sweetpet/model/post.dart';
 import 'package:http/http.dart' as http;
+import 'package:sweetpet/model/post_detail.dart';
 
 class ApiClient {
   ApiClient._internal();
   factory ApiClient() => _instance;
   static final ApiClient _instance = ApiClient._internal();
-  List<Post> convertDynamicListToPostList(List<dynamic> dynamicList) {
-    return dynamicList.map((dynamic item) => Post.fromJson(item)).toList();
-  }
 
   // MainView Data
   Future<dynamic> getIndexData() async {
+    final FirebaseFirestore firestore1 = FirebaseFirestore.instance;
+    final CollectionReference collection1 = firestore1.collection('postView');
     try {
-      // 获取 Firebase Storage 实例
-      FirebaseStorage storage = FirebaseStorage.instance;
-
-      // 获取文件的引用，路径应根据您的 Firebase Storage 结构调整
-      Reference ref = storage.ref('posts/postData.json');
-
-      // 获取文件的下载 URL
-      String url = await ref.getDownloadURL();
-      // 使用 http 包下载文件
-      final response = await http.get(Uri.parse(url));
-      List<Post> data =
-          convertDynamicListToPostList(json.decode(response.body));
-      return data;
+      List<Post> posts = [];
+      QuerySnapshot querySnapshot1 = await collection1.get();
+      for (QueryDocumentSnapshot document in querySnapshot1.docs) {
+        Map<String, dynamic> data1 = document.data() as Map<String, dynamic>;
+        Post post = Post.fromJson(data1);
+        posts.add(post);
+      }
+      return posts;
     } catch (e) {
-      // 打印并处理任何异常
-      print('Error occurred while fetching data: $e');
-      return null;
+      print('Error getting collection data: $e');
+    }
+  }
+
+  Future<dynamic> getPostDetailData() async {
+    final FirebaseFirestore firestore2 = FirebaseFirestore.instance;
+    final CollectionReference collection2 = firestore2.collection('post');
+    try {
+      List<PostDetail> postDetails = [];
+      QuerySnapshot querySnapshot2 = await collection2.get();
+      for (QueryDocumentSnapshot document in querySnapshot2.docs) {
+        Map<String, dynamic> data2 = document.data() as Map<String, dynamic>;
+        PostDetail postDetail = PostDetail.fromJson(data2);
+        postDetails.add(postDetail);
+      }
+      return postDetails;
+    } catch (e) {
+      print('Error getting collection data: $e');
     }
   }
 
   // Post Detail Data
-  Future getIndexDetailDataById(String id) async {
-    await Future.delayed(const Duration(seconds: 1));
-    for (var v in FakeData.cardDetailDataList) {
+  Future<PostDetail?> getIndexDetailDataById(String id) async {
+    List<PostDetail> postDetails = await getPostDetailData();
+    for (var v in postDetails) {
       if (v.id == id) {
-        return await Future.value(v);
+        return v;
       }
     }
     return null;

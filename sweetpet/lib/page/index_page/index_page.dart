@@ -73,6 +73,7 @@ class IndexPage extends StatelessWidget {
   }
 
   Widget buildDiscoverPage() {
+    int halfLength = (controller.data.length / 2).ceil();
     return ListView(
       children: [
         Image.asset(
@@ -83,10 +84,14 @@ class IndexPage extends StatelessWidget {
         Row(
           children: [
             Column(
-              children: controller.data.map((e) => buildCardItem(e)).toList(),
+              children: controller.data
+                  .sublist(0, halfLength)
+                  .map((e) => buildCardItem(e))
+                  .toList(),
             ),
             Column(
-              children: controller.data.reversed
+              children: controller.data
+                  .sublist(halfLength)
                   .map((e) => buildCardItem(e))
                   .toList(),
             ),

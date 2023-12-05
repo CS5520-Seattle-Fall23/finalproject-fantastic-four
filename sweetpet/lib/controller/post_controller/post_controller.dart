@@ -18,7 +18,7 @@ class PostController extends GetxController {
     getCommentList();
   }
 
-  void getIndexDetailData(String id) {
+  void getIndexDetailData(String id) async {
     ApiClient().getIndexDetailDataById(id).then((response) {
       if (response != null) {
         postDetail = response;
