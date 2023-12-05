@@ -21,7 +21,7 @@ class PostController extends GetxController {
     super.onInit();
     id = Get.arguments["id"];
     getIndexDetailData(id);
-    getCommentList();
+    getCommentList(id);
   }
 
   void getIndexDetailData(String id) async {
@@ -39,8 +39,8 @@ class PostController extends GetxController {
     });
   }
 
-  void getCommentList() {
-    ApiClient().getCommentList().then((response) {
+  void getCommentList(String id) {
+    ApiClient().getCommentList(id).then((response) {
       commentList = response;
       update();
     });
@@ -73,6 +73,7 @@ class PostController extends GetxController {
       await getUserData(globalUid);
       // 等待 imagesUrls 获取完成后再执行 createPostAndUpload
       await createCommentAndUpload(content);
+      getCommentList(id);
     } catch (error) {
       // 处理上传图片失败的情况
       Get.snackbar('Error', 'Failed to upload images: ${error.toString()}');

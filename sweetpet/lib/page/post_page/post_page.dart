@@ -255,6 +255,7 @@ class PostPage extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               controller.sendComment(commentController.text);
+              commentController.clear();
             },
             child: const Text('Send'),
           ),
