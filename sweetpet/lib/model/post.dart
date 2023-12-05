@@ -3,8 +3,8 @@ part 'post.g.dart';
 
 @JsonSerializable()
 class Post {
-  int id;
-  int uid;
+  String id;
+  String uid;
   String cover; // 封面
   String content;
   String avatar;

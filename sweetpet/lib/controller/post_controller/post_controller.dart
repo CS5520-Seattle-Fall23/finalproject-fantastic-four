@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 class PostController extends GetxController {
   late PostDetail postDetail;
-  late int id;
+  late String id;
   bool isLoading = true;
   bool isFail = false;
   List<Comment> commentList = [];
@@ -18,7 +18,7 @@ class PostController extends GetxController {
     getCommentList();
   }
 
-  void getIndexDetailData(int id) {
+  void getIndexDetailData(String id) {
     ApiClient().getIndexDetailDataById(id).then((response) {
       if (response != null) {
         postDetail = response;
