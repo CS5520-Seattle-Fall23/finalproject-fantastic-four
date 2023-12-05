@@ -5,7 +5,7 @@ part 'post.g.dart';
 class Post {
   String id;
   String uid;
-  String cover; // 封面
+  String cover;
   String content;
   String avatar;
   String nickname;

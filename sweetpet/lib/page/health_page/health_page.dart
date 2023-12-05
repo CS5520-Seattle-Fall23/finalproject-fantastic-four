@@ -1,24 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Health Tracker',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: SummaryPage(),
-    );
-  }
-}
-
 class SummaryPage extends StatefulWidget {
   @override
   _SummaryPageState createState() => _SummaryPageState();
@@ -48,7 +30,7 @@ class _SummaryPageState extends State<SummaryPage> {
         ],
       ),
       body: ListView(
-        children: <Widget>[
+        children: const <Widget>[
           ListTile(
             leading: Icon(Icons.flash_on),
             title: Text('Active Energy'),

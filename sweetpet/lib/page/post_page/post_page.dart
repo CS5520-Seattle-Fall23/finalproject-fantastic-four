@@ -118,13 +118,6 @@ class PostPage extends StatelessWidget {
               style: const TextStyle(color: Color(0xff333333)),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Text(
-              "${controller.postDetail.date} ${controller.postDetail.address}",
-              style: const TextStyle(color: Color(0xff999999)),
-            ),
-          ),
           const Divider(thickness: 0.5)
         ],
       ),

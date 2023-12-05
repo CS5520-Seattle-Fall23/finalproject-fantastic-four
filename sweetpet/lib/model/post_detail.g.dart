@@ -17,7 +17,6 @@ PostDetail _$PostDetailFromJson(Map<String, dynamic> json) => PostDetail(
       json['like'] as int,
       json['comment'] as int,
       json['date'] as String,
-      json['address'] as String,
       (json['images'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
@@ -33,6 +32,5 @@ Map<String, dynamic> _$PostDetailToJson(PostDetail instance) =>
       'like': instance.like,
       'comment': instance.comment,
       'date': instance.date,
-      'address': instance.address,
       'images': instance.images,
     };
