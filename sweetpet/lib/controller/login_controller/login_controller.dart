@@ -118,6 +118,13 @@ class _AuthScreenState extends State<LoginController> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          Text(
+                            _isLogin ? 'Welcome Back!' : 'Create a New Account',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           if (!_isLogin)
                             UserImagePicker(
                               onPickImage: (pickedImage) {
@@ -127,6 +134,7 @@ class _AuthScreenState extends State<LoginController> {
                           TextFormField(
                             decoration: const InputDecoration(
                               labelText: 'Email Address',
+                              hintText: 'Enter your email address',
                             ),
                             keyboardType: TextInputType.emailAddress,
                             autocorrect: false,
