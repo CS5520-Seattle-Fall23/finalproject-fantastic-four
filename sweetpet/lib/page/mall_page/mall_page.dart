@@ -23,20 +23,6 @@ class PetDiscoveryPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Mall'),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            // Handle back button
-          },
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.shopping_cart),
-            onPressed: () {
-              // Handle shopping cart button
-            },
-          ),
-        ],
       ),
       body: Column(
         children: <Widget>[
