@@ -92,7 +92,7 @@ class _AuthScreenState extends State<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: Color.fromRGBO(238, 253, 255, 1),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -123,7 +123,7 @@ class _AuthScreenState extends State<LoginController> {
                             style: const TextStyle(
                               fontSize: 75,
                               fontFamily: 'Hiatus',
-                              color: Color.fromARGB(255, 101, 29, 114),
+                              color: Color.fromARGB(255, 106, 187, 241),
                             ),
                           ),
                           if (!_isLogin)
@@ -192,11 +192,19 @@ class _AuthScreenState extends State<LoginController> {
                             ElevatedButton(
                               onPressed: _submit,
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Theme.of(context)
-                                    .colorScheme
-                                    .primaryContainer,
+                                backgroundColor:
+                                    Color.fromRGBO(200, 248, 255, 1),
+                                elevation: 0, // Remove button shadow
                               ),
-                              child: Text(_isLogin ? 'Log In' : 'Sign Up'),
+                              child: Text(
+                                _isLogin ? 'Log In' : 'Sign Up',
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontFamily: 'Mont',
+                                  fontWeight: FontWeight.w900,
+                                  color: Color.fromARGB(255, 106, 187, 241),
+                                ),
+                              ),
                             ),
                           if (!_isAuthenticating)
                             TextButton(
@@ -205,9 +213,17 @@ class _AuthScreenState extends State<LoginController> {
                                   _isLogin = !_isLogin;
                                 });
                               },
-                              child: Text(_isLogin
-                                  ? 'Create an account'
-                                  : 'I already have an account'),
+                              child: Text(
+                                _isLogin
+                                    ? 'New User? Register Now!'
+                                    : 'I Already Have An Account',
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontFamily: 'Mont',
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(255, 106, 187, 241),
+                                ),
+                              ),
                             ),
                         ],
                       ),

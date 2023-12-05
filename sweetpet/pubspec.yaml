@@ -109,3 +109,6 @@ flutter:
     - family: Hiatus
       fonts:
         - asset: assets/fonts/Hiatus.ttf
+    - family: Mont
+      fonts:
+        - asset: assets/fonts/Mont.ttf
