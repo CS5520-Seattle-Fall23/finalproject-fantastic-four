@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 class PostPage extends StatelessWidget {
   PostPage({Key? key}) : super(key: key);
   final PostController controller = Get.put(PostController());
+  TextEditingController commentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -181,14 +182,6 @@ class PostPage extends StatelessWidget {
                                           style: const TextStyle(
                                               color: ColorLibrary.black9),
                                         ),
-                                        TextSpan(
-                                            text: "  Reply",
-                                            style: const TextStyle(
-                                                color: ColorLibrary.black3),
-                                            recognizer: TapGestureRecognizer()
-                                              ..onTap = () {
-                                                print("Reply");
-                                              })
                                       ])),
                                 ],
                               ),
@@ -240,16 +233,17 @@ class PostPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: const ShapeDecoration(
                   shape: StadiumBorder(), color: ColorLibrary.background),
-              child: const Row(
+              child: Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(right: 8.0),
+                    padding: const EdgeInsets.only(right: 8.0),
                     child: SizedBox(
                       width: 170,
                       height: 30,
                       child: TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Type...',
+                        controller: commentController,
+                        decoration: const InputDecoration(
+                          hintText: 'Type...',
                         ),
                       ),
                     ),
@@ -258,15 +252,16 @@ class PostPage extends StatelessWidget {
               ),
             ),
           ),
+          ElevatedButton(
+            onPressed: () {
+              controller.sendComment(commentController.text);
+            },
+            child: const Text('Send'),
+          ),
           Image.asset("assets/images/like.png", width: 30, height: 30),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(controller.postDetail.like.toString()),
-          ),
-          Image.asset("assets/images/fav.png", width: 30, height: 30),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(controller.postDetail.fav.toString()),
           ),
           Image.asset("assets/images/comment.png", width: 30, height: 30),
           Padding(

@@ -120,7 +120,7 @@ class PublishController extends GetxController {
   Future<void> createPostViewAndUpload(
       String content, String imagesUrl, String postId) async {
     Post newPost = Post(
-        postId, globalUid, imagesUrl, content, avatarUrl, userName, 20, 10, 34);
+        postId, globalUid, imagesUrl, content, avatarUrl, userName, 20, 10, 0);
 
     // 调用上传方法
     uploadPostViewToFirebase(newPost);
