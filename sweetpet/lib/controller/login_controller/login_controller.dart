@@ -119,10 +119,11 @@ class _AuthScreenState extends State<LoginController> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            _isLogin ? 'Welcome Back!' : 'Create a New Account',
+                            _isLogin ? 'Welcome' : 'Join Us',
                             style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 75,
+                              fontFamily: 'Hiatus',
+                              color: Color.fromARGB(255, 101, 29, 114),
                             ),
                           ),
                           if (!_isLogin)
