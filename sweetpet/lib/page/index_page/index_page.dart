@@ -42,8 +42,8 @@ class IndexPage extends StatelessWidget {
                   const SizedBox(width: 20),
                   Image.asset(
                     "assets/images/search.png",
-                    width: 30,
-                    height: 30,
+                    width: 15,
+                    height: 15,
                   ),
                 ],
               ),
