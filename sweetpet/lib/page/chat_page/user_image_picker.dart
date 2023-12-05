@@ -41,7 +41,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
     return Column(
       children: [
         CircleAvatar(
-          radius: 40,
+          radius: 35,
           backgroundColor: Colors.grey,
           foregroundImage:
               _pickedImageFile != null ? FileImage(_pickedImageFile!) : null,
@@ -63,7 +63,7 @@ class _UserImagePickerState extends State<UserImagePicker> {
               onPressed: () => _pickImage(ImageSource.gallery),
               icon: const Icon(Icons.image),
               label: Text(
-                'Choose from Gallery',
+                'Local Pick',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
                 ),
