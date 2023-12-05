@@ -7,8 +7,8 @@ part of 'post_detail.dart';
 // **************************************************************************
 
 PostDetail _$PostDetailFromJson(Map<String, dynamic> json) => PostDetail(
-      json['id'] as int,
-      json['uid'] as int,
+      json['id'] as String,
+      json['uid'] as String,
       json['title'] as String,
       json['content'] as String,
       json['avatar'] as String,

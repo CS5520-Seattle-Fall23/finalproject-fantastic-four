@@ -3,21 +3,18 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:get/get.dart';
-import 'dart:io';
 import 'package:sweetpet/controller/publish_controller/publish_controller.dart';
 
 class PublishPage extends StatelessWidget {
   final PublishController controller = Get.put(PublishController());
+  TextEditingController titleController = TextEditingController();
+  TextEditingController contentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Publish Post'),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: controller.goBack,
-        ),
+        title: const Text('Publish Post'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -47,47 +44,52 @@ class PublishPage extends StatelessWidget {
               }),
             ),
             Padding(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: ElevatedButton(
                 onPressed: controller.pickImages,
-                child: Text('Pick Images'),
+                child: const Text('Pick Images'),
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: TextField(
-                decoration: InputDecoration(
+                controller: titleController, // 使用TextEditingController
+                decoration: const InputDecoration(
                   labelText: 'Add title....',
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: TextField(
+                controller: contentController, // 使用TextEditingController
                 maxLines: 5, // 增加TextField的行数
                 keyboardType: TextInputType.multiline,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Write your post content here...',
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Expanded(
                     child: ElevatedButton(
                       onPressed: controller.savePost,
-                      child: Text('Save'),
+                      child: const Text('Save'),
                     ),
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: controller.sharePost,
+                      onPressed: () {
+                        controller.sharePost(
+                            titleController.text, contentController.text);
+                      },
                       child: Text('Share'),
                       style: ElevatedButton.styleFrom(primary: Colors.red),
                     ),

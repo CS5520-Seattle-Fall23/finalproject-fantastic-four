@@ -4,8 +4,8 @@ part 'post_detail.g.dart';
 
 @JsonSerializable()
 class PostDetail {
-  int id;
-  int uid;
+  String id;
+  String uid;
   String title;
   String content;
   String avatar;

@@ -24,21 +24,11 @@ class ApiClient {
 
       // 获取文件的下载 URL
       String url = await ref.getDownloadURL();
-      print(url);
       // 使用 http 包下载文件
       final response = await http.get(Uri.parse(url));
       List<Post> data =
           convertDynamicListToPostList(json.decode(response.body));
       return data;
-      // 检查请求是否成功
-      // if (response.statusCode == 200) {
-      //   // 解析并返回 JSON 数据
-      //   return json.decode(response.body);
-      // } else {
-      //   // 如果出错，打印错误信息
-      //   print('Failed to load data: ${response.statusCode}');
-      //   return null;
-      // }
     } catch (e) {
       // 打印并处理任何异常
       print('Error occurred while fetching data: $e');
@@ -47,7 +37,7 @@ class ApiClient {
   }
 
   // Post Detail Data
-  Future getIndexDetailDataById(int id) async {
+  Future getIndexDetailDataById(String id) async {
     await Future.delayed(const Duration(seconds: 1));
     for (var v in FakeData.cardDetailDataList) {
       if (v.id == id) {

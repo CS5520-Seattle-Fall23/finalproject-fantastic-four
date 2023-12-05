@@ -25,7 +25,7 @@ class IndexController extends GetxController
     });
   }
 
-  void openIndexDetailPage(int id) {
+  void openIndexDetailPage(String id) {
     Get.toNamed(Pages.indexDetail, arguments: {"id": id});
   }
 }

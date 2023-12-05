@@ -2,12 +2,16 @@ import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:sweetpet/controller/login_controller/UserProvider.dart';
+import 'package:sweetpet/model/userModel.dart';
 import 'package:sweetpet/page/chat_page/user_image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sweetpet/page/home_page/home_page.dart';
+import 'package:provider/provider.dart';
+import 'package:sweetpet/constant/uid.dart';
 
 final _firebase = FirebaseAuth.instance;
 
@@ -46,8 +50,9 @@ class _AuthScreenState extends State<LoginController> {
         Get.offAll(() => HomePage());
       });
       if (_isLogin) {
-        await _firebase.signInWithEmailAndPassword(
+        final userCredentials = await _firebase.signInWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
+        globalUid = userCredentials.user!.uid;
       } else {
         final userCredentials = await _firebase.createUserWithEmailAndPassword(
             email: _enteredEmail, password: _enteredPassword);
@@ -69,6 +74,7 @@ class _AuthScreenState extends State<LoginController> {
           'email': _enteredEmail,
           'image_url': imageUrl,
         });
+        globalUid = userCredentials.user!.uid;
       }
     } on FirebaseAuthException catch (error) {
       ScaffoldMessenger.of(context).clearSnackBars();

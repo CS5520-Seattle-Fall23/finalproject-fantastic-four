@@ -2,10 +2,10 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'package:sweetpet/constant/pages.dart';
-import 'package:sweetpet/controller/home_controller/home_controller.dart';
+import 'package:sweetpet/controller/login_controller/UserProvider.dart';
 import 'package:sweetpet/controller/login_controller/login_controller.dart';
-import 'package:sweetpet/page/home_page/home_page.dart';
 import 'package:sweetpet/page/vc_router.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -16,6 +16,10 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  providers:
+  [
+    ChangeNotifierProvider(create: (_) => UserProvider()),
+  ];
   runApp(const MyApp());
 }
 
