@@ -29,7 +29,7 @@ class PostController extends GetxController {
   }
 
   void getIndexDetailData(String id) async {
-    await updateUserThumbPosts();
+    // await updateUserThumbPosts();
     ApiClient().getIndexDetailDataById(id).then((response) {
       if (response != null) {
         postDetail = response;
@@ -148,104 +148,104 @@ class PostController extends GetxController {
     }
   }
 
-  Future<void> updateUserThumbPosts() async {
-    thumbs = await ApiClient().getUserThumbPosts();
-  }
+  // Future<void> updateUserThumbPosts() async {
+  //   thumbs = await ApiClient().getUserThumbPosts();
+  // }
 
-  Future<void> uploadThumbToFirebase(THUMB thumb) async {
-    try {
-      await FirebaseFirestore.instance.collection('thumb').doc().set({
-        'id': thumb.id,
-        'postId': thumb.postId,
-        'userId': thumb.userId,
-        'tag': thumb.tag,
-      });
-      print('点赞成功！');
-    } catch (e) {
-      print('点赞出现错误：$e');
-    }
-  }
+  // Future<void> uploadThumbToFirebase(THUMB thumb) async {
+  //   try {
+  //     await FirebaseFirestore.instance.collection('thumb').doc().set({
+  //       'id': thumb.id,
+  //       'postId': thumb.postId,
+  //       'userId': thumb.userId,
+  //       'tag': thumb.tag,
+  //     });
+  //     print('点赞成功！');
+  //   } catch (e) {
+  //     print('点赞出现错误：$e');
+  //   }
+  // }
 
-  Future<void> createThumbAndUpload(String postId, int tag) async {
-    // 查询 thumb 集合以查找匹配的文档
-    QuerySnapshot thumbQuery = await FirebaseFirestore.instance
-        .collection('thumb')
-        .where('userId', isEqualTo: globalUid)
-        .where('postId', isEqualTo: postId)
-        .get();
+  // Future<void> createThumbAndUpload(String postId, int tag) async {
+  //   // 查询 thumb 集合以查找匹配的文档
+  //   QuerySnapshot thumbQuery = await FirebaseFirestore.instance
+  //       .collection('thumb')
+  //       .where('userId', isEqualTo: globalUid)
+  //       .where('postId', isEqualTo: postId)
+  //       .get();
 
-    if (thumbQuery.docs.isNotEmpty) {
-      // 如果找到匹配的文档，更新 tag 字段
-      thumbQuery.docs.forEach((QueryDocumentSnapshot doc) {
-        DocumentReference thumbDocRef =
-            FirebaseFirestore.instance.collection('thumb').doc(doc.id);
+  //   if (thumbQuery.docs.isNotEmpty) {
+  //     // 如果找到匹配的文档，更新 tag 字段
+  //     thumbQuery.docs.forEach((QueryDocumentSnapshot doc) {
+  //       DocumentReference thumbDocRef =
+  //           FirebaseFirestore.instance.collection('thumb').doc(doc.id);
 
-        Map<String, dynamic> updatedData = {
-          'tag': tag, // 更新 tag 字段
-        };
+  //       Map<String, dynamic> updatedData = {
+  //         'tag': tag, // 更新 tag 字段
+  //       };
 
-        thumbDocRef.set(updatedData, SetOptions(merge: true)).then((_) {
-          print('Tag updated successfully for document ${doc.id}');
-        }).catchError((error) {
-          print('Error updating tag for document ${doc.id}: $error');
-        });
-      });
-    } else {
-      final String id = const Uuid().v4();
-      THUMB newThumb = THUMB(
-        id,
-        globalUid,
-        postId,
-        tag,
-      );
-      // 调用上传方法
-      uploadThumbToFirebase(newThumb);
-    }
-  }
+  //       thumbDocRef.set(updatedData, SetOptions(merge: true)).then((_) {
+  //         print('Tag updated successfully for document ${doc.id}');
+  //       }).catchError((error) {
+  //         print('Error updating tag for document ${doc.id}: $error');
+  //       });
+  //     });
+  //   } else {
+  //     final String id = const Uuid().v4();
+  //     THUMB newThumb = THUMB(
+  //       id,
+  //       globalUid,
+  //       postId,
+  //       tag,
+  //     );
+  //     // 调用上传方法
+  //     uploadThumbToFirebase(newThumb);
+  //   }
+  // }
 
-  void modifyPostFavCount(String postId, int num) async {
-    // 查询 thumb 集合以查找匹配的文档
-    QuerySnapshot thumbQuery1 = await FirebaseFirestore.instance
-        .collection('postView')
-        .where('id', isEqualTo: postId)
-        .get();
-    QuerySnapshot thumbQuery2 = await FirebaseFirestore.instance
-        .collection('post')
-        .where('id', isEqualTo: postId)
-        .get();
+  // void modifyPostFavCount(String postId, int num) async {
+  //   // 查询 thumb 集合以查找匹配的文档
+  //   QuerySnapshot thumbQuery1 = await FirebaseFirestore.instance
+  //       .collection('postView')
+  //       .where('id', isEqualTo: postId)
+  //       .get();
+  //   QuerySnapshot thumbQuery2 = await FirebaseFirestore.instance
+  //       .collection('post')
+  //       .where('id', isEqualTo: postId)
+  //       .get();
 
-    if (thumbQuery1.docs.isNotEmpty && thumbQuery2.docs.isNotEmpty) {
-      // 如果找到匹配的文档，更新 tag 字段
-      thumbQuery1.docs.forEach((QueryDocumentSnapshot doc) {
-        DocumentReference thumbDocRef =
-            FirebaseFirestore.instance.collection('postView').doc(doc.id);
-        // 计算新的 fav 值
-        int newFav = max(0, num);
-        Map<String, dynamic> updatedData = {
-          'fav': newFav, // 更新 tag 字段
-        };
+  //   if (thumbQuery1.docs.isNotEmpty && thumbQuery2.docs.isNotEmpty) {
+  //     // 如果找到匹配的文档，更新 tag 字段
+  //     thumbQuery1.docs.forEach((QueryDocumentSnapshot doc) {
+  //       DocumentReference thumbDocRef =
+  //           FirebaseFirestore.instance.collection('postView').doc(doc.id);
+  //       // 计算新的 fav 值
+  //       int newFav = max(0, num);
+  //       Map<String, dynamic> updatedData = {
+  //         'fav': newFav, // 更新 tag 字段
+  //       };
 
-        thumbDocRef.set(updatedData, SetOptions(merge: true)).then((_) {
-          print('Tag updated successfully for document ${doc.id}');
-        }).catchError((error) {
-          print('Error updating tag for document ${doc.id}: $error');
-        });
-      });
-    }
-    thumbQuery2.docs.forEach((QueryDocumentSnapshot doc) {
-      DocumentReference thumbDocRef =
-          FirebaseFirestore.instance.collection('post').doc(doc.id);
-      // 计算新的 fav 值
-      int newFav = max(0, num);
-      Map<String, dynamic> updatedData = {
-        'fav': newFav, // 更新 tag 字段
-      };
+  //       thumbDocRef.set(updatedData, SetOptions(merge: true)).then((_) {
+  //         print('Tag updated successfully for document ${doc.id}');
+  //       }).catchError((error) {
+  //         print('Error updating tag for document ${doc.id}: $error');
+  //       });
+  //     });
+  //   }
+  //   thumbQuery2.docs.forEach((QueryDocumentSnapshot doc) {
+  //     DocumentReference thumbDocRef =
+  //         FirebaseFirestore.instance.collection('post').doc(doc.id);
+  //     // 计算新的 fav 值
+  //     int newFav = max(0, num);
+  //     Map<String, dynamic> updatedData = {
+  //       'fav': newFav, // 更新 tag 字段
+  //     };
 
-      thumbDocRef.set(updatedData, SetOptions(merge: true)).then((_) {
-        print('Tag updated successfully for document ${doc.id}');
-      }).catchError((error) {
-        print('Error updating tag for document ${doc.id}: $error');
-      });
-    });
-  }
+  //     thumbDocRef.set(updatedData, SetOptions(merge: true)).then((_) {
+  //       print('Tag updated successfully for document ${doc.id}');
+  //     }).catchError((error) {
+  //       print('Error updating tag for document ${doc.id}: $error');
+  //     });
+  //   });
+  // }
 }

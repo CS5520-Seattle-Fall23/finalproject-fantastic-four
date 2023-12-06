@@ -22,7 +22,6 @@ class _IndexPageState extends State<IndexPage> {
   void initState() {
     super.initState();
     // 初始化页面数据
-    setState(() {});
   }
 
   @override
