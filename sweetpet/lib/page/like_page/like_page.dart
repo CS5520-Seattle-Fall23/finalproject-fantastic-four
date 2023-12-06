@@ -12,6 +12,9 @@ class LikePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    controller.data.clear();
+    controller.getIndexData();
+    controller.update();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
