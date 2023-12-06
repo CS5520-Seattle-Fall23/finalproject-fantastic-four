@@ -10,14 +10,12 @@ class Comment {
   String avatar;
   String content;
   String createDate;
-  int like;
-  bool isLike = false;
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   List<Comment> replyCommentList = [];
 
   Comment(this.id, this.toPostId, this.nickname, this.avatar, this.content,
-      this.createDate, this.like, this.isLike);
+      this.createDate);
 
   factory Comment.fromJson(Map<String, dynamic> srcJson) =>
       _$CommentFromJson(srcJson);

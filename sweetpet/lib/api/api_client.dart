@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:sweetpet/fakeData/fake.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:sweetpet/constant/uid.dart';
 import 'package:sweetpet/model/comment.dart';
 import 'package:sweetpet/model/post.dart';
 import 'package:http/http.dart' as http;
 import 'package:sweetpet/model/post_detail.dart';
+import 'package:sweetpet/model/thumb.dart';
 
 class ApiClient {
   ApiClient._internal();
@@ -73,6 +74,28 @@ class ApiClient {
         }
       }
       return comments;
+    } catch (e) {
+      print('Error getting collection data: $e');
+    }
+  }
+
+  Future getUserThumbPosts() async {
+    final FirebaseFirestore firestore2 = FirebaseFirestore.instance;
+    final CollectionReference collection2 = firestore2.collection('thumb');
+    try {
+      List<THUMB> thumbs = [];
+      QuerySnapshot querySnapshot2 = await collection2.get();
+      for (QueryDocumentSnapshot document in querySnapshot2.docs) {
+        Map<String, dynamic> data2 = document.data() as Map<String, dynamic>;
+        THUMB thumb = THUMB.fromJson(data2);
+        print(thumb.userId);
+        if (thumb.userId == globalUid) {
+          if (thumb.tag == 1) {
+            thumbs.add(thumb);
+          }
+        }
+      }
+      return thumbs;
     } catch (e) {
       print('Error getting collection data: $e');
     }
