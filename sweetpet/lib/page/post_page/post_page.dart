@@ -187,16 +187,6 @@ class PostPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Column(
-                            children: [
-                              Image.asset(
-                                "assets/images/like.png",
-                                width: 20,
-                                height: 20,
-                              ),
-                              Text(e.like.toString()),
-                            ],
-                          )
                         ],
                       ),
                     ),
@@ -243,7 +233,7 @@ class PostPage extends StatelessWidget {
                       child: TextField(
                         controller: commentController,
                         decoration: const InputDecoration(
-                          hintText: 'Type...',
+                          hintText: 'Type',
                         ),
                       ),
                     ),
@@ -262,7 +252,7 @@ class PostPage extends StatelessWidget {
           Image.asset("assets/images/like.png", width: 30, height: 30),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(controller.postDetail.like.toString()),
+            child: Text(controller.postDetail.fav.toString()),
           ),
           Image.asset("assets/images/comment.png", width: 30, height: 30),
           Padding(

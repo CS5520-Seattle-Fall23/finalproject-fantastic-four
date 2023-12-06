@@ -11,13 +11,12 @@ class PostDetail {
   String avatar;
   String nickname;
   int fav;
-  int like;
   int comment;
   String date;
   List<String> images;
 
   PostDetail(this.id, this.uid, this.title, this.content, this.avatar,
-      this.nickname, this.fav, this.like, this.comment, this.date, this.images);
+      this.nickname, this.fav, this.comment, this.date, this.images);
 
   factory PostDetail.fromJson(Map<String, dynamic> srcJson) =>
       _$PostDetailFromJson(srcJson);

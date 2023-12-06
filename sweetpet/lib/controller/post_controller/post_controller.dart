@@ -57,8 +57,6 @@ class PostController extends GetxController {
         'content': comment.content,
         'avatar': comment.avatar,
         'nickname': comment.nickname,
-        'like': comment.like,
-        'isLike': comment.isLike,
         'createDate': comment.createDate,
       });
 
@@ -89,8 +87,6 @@ class PostController extends GetxController {
       avatarUrl,
       content,
       DateTime.now().toString(),
-      0,
-      false,
     );
     // 调用上传方法
     uploadCommentToFirebase(comment);

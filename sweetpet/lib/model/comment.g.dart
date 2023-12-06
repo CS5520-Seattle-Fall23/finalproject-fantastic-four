@@ -13,16 +13,13 @@ Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
       json['avatar'] as String,
       json['content'] as String,
       json['createDate'] as String,
-      json['like'] as int,
-      json['isLike'] as bool,
     );
 
 Map<String, dynamic> _$CommentToJson(Comment instance) => <String, dynamic>{
       'id': instance.id,
+      'toPostId': instance.toPostId,
       'nickname': instance.nickname,
       'avatar': instance.avatar,
       'content': instance.content,
       'createDate': instance.createDate,
-      'like': instance.like,
-      'isLike': instance.isLike,
     };

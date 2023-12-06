@@ -6,6 +6,7 @@ import 'package:sweetpet/controller/chat_controller/chat_controller.dart';
 import 'package:sweetpet/controller/message_controller/message_controller.dart';
 import 'package:sweetpet/page/follow_page/follow_page.dart';
 import 'package:sweetpet/page/like_page/like_page.dart';
+import 'package:sweetpet/page/comment_page/comment_page.dart';
 
 class MessagePage extends StatelessWidget {
   MessagePage({Key? key}) : super(key: key);
@@ -41,7 +42,12 @@ class MessagePage extends StatelessWidget {
                   );
                 }),
                 buildIcon("assets/images/comment2.png", "Comment", Colors.green,
-                    () {}),
+                    () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CommentsPage()),
+                  );
+                }),
               ],
             ),
           ),
