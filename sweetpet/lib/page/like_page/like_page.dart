@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sweetpet/constant/color_library.dart';
+import 'package:sweetpet/controller/like_controller/like_controller.dart';
 import 'package:sweetpet/model/post.dart';
 import 'package:get/get.dart';
 
@@ -7,7 +8,7 @@ import 'package:sweetpet/controller/index_controller/index_controller.dart';
 
 class LikePage extends StatelessWidget {
   LikePage({Key? key}) : super(key: key);
-  final IndexController controller = Get.put(IndexController());
+  final LikeController controller = Get.put(LikeController());
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +27,12 @@ class LikePage extends StatelessWidget {
           children: [
             // ... 其他组件
             Expanded(
-              child: GetBuilder<IndexController>(
+              child: GetBuilder<LikeController>(
                 builder: (_) {
                   return TabBarView(
                     controller: controller.tabController,
                     children: [
                       buildLikePage(),
-                      // ... 其他 Tab 视图
                     ],
                   );
                 },
@@ -45,15 +45,20 @@ class LikePage extends StatelessWidget {
   }
 
   Widget buildLikePage() {
+    int halfLength = (controller.data.length / 2).ceil();
     return ListView(
       children: [
         Row(
           children: [
             Column(
-              children: controller.data.map((e) => buildCardItem(e)).toList(),
+              children: controller.data
+                  .sublist(0, halfLength)
+                  .map((e) => buildCardItem(e))
+                  .toList(),
             ),
             Column(
-              children: controller.data.reversed
+              children: controller.data
+                  .sublist(halfLength)
                   .map((e) => buildCardItem(e))
                   .toList(),
             ),
@@ -104,9 +109,6 @@ class LikePage extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Text(post.nickname),
                   ),
-                  const Spacer(),
-                  Image.asset("assets/images/like.png", width: 20),
-                  Text(post.fav.toString())
                 ],
               ),
             )

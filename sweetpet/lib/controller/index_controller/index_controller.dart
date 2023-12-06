@@ -108,9 +108,8 @@ class IndexController extends GetxController
       thumbQuery1.docs.forEach((QueryDocumentSnapshot doc) {
         DocumentReference thumbDocRef =
             FirebaseFirestore.instance.collection('postView').doc(doc.id);
-        int currentFav = doc['fav'] ?? 0;
         // 计算新的 fav 值
-        int newFav = max(0, currentFav + num);
+        int newFav = max(0, num);
         Map<String, dynamic> updatedData = {
           'fav': newFav, // 更新 tag 字段
         };

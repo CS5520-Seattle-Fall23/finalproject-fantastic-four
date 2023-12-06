@@ -88,7 +88,6 @@ class PublishController extends GetxController {
         'nickname': post.nickname,
         'fav': post.fav,
         'like': post.like,
-        'comment': post.comment,
       });
       print('帖子View上传成功！');
     } catch (e) {
@@ -118,7 +117,7 @@ class PublishController extends GetxController {
   Future<void> createPostViewAndUpload(
       String content, String imagesUrl, String postId) async {
     Post newPost = Post(
-        postId, globalUid, imagesUrl, content, avatarUrl, userName, 20, 10, 0);
+        postId, globalUid, imagesUrl, content, avatarUrl, userName, 20, 10);
 
     // 调用上传方法
     uploadPostViewToFirebase(newPost);
