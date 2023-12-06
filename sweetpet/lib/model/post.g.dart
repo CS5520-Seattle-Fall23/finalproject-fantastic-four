@@ -15,7 +15,6 @@ Post _$PostFromJson(Map<String, dynamic> json) => Post(
       json['nickname'] as String,
       json['fav'] as int,
       json['like'] as int,
-      json['comment'] as int,
     );
 
 Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
@@ -27,5 +26,4 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'nickname': instance.nickname,
       'fav': instance.fav,
       'like': instance.like,
-      'comment': instance.comment,
     };

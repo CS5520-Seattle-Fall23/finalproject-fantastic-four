@@ -11,7 +11,6 @@ class Post {
   String nickname;
   int fav;
   int like;
-  int comment;
 
   Post(
     this.id,
@@ -22,7 +21,6 @@ class Post {
     this.nickname,
     this.fav,
     this.like,
-    this.comment,
   );
 
   factory Post.fromJson(Map<String, dynamic> srcJson) =>

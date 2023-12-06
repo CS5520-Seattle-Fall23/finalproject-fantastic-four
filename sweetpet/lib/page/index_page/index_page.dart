@@ -8,9 +8,22 @@ import 'package:sweetpet/model/thumb.dart';
 import 'package:sweetpet/page/health_page/health_page.dart';
 import 'package:sweetpet/page/mall_page/mall_page.dart';
 
-class IndexPage extends StatelessWidget {
+class IndexPage extends StatefulWidget {
   IndexPage({Key? key}) : super(key: key);
+
+  @override
+  _IndexPageState createState() => _IndexPageState();
+}
+
+class _IndexPageState extends State<IndexPage> {
   final IndexController controller = Get.put(IndexController());
+
+  @override
+  void initState() {
+    super.initState();
+    // 初始化页面数据
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +38,6 @@ class IndexPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Spacer(),
                   SizedBox(
                     height: 40,
                     width: 250,

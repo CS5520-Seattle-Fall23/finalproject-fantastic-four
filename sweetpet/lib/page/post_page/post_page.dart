@@ -2,6 +2,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:sweetpet/model/post_detail.dart';
+import 'package:sweetpet/model/thumb.dart';
 import 'package:sweetpet/util/date_util.dart';
 import 'package:sweetpet/constant/color_library.dart';
 import 'package:sweetpet/controller/post_controller/post_controller.dart';
@@ -24,6 +25,13 @@ class PostPage extends StatelessWidget {
       }
       return Scaffold(
           appBar: AppBar(
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back), // 在此处使用您自定义的返回按钮图标
+              onPressed: () {
+                // 在此处处理返回按钮点击事件，例如，返回上一个页面
+                Navigator.of(context).pop();
+              },
+            ),
             title: Row(
               children: [
                 ClipOval(
@@ -71,7 +79,7 @@ class PostPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                buildBottom(),
+                buildBottom(controller.thumbs),
               ],
             ),
           ));
@@ -200,7 +208,7 @@ class PostPage extends StatelessWidget {
     );
   }
 
-  Widget buildBottom() {
+  Widget buildBottom(List<THUMB> list) {
     Widget buildIcon(String iconPath, int count) {
       return GestureDetector(
         onTap: () {},
@@ -245,20 +253,87 @@ class PostPage extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               controller.sendComment(commentController.text);
+              controller.modifyPostCommentCount();
               commentController.clear();
             },
             child: const Text('Send'),
           ),
-          Image.asset("assets/images/like.png", width: 30, height: 30),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(controller.postDetail.fav.toString()),
+            child: LikeButton(
+              initialCount: controller.postDetail.fav,
+              onLiked: (tag, num) {
+                // 在这里调用 controller 中的方法
+                controller.createThumbAndUpload(controller.postDetail.id, tag);
+                controller.modifyPostFavCount(controller.postDetail.id, num);
+              },
+              userLikedPosts: list,
+              postId: controller.postDetail.id,
+            ),
           ),
-          Image.asset("assets/images/comment.png", width: 30, height: 30),
+          Image.asset("assets/images/comment.png", width: 25, height: 25),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(controller.postDetail.comment.toString()),
+            child: Text("${controller.commentList.length}"),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class LikeButton extends StatefulWidget {
+  final int initialCount;
+  final Function(int tag, int num)? onLiked;
+  final List<THUMB> userLikedPosts;
+  final String postId;
+
+  LikeButton(
+      {required this.initialCount,
+      this.onLiked,
+      required this.userLikedPosts,
+      required this.postId});
+
+  @override
+  _LikeButtonState createState() => _LikeButtonState();
+}
+
+class _LikeButtonState extends State<LikeButton> {
+  bool isLiked = false;
+  int likeCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    likeCount = widget.initialCount;
+    isLiked =
+        widget.userLikedPosts.any((thumb) => thumb.postId == widget.postId);
+  }
+
+  void toggleLike() {
+    setState(() {
+      isLiked = !isLiked;
+      likeCount += isLiked ? 1 : -1;
+    });
+    // 调用回调方法，如果回调存在的话
+    if (isLiked == true && widget.onLiked != null) {
+      widget.onLiked!(1, likeCount);
+    } else if (isLiked == false && widget.onLiked != null) {
+      widget.onLiked!(2, likeCount);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: toggleLike,
+      child: Row(
+        children: [
+          Image.asset(
+            isLiked ? 'assets/images/liked.png' : 'assets/images/like.png',
+            width: 20,
+          ),
+          Text(likeCount.toString()),
         ],
       ),
     );
