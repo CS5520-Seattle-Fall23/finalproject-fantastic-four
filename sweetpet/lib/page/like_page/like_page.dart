@@ -25,7 +25,6 @@ class LikePage extends StatelessWidget {
         backgroundColor: ColorLibrary.background,
         body: Column(
           children: [
-            // ... 其他组件
             Expanded(
               child: GetBuilder<LikeController>(
                 builder: (_) {

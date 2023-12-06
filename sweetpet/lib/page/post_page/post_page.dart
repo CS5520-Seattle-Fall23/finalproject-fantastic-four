@@ -258,24 +258,24 @@ class PostPage extends StatelessWidget {
             },
             child: const Text('Send'),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: LikeButton(
-              initialCount: controller.postDetail.fav,
-              onLiked: (tag, num) {
-                // 在这里调用 controller 中的方法
-                controller.createThumbAndUpload(controller.postDetail.id, tag);
-                controller.modifyPostFavCount(controller.postDetail.id, num);
-              },
-              userLikedPosts: list,
-              postId: controller.postDetail.id,
-            ),
-          ),
-          Image.asset("assets/images/comment.png", width: 25, height: 25),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text("${controller.commentList.length}"),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          //   child: LikeButton(
+          //     initialCount: controller.postDetail.fav,
+          //     onLiked: (tag, num) {
+          //       // 在这里调用 controller 中的方法
+          //       controller.createThumbAndUpload(controller.postDetail.id, tag);
+          //       controller.modifyPostFavCount(controller.postDetail.id, num);
+          //     },
+          //     userLikedPosts: list,
+          //     postId: controller.postDetail.id,
+          //   ),
+          // ),
+          // Image.asset("assets/images/comment.png", width: 25, height: 25),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          //   child: Text("${controller.commentList.length}"),
+          // ),
         ],
       ),
     );
