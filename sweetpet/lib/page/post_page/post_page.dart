@@ -53,10 +53,12 @@ class PostPage extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                 decoration: const ShapeDecoration(
                     shape: StadiumBorder(
-                        side: BorderSide(color: ColorLibrary.primary))),
+                        side: BorderSide(
+                            color: Color.fromARGB(255, 73, 188, 255)))),
                 child: const Text(
                   "Follow",
-                  style: TextStyle(color: ColorLibrary.primary, fontSize: 12),
+                  style: TextStyle(
+                      color: Color.fromARGB(255, 73, 228, 255), fontSize: 12),
                 ),
               ),
               Padding(
@@ -102,7 +104,7 @@ class PostPage extends StatelessWidget {
         indicatorLayout: PageIndicatorLayout.SCALE,
         pagination: const SwiperPagination(
           builder: DotSwiperPaginationBuilder(
-            activeColor: ColorLibrary.primary,
+            activeColor: Color.fromARGB(255, 73, 249, 255),
             color: ColorLibrary.grey,
           ),
         ),

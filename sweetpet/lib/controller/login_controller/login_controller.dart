@@ -193,7 +193,7 @@ class _AuthScreenState extends State<LoginController> {
                               onPressed: _submit,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
-                                    Color.fromRGBO(200, 248, 255, 1),
+                                    const Color.fromRGBO(200, 248, 255, 1),
                                 elevation: 0, // Remove button shadow
                               ),
                               child: Text(

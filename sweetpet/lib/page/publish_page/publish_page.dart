@@ -14,7 +14,14 @@ class PublishPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Publish Post'),
+        title: const Text(
+          'Publish Post',
+          style: TextStyle(
+            fontSize: 30,
+            fontFamily: 'Hiatus',
+            color: Color.fromARGB(255, 106, 187, 241),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -47,7 +54,15 @@ class PublishPage extends StatelessWidget {
               padding: const EdgeInsets.all(8),
               child: ElevatedButton(
                 onPressed: controller.pickImages,
-                child: const Text('Pick Images'),
+                child: const Text(
+                  'Pick Images',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'Mont',
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 106, 187, 241),
+                  ),
+                ),
               ),
             ),
             Padding(
@@ -91,7 +106,8 @@ class PublishPage extends StatelessWidget {
                             titleController.text, contentController.text);
                       },
                       child: Text('Share'),
-                      style: ElevatedButton.styleFrom(primary: Colors.red),
+                      style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(188, 106, 225, 241)),
                     ),
                   ),
                 ],
