@@ -18,7 +18,7 @@ class LikeController extends GetxController
   void onInit() {
     super.onInit();
     tabController = TabController(length: 3, vsync: this, initialIndex: 1);
-    getIndexData();
+    // getIndexData();
   }
 
   Future<void> getIndexData() async {
