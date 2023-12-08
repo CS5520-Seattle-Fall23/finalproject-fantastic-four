@@ -1,22 +1,18 @@
 import 'dart:io';
-
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:sweetpet/controller/login_controller/UserProvider.dart';
-import 'package:sweetpet/model/userModel.dart';
-import 'package:sweetpet/page/chat_page/user_image_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:sweetpet/controller/login_controller/forget_password.dart';
+import 'package:sweetpet/page/chat_page/user_image_picker.dart';
 import 'package:sweetpet/page/home_page/home_page.dart';
-import 'package:provider/provider.dart';
 import 'package:sweetpet/constant/uid.dart';
 
 final _firebase = FirebaseAuth.instance;
 
 class LoginController extends StatefulWidget {
-  const LoginController({super.key});
+  const LoginController({Key? key}) : super(key: key);
 
   @override
   State<LoginController> createState() {
@@ -28,7 +24,7 @@ class _AuthScreenState extends State<LoginController> {
   final _form = GlobalKey<FormState>();
 
   bool _isLogin = true;
-
+  bool _isEmailAndPassword = true;
   bool _isAuthenticating = false;
 
   String _enteredEmail = '';
@@ -39,7 +35,7 @@ class _AuthScreenState extends State<LoginController> {
   void _submit() async {
     final isValid = _form.currentState!.validate();
 
-    if (!isValid || !_isLogin && _selectedImage == null) {
+    if (!isValid || (!_isLogin && _selectedImage == null)) {
       return;
     }
 
@@ -47,15 +43,23 @@ class _AuthScreenState extends State<LoginController> {
     try {
       setState(() {
         _isAuthenticating = true;
-        Get.offAll(() => HomePage());
       });
+
       if (_isLogin) {
-        final userCredentials = await _firebase.signInWithEmailAndPassword(
-            email: _enteredEmail, password: _enteredPassword);
-        globalUid = userCredentials.user!.uid;
+        if (_isEmailAndPassword) {
+          final userCredentials = await _firebase.signInWithEmailAndPassword(
+            email: _enteredEmail,
+            password: _enteredPassword,
+          );
+          globalUid = userCredentials.user!.uid;
+        } else {
+          await _sendEmailLink();
+        }
       } else {
         final userCredentials = await _firebase.createUserWithEmailAndPassword(
-            email: _enteredEmail, password: _enteredPassword);
+          email: _enteredEmail,
+          password: _enteredPassword,
+        );
 
         final storageRef = FirebaseStorage.instance
             .ref()
@@ -76,6 +80,8 @@ class _AuthScreenState extends State<LoginController> {
         });
         globalUid = userCredentials.user!.uid;
       }
+
+      Get.offAll(() => HomePage());
     } on FirebaseAuthException catch (error) {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
@@ -83,9 +89,37 @@ class _AuthScreenState extends State<LoginController> {
           content: Text(error.message ?? 'Authentication failed'),
         ),
       );
+    } finally {
       setState(() {
         _isAuthenticating = false;
       });
+    }
+  }
+
+  Future<void> _sendEmailLink() async {
+    try {
+      await _firebase.sendSignInLinkToEmail(
+        email: _enteredEmail,
+        actionCodeSettings: ActionCodeSettings(
+          url: "your_deep_link_url",
+          handleCodeInApp: true,
+          iOSBundleId: "your_ios_bundle_id",
+          androidPackageName: "your_android_package_name",
+          androidInstallApp: true,
+          androidMinimumVersion: "12",
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Email link sent! Check your email.'),
+        ),
+      );
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error sending email link: $error'),
+        ),
+      );
     }
   }
 
@@ -105,8 +139,7 @@ class _AuthScreenState extends State<LoginController> {
                   left: 20,
                   right: 20,
                 ),
-                width: 200,
-                // child: Image.asset('assets/images/chat.png'),
+                width: 300,
               ),
               Card(
                 margin: const EdgeInsets.all(20),
@@ -171,13 +204,15 @@ class _AuthScreenState extends State<LoginController> {
                               },
                             ),
                           TextFormField(
-                            decoration: const InputDecoration(
-                              labelText: 'Password',
+                            decoration: InputDecoration(
+                              labelText: _isEmailAndPassword
+                                  ? 'Password'
+                                  : 'Email Code',
                             ),
                             obscureText: true,
                             validator: (value) {
                               if (value == null || value.trim().length < 6) {
-                                return 'Password must be at least 6 characters long';
+                                return 'Must be at least 6 characters long';
                               }
                               return null;
                             },
@@ -188,16 +223,47 @@ class _AuthScreenState extends State<LoginController> {
                           const SizedBox(height: 12),
                           if (_isAuthenticating)
                             const CircularProgressIndicator(),
-                          if (!_isAuthenticating)
-                            ElevatedButton(
-                              onPressed: _submit,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    const Color.fromRGBO(200, 248, 255, 1),
-                                elevation: 0, // Remove button shadow
+                          if (!_isAuthenticating && _isEmailAndPassword)
+                            Container(
+                              width: double
+                                  .infinity, // Set the width to match the parent
+                              child: ElevatedButton(
+                                onPressed: _submit,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      const Color.fromRGBO(200, 248, 255, 1),
+                                  elevation: 0, // Remove button shadow
+                                ),
+                                child: Text(
+                                  _isLogin ? 'Log In With Password' : 'Sign Up',
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Mont',
+                                    fontWeight: FontWeight.w900,
+                                    color: Color.fromARGB(255, 106, 187, 241),
+                                  ),
+                                ),
                               ),
+                            ),
+                          ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                _isEmailAndPassword = !_isEmailAndPassword;
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  const Color.fromRGBO(200, 248, 255, 1),
+                              elevation: 0, // Remove button shadow
+                            ),
+                            child: Container(
+                              width: double.infinity, // Set a fixed width
+                              alignment: Alignment
+                                  .center, // Center the text horizontally
                               child: Text(
-                                _isLogin ? 'Log In' : 'Sign Up',
+                                _isEmailAndPassword && !_isLogin
+                                    ? 'Switch to Email Link Login'
+                                    : 'Switch to Password Login',
                                 style: const TextStyle(
                                   fontSize: 15,
                                   fontFamily: 'Mont',
@@ -206,22 +272,80 @@ class _AuthScreenState extends State<LoginController> {
                                 ),
                               ),
                             ),
-                          if (!_isAuthenticating)
-                            TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  _isLogin = !_isLogin;
-                                });
-                              },
+                          ),
+                          if (!_isAuthenticating && !_isEmailAndPassword)
+                            ElevatedButton(
+                              onPressed: _submit,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromRGBO(200, 248, 255, 1),
+                                elevation: 0, // Remove button shadow
+                              ),
                               child: Text(
-                                _isLogin
-                                    ? 'New User? Register Now!'
-                                    : 'I Already Have An Account',
+                                _isLogin ? 'Log In With Email' : 'Sign Up',
                                 style: const TextStyle(
+                                  fontSize: 15,
+                                  fontFamily: 'Mont',
+                                  fontWeight: FontWeight.w900,
+                                  color: Color.fromARGB(255, 106, 187, 241),
+                                ),
+                              ),
+                            ),
+                          Container(
+                            width: double
+                                .infinity, // Set the width to match the parent
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ForgotPassword(),
+                                  ),
+                                );
+                              },
+                              style: TextButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  side: const BorderSide(color: Colors.grey),
+                                ),
+                              ),
+                              child: const Text(
+                                'Forgot Password?',
+                                style: TextStyle(
                                   fontSize: 15,
                                   fontFamily: 'Mont',
                                   fontWeight: FontWeight.bold,
                                   color: Color.fromARGB(255, 106, 187, 241),
+                                ),
+                              ),
+                            ),
+                          ),
+                          if (!_isAuthenticating)
+                            Container(
+                              width: double
+                                  .infinity, // Set the width to match the parent
+                              child: TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _isLogin = !_isLogin;
+                                  });
+                                },
+                                style: TextButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    side: const BorderSide(color: Colors.grey),
+                                  ),
+                                ),
+                                child: Text(
+                                  _isLogin
+                                      ? 'New User? Register Now!'
+                                      : 'I Already Have An Account',
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Mont',
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 106, 187, 241),
+                                  ),
                                 ),
                               ),
                             ),
@@ -230,7 +354,7 @@ class _AuthScreenState extends State<LoginController> {
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
