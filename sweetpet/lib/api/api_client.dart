@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:sweetpet/constant/uid.dart';
+import 'package:sweetpet/model/mall.dart';
 import 'package:sweetpet/model/comment.dart';
 import 'package:sweetpet/model/follower.dart';
 import 'package:sweetpet/model/post.dart';
@@ -14,6 +15,10 @@ class ApiClient {
   ApiClient._internal();
   factory ApiClient() => _instance;
   static final ApiClient _instance = ApiClient._internal();
+
+  List<Mall> convertDynamicListToMallList(List<dynamic> dynamicList) {
+    return dynamicList.map((dynamic item) => Mall.fromJson(item)).toList();
+  }
 
   // MainView Data
   Future<dynamic> getIndexData() async {
@@ -101,6 +106,7 @@ class ApiClient {
       print('Error getting collection data: $e');
     }
   }
+<<<<<<< HEAD
 
   Future<bool> getFollowUser(String toUserId) async {
     print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
@@ -180,5 +186,50 @@ class ApiClient {
     } catch (e) {
       print('Error getting collection data: $e');
     }
+=======
+  Future<dynamic> getMallData() async {
+    try {
+      // 获取 Firebase Storage 实例
+      FirebaseStorage storage = FirebaseStorage.instance;
+
+      // 获取文件的引用，路径应根据您的 Firebase Storage 结构调整
+      Reference ref = storage.ref('mall/mallData.json');
+
+      // 获取文件的下载 URL
+      String url = await ref.getDownloadURL();
+      // 使用 http 包下载文件
+      final response = await http.get(Uri.parse(url));
+      List<Mall> data =
+          convertDynamicListToMallList(json.decode(response.body));
+      return data;
+    } catch (e) {
+      // 打印并处理任何异常
+      print('Error occurred while fetching data: $e');
+      return null;
+    }
+  }
+
+    // Post Detail Data
+  Future getMallDetailDataByTitle(String title) async {
+// 获取 Firebase Storage 实例
+    FirebaseStorage storage = FirebaseStorage.instance;
+
+    // 获取文件的引用，路径应根据您的 Firebase Storage 结构调整
+    Reference ref = storage.ref('mall/mallData.json');
+
+    // 获取文件的下载 URL
+    String url = await ref.getDownloadURL();
+    // 使用 http 包下载文件
+    final response = await http.get(Uri.parse(url));
+    List<Mall> data =
+        convertDynamicListToMallList(json.decode(response.body));
+
+    for (var mall in data) {
+      if (mall.title == title) {
+        return mall;
+      }
+    }
+    return null;
+>>>>>>> 32d3ba2 (mall page)
   }
 }
