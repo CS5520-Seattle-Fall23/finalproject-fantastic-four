@@ -103,7 +103,7 @@ class _AuthScreenState extends State<LoginController> {
       await _firebase.sendSignInLinkToEmail(
         email: _enteredEmail,
         actionCodeSettings: ActionCodeSettings(
-          url: "https://www.example.com/finishSignUp?cartId=1234",
+          url: "https://sweetpet.page.link/fantasticfour",
           handleCodeInApp: true,
           iOSBundleId: "com.example.ios",
           androidPackageName: "com.example.android",
@@ -282,7 +282,7 @@ class _AuthScreenState extends State<LoginController> {
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
-                                    const Color.fromRGBO(200, 248, 255, 1),
+                                    Color.fromARGB(255, 230, 249, 252),
                                 elevation: 0, // Remove button shadow
                               ),
                               child: Container(
@@ -294,7 +294,7 @@ class _AuthScreenState extends State<LoginController> {
                                     fontSize: 15,
                                     fontFamily: 'Mont',
                                     fontWeight: FontWeight.w900,
-                                    color: Color.fromARGB(255, 106, 187, 241),
+                                    color: Color.fromARGB(255, 90, 189, 255),
                                   ),
                                 ),
                               ),
