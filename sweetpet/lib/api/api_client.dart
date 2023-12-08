@@ -106,8 +106,6 @@ class ApiClient {
       print('Error getting collection data: $e');
     }
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
 
   Future<bool> getFollowUser(String toUserId) async {
     print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
@@ -187,9 +185,8 @@ class ApiClient {
     } catch (e) {
       print('Error getting collection data: $e');
     }
-=======
-=======
->>>>>>> 32d3ba23ef968ffcd81a40d9208c5ee0e890eb39
+  }
+
   Future<dynamic> getMallData() async {
     try {
       // 获取 Firebase Storage 实例
@@ -233,9 +230,5 @@ class ApiClient {
       }
     }
     return null;
-<<<<<<< HEAD
->>>>>>> 32d3ba2 (mall page)
-=======
->>>>>>> 32d3ba23ef968ffcd81a40d9208c5ee0e890eb39
   }
 }
