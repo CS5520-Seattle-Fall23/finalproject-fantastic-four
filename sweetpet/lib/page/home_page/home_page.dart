@@ -48,7 +48,7 @@ class HomePage extends StatelessWidget {
                   width: 32,
                   height: 32,
                 ),
-                label: "",
+                label: "Main",
               ),
               const BottomNavigationBarItem(
                 icon: Icon(
@@ -69,7 +69,7 @@ class HomePage extends StatelessWidget {
                   width: 32,
                   height: 32,
                 ),
-                label: "",
+                label: "Mine",
               ),
             ],
             onTap: (index) {

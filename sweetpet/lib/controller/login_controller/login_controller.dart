@@ -16,10 +16,10 @@ import 'package:sweetpet/constant/uid.dart';
 final _firebase = FirebaseAuth.instance;
 
 class LoginController extends StatefulWidget {
-  const LoginController({super.key});
+  const LoginController({Key? key}) : super(key: key);
 
   @override
-  State<LoginController> createState() {
+  _AuthScreenState createState() {
     return _AuthScreenState();
   }
 }
@@ -92,7 +92,7 @@ class _AuthScreenState extends State<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(238, 253, 255, 1),
+      backgroundColor: const Color.fromRGBO(238, 253, 255, 1),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -133,6 +133,7 @@ class _AuthScreenState extends State<LoginController> {
                               },
                             ),
                           TextFormField(
+                            key: const Key('emailField'),
                             decoration: const InputDecoration(
                               labelText: 'Email Address',
                               hintText: 'Enter your email address',
@@ -154,6 +155,7 @@ class _AuthScreenState extends State<LoginController> {
                           ),
                           if (!_isLogin)
                             TextFormField(
+                              key: const Key('usernameField'),
                               decoration: const InputDecoration(
                                 labelText: 'Username',
                               ),
@@ -171,6 +173,7 @@ class _AuthScreenState extends State<LoginController> {
                               },
                             ),
                           TextFormField(
+                            key: const Key('passwordField'),
                             decoration: const InputDecoration(
                               labelText: 'Password',
                             ),
@@ -190,11 +193,12 @@ class _AuthScreenState extends State<LoginController> {
                             const CircularProgressIndicator(),
                           if (!_isAuthenticating)
                             ElevatedButton(
+                              key: const Key('loginButton'),
                               onPressed: _submit,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor:
                                     const Color.fromRGBO(200, 248, 255, 1),
-                                elevation: 0, // Remove button shadow
+                                elevation: 0,
                               ),
                               child: Text(
                                 _isLogin ? 'Log In' : 'Sign Up',
@@ -208,6 +212,7 @@ class _AuthScreenState extends State<LoginController> {
                             ),
                           if (!_isAuthenticating)
                             TextButton(
+                              key: const Key('switchToSignUpButton'),
                               onPressed: () {
                                 setState(() {
                                   _isLogin = !_isLogin;

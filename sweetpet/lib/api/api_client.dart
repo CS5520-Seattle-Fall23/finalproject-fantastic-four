@@ -94,7 +94,6 @@ class ApiClient {
       for (QueryDocumentSnapshot document in querySnapshot2.docs) {
         Map<String, dynamic> data2 = document.data() as Map<String, dynamic>;
         THUMB thumb = THUMB.fromJson(data2);
-        print(thumb.userId);
         if (thumb.userId == globalUid) {
           if (thumb.tag == 1) {
             thumbs.add(thumb);
@@ -209,7 +208,7 @@ class ApiClient {
     }
   }
 
-    // Post Detail Data
+  // Post Detail Data
   Future getMallDetailDataByTitle(String title) async {
 // 获取 Firebase Storage 实例
     FirebaseStorage storage = FirebaseStorage.instance;
@@ -221,8 +220,7 @@ class ApiClient {
     String url = await ref.getDownloadURL();
     // 使用 http 包下载文件
     final response = await http.get(Uri.parse(url));
-    List<Mall> data =
-        convertDynamicListToMallList(json.decode(response.body));
+    List<Mall> data = convertDynamicListToMallList(json.decode(response.body));
 
     for (var mall in data) {
       if (mall.title == title) {

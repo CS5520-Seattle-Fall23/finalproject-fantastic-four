@@ -33,20 +33,20 @@ class MessagePage extends StatelessWidget {
                     context,
                     MaterialPageRoute(builder: (context) => LikePage()),
                   );
-                }),
+                }, "LikePostsButton"),
                 buildIcon("assets/images/user.png", "Follow", Colors.blue, () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => FollowersPage()),
                   );
-                }),
+                }, "FollowUsersButton"),
                 buildIcon("assets/images/comment2.png", "Comment", Colors.green,
                     () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => CommentsPage()),
                   );
-                }),
+                }, "CommentPostsButton"),
               ],
             ),
           ),
@@ -56,8 +56,10 @@ class MessagePage extends StatelessWidget {
     );
   }
 
-  Widget buildIcon(String iconPath, String text, Color color, Function onTap) {
+  Widget buildIcon(
+      String iconPath, String text, Color color, Function onTap, String key) {
     return GestureDetector(
+      key: Key(key),
       onTap: () {
         onTap.call();
       },

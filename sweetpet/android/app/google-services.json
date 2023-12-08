@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "517144691046",
+    "firebase_url": "https://sweetpet-e5c86-default-rtdb.firebaseio.com",
     "project_id": "sweetpet-e5c86",
     "storage_bucket": "sweetpet-e5c86.appspot.com"
   },
@@ -12,7 +13,12 @@
           "package_name": "com.example.sweetpet"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "517144691046-atpr0ekjt1a31kqbij2k9cng9v9cn21m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDvLPq1UDq3D7CIpSJaYOPqZON0IyBEzUQ"
@@ -20,7 +26,55 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "517144691046-atpr0ekjt1a31kqbij2k9cng9v9cn21m.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "517144691046-1beq9ol06qg23bd5vnhmmb0otu58v650.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.sweetpet.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:517144691046:android:7d2d7b796e1d1fcd8c48a7",
+        "android_client_info": {
+          "package_name": "com.fantasticfour.sweetpet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "517144691046-atpr0ekjt1a31kqbij2k9cng9v9cn21m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvLPq1UDq3D7CIpSJaYOPqZON0IyBEzUQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "517144691046-atpr0ekjt1a31kqbij2k9cng9v9cn21m.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "517144691046-1beq9ol06qg23bd5vnhmmb0otu58v650.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.sweetpet.RunnerTests"
+              }
+            }
+          ]
         }
       }
     }
