@@ -51,8 +51,6 @@ class MessagePage extends StatelessWidget {
             ),
           ),
           buildMessage(context),
-          buildMessage(context),
-          buildMessage(context),
         ],
       ),
     );
@@ -112,14 +110,11 @@ class MessagePage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Notice", style: TextStyle(fontSize: 16)),
-                      Text("Sunday",
-                          style: TextStyle(
-                              fontSize: 12, color: ColorLibrary.black9)),
+                      Text("Group Chatting", style: TextStyle(fontSize: 16)),
                     ],
                   ),
                   Text(
-                    "Notification:test function ---- A",
+                    "Join the chat Group!",
                     style: TextStyle(color: ColorLibrary.black9),
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
