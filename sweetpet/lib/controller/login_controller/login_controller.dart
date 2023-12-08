@@ -248,33 +248,6 @@ class _AuthScreenState extends State<LoginController> {
                                 ),
                               ),
                             ),
-                          ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                _isEmailAndPassword = !_isEmailAndPassword;
-                              });
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromRGBO(200, 248, 255, 1),
-                              elevation: 0, // Remove button shadow
-                            ),
-                            child: Container(
-                              width: double.infinity,
-                              alignment: Alignment.center,
-                              child: Text(
-                                _isEmailAndPassword && !_isLogin
-                                    ? 'Switch to Another Login Method'
-                                    : 'Switch to Another Login Method',
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  fontFamily: 'Mont',
-                                  fontWeight: FontWeight.w900,
-                                  color: Color.fromARGB(255, 106, 187, 241),
-                                ),
-                              ),
-                            ),
-                          ),
                           if (!_isAuthenticating && !_isEmailAndPassword)
                             Container(
                               width: double.infinity,
@@ -296,35 +269,62 @@ class _AuthScreenState extends State<LoginController> {
                                 ),
                               ),
                             ),
-                          Container(
-                            width: double
-                                .infinity, // Set the width to match the parent
-                            child: TextButton(
+                          if (_isLogin)
+                            ElevatedButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ForgotPassword(),
-                                  ),
-                                );
+                                setState(() {
+                                  _isEmailAndPassword = !_isEmailAndPassword;
+                                });
                               },
-                              style: TextButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  side: const BorderSide(color: Colors.grey),
-                                ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromRGBO(200, 248, 255, 1),
+                                elevation: 0, // Remove button shadow
                               ),
-                              child: const Text(
-                                'Forgot Password?',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontFamily: 'Mont',
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(255, 106, 187, 241),
+                              child: Container(
+                                width: double.infinity,
+                                alignment: Alignment.center,
+                                child: const Text(
+                                  "Change",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Mont',
+                                    fontWeight: FontWeight.w900,
+                                    color: Color.fromARGB(255, 106, 187, 241),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
+                          if (_isLogin)
+                            Container(
+                              width: double
+                                  .infinity, // Set the width to match the parent
+                              child: TextButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ForgotPassword(),
+                                    ),
+                                  );
+                                },
+                                style: TextButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    side: const BorderSide(color: Colors.grey),
+                                  ),
+                                ),
+                                child: const Text(
+                                  'Forgot Password?',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Mont',
+                                    fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 106, 187, 241),
+                                  ),
+                                ),
+                              ),
+                            ),
                           if (!_isAuthenticating)
                             Container(
                               width: double
