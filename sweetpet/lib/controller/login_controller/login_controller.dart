@@ -226,7 +226,7 @@ class _AuthScreenState extends State<LoginController> {
                           const SizedBox(height: 12),
                           if (_isAuthenticating)
                             const CircularProgressIndicator(),
-                          if (!_isAuthenticating && _isEmailAndPassword)
+                          if (!_isAuthenticating && !_isLogin)
                             Container(
                               width: double
                                   .infinity, // Set the width to match the parent
@@ -237,38 +237,42 @@ class _AuthScreenState extends State<LoginController> {
                                       const Color.fromRGBO(200, 248, 255, 1),
                                   elevation: 0, // Remove button shadow
                                 ),
-                                child: Text(
-                                  _isLogin ? 'Log In With Password' : 'Sign Up',
-                                  style: const TextStyle(
+                                child: const Text(
+                                  'Sign Up',
+                                  style: TextStyle(
                                     fontSize: 15,
                                     fontFamily: 'Mont',
-                                    fontWeight: FontWeight.w900,
+                                    fontWeight: FontWeight.bold,
                                     color: Color.fromARGB(255, 106, 187, 241),
                                   ),
                                 ),
                               ),
                             ),
-                          if (!_isAuthenticating && !_isEmailAndPassword)
-                            Container(
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                onPressed: _submit,
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      const Color.fromRGBO(200, 248, 255, 1),
-                                  elevation: 0, // Remove button shadow
-                                ),
-                                child: Text(
-                                  _isLogin ? 'Log In With Email' : 'Sign Up',
-                                  style: const TextStyle(
-                                    fontSize: 15,
-                                    fontFamily: 'Mont',
-                                    fontWeight: FontWeight.w900,
-                                    color: Color.fromARGB(255, 106, 187, 241),
-                                  ),
+                          Visibility(
+                            visible: _isLogin,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (_isLogin && !_isEmailAndPassword) {
+                                  // Handle the logic for sending the code
+                                  // You can call a function here to send the code
+                                } else {
+                                  // Handle the logic for logging in
+                                  // You can call a function here to log in
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Color.fromARGB(255, 106, 187, 241),
+                              ),
+                              child: Text(
+                                _isLogin && !_isEmailAndPassword
+                                    ? 'Send Code'
+                                    : 'Log In',
+                                style: TextStyle(
+                                  color: Colors.white,
                                 ),
                               ),
                             ),
+                          ),
                           if (_isLogin)
                             ElevatedButton(
                               onPressed: () {
@@ -285,7 +289,7 @@ class _AuthScreenState extends State<LoginController> {
                                 width: double.infinity,
                                 alignment: Alignment.center,
                                 child: const Text(
-                                  "Change",
+                                  "Try Another Way to Log In",
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontFamily: 'Mont',
