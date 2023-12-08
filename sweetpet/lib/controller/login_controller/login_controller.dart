@@ -101,10 +101,10 @@ class _AuthScreenState extends State<LoginController> {
       await _firebase.sendSignInLinkToEmail(
         email: _enteredEmail,
         actionCodeSettings: ActionCodeSettings(
-          url: "your_deep_link_url",
+          url: "https://www.example.com/finishSignUp?cartId=1234",
           handleCodeInApp: true,
-          iOSBundleId: "your_ios_bundle_id",
-          androidPackageName: "your_android_package_name",
+          iOSBundleId: "com.example.ios",
+          androidPackageName: "com.example.android",
           androidInstallApp: true,
           androidMinimumVersion: "12",
         ),
@@ -262,8 +262,8 @@ class _AuthScreenState extends State<LoginController> {
                                   .center, // Center the text horizontally
                               child: Text(
                                 _isEmailAndPassword && !_isLogin
-                                    ? 'Switch to Email Link Login'
-                                    : 'Switch to Password Login',
+                                    ? 'Switch to Another Login Method'
+                                    : 'Switch to Another Login Method',
                                 style: const TextStyle(
                                   fontSize: 15,
                                   fontFamily: 'Mont',
