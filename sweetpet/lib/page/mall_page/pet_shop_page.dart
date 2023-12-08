@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:sweetpet/model/mall.dart';
 import 'package:sweetpet/page/mall_page/shopping_list_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PetShopPage extends StatelessWidget {
-
-  final String name;
+  final Mall mall;
 
   PetShopPage({
     Key? key,
-    required this.name,
+    required this.mall,
   }) : super(key: key);
 
-
-  final List<PetProduct> products = [
-    PetProduct(imageUrl: 'assets/images/dog_food.png', name: 'Food'),
-    PetProduct(imageUrl: 'assets/images/dog_food.png', name: 'Treats'),
-    PetProduct(imageUrl: 'assets/images/dog_food.png', name: 'Toys'),
-    PetProduct(imageUrl: 'assets/images/dog_food.png', name: 'Treatment'),
-    // 添加更多产品
-  ];
+  void _submit() async {
+    final Uri url = Uri.parse(mall.realBuyLink);
+    if (!await launchUrl(url)) {
+          throw Exception('Could not launch $url');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,31 +24,48 @@ class PetShopPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Mall'),
       ),
-      body: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Find the best for your pet...',
-              ),
+      body: Column(children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              hintText: 'Find the best for your pet...',
             ),
           ),
-          Expanded(
-            child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.8,
+        ),
+        Expanded(
+            child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                mall.title,
+                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
               ),
-              itemCount: products.length,
-              itemBuilder: (context, index) {
-                return PetProductWidget(product: products[index]);
-              },
             ),
-          ),
-        ],
-      ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.network(
+                mall.pic,
+                fit: BoxFit.cover,
+                height: 400,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: _submit,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:
+                      Theme.of(context).colorScheme.primaryContainer,
+                ),
+                child: Text('Link to ${mall.store}'),
+              ),
+            )
+          ],
+        )),
+      ]),
     );
   }
 }
@@ -69,7 +85,7 @@ class PetProductWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-       onTap: () {
+      onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => ShopList()),

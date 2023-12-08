@@ -41,8 +41,8 @@ class _UserImagePickerState extends State<UserImagePicker> {
     return Column(
       children: [
         CircleAvatar(
-          radius: 40,
-          backgroundColor: Colors.grey,
+          radius: 35,
+          backgroundColor: Color.fromARGB(255, 171, 221, 255),
           foregroundImage:
               _pickedImageFile != null ? FileImage(_pickedImageFile!) : null,
         ),
@@ -51,21 +51,29 @@ class _UserImagePickerState extends State<UserImagePicker> {
           children: [
             TextButton.icon(
               onPressed: () => _pickImage(ImageSource.camera),
-              icon: const Icon(Icons.camera),
-              label: Text(
+              icon: const Icon(
+                Icons.camera,
+                color: Color.fromARGB(255, 146, 212, 255),
+              ),
+              label: const Text(
                 'Take Photo',
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 106, 187, 241),
                 ),
               ),
             ),
             TextButton.icon(
               onPressed: () => _pickImage(ImageSource.gallery),
-              icon: const Icon(Icons.image),
-              label: Text(
-                'Choose from Gallery',
+              icon: const Icon(
+                Icons.image,
+                color: Color.fromARGB(255, 146, 212, 255),
+              ),
+              label: const Text(
+                'Local Pick',
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 106, 187, 241),
                 ),
               ),
             ),
