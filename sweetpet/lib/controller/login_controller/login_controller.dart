@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -110,7 +112,7 @@ class _AuthScreenState extends State<LoginController> {
         ),
       );
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Email link sent! Check your email.'),
         ),
       );
@@ -176,7 +178,8 @@ class _AuthScreenState extends State<LoginController> {
                             validator: (value) {
                               if (value == null ||
                                   value.trim().isEmpty ||
-                                  !value.contains('@')) {
+                                  !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                      .hasMatch(value)) {
                                 return 'Please enter a valid email address';
                               }
                               return null;
@@ -257,9 +260,8 @@ class _AuthScreenState extends State<LoginController> {
                               elevation: 0, // Remove button shadow
                             ),
                             child: Container(
-                              width: double.infinity, // Set a fixed width
-                              alignment: Alignment
-                                  .center, // Center the text horizontally
+                              width: double.infinity,
+                              alignment: Alignment.center,
                               child: Text(
                                 _isEmailAndPassword && !_isLogin
                                     ? 'Switch to Another Login Method'
@@ -274,20 +276,23 @@ class _AuthScreenState extends State<LoginController> {
                             ),
                           ),
                           if (!_isAuthenticating && !_isEmailAndPassword)
-                            ElevatedButton(
-                              onPressed: _submit,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    const Color.fromRGBO(200, 248, 255, 1),
-                                elevation: 0, // Remove button shadow
-                              ),
-                              child: Text(
-                                _isLogin ? 'Log In With Email' : 'Sign Up',
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  fontFamily: 'Mont',
-                                  fontWeight: FontWeight.w900,
-                                  color: Color.fromARGB(255, 106, 187, 241),
+                            Container(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: _submit,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      const Color.fromRGBO(200, 248, 255, 1),
+                                  elevation: 0, // Remove button shadow
+                                ),
+                                child: Text(
+                                  _isLogin ? 'Log In With Email' : 'Sign Up',
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    fontFamily: 'Mont',
+                                    fontWeight: FontWeight.w900,
+                                    color: Color.fromARGB(255, 106, 187, 241),
+                                  ),
                                 ),
                               ),
                             ),
