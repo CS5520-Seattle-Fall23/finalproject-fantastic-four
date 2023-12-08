@@ -37,8 +37,7 @@ class MessagePage extends StatelessWidget {
                 buildIcon("assets/images/user.png", "Follow", Colors.blue, () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => const FollowersPage()),
+                    MaterialPageRoute(builder: (context) => FollowersPage()),
                   );
                 }),
                 buildIcon("assets/images/comment2.png", "Comment", Colors.green,

@@ -3,13 +3,17 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:get/get.dart';
+import 'package:sweetpet/controller/home_controller/home_controller.dart';
+import 'package:sweetpet/controller/index_controller/index_controller.dart';
 import 'package:sweetpet/controller/publish_controller/publish_controller.dart';
 
 class PublishPage extends StatelessWidget {
   final PublishController controller = Get.put(PublishController());
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
+  // HomeController homeController = Get.find<HomeController>();
 
+  RxInt currentIndex = 0.obs;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,12 +96,6 @@ class PublishPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: controller.savePost,
-                      child: const Text('Save'),
-                    ),
-                  ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: ElevatedButton(

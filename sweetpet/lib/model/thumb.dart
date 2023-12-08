@@ -16,6 +16,6 @@ class THUMB {
   );
 
   factory THUMB.fromJson(Map<String, dynamic> srcJson) =>
-      _$ThumbFromJson(srcJson);
-  Map<String, dynamic> toJson() => _$ThumbToJson(this);
+      _$THUMBFromJson(srcJson);
+  Map<String, dynamic> toJson() => _$THUMBToJson(this);
 }

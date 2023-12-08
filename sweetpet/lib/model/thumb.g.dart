@@ -6,14 +6,14 @@ part of 'thumb.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-THUMB _$ThumbFromJson(Map<String, dynamic> json) => THUMB(
+THUMB _$THUMBFromJson(Map<String, dynamic> json) => THUMB(
       json['id'] as String,
       json['userId'] as String,
       json['postId'] as String,
       json['tag'] as int,
     );
 
-Map<String, dynamic> _$ThumbToJson(THUMB instance) => <String, dynamic>{
+Map<String, dynamic> _$THUMBToJson(THUMB instance) => <String, dynamic>{
       'id': instance.id,
       'userId': instance.userId,
       'postId': instance.postId,

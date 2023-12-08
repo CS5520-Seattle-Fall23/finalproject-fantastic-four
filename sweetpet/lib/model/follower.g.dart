@@ -7,15 +7,19 @@ part of 'follower.dart';
 // **************************************************************************
 
 Follower _$FollowerFromJson(Map<String, dynamic> json) => Follower(
-      id: json['id'] as String,
-      avatarUrl: json['avatarUrl'] as String,
-      name: json['name'] as String,
-      tag: json['tag'] as bool,
+      json['id'] as String,
+      json['followerId'] as String,
+      json['toUserId'] as String,
+      json['username'] as String,
+      json['avatar'] as String,
+      json['tag'] as bool,
     );
 
 Map<String, dynamic> _$FollowerToJson(Follower instance) => <String, dynamic>{
       'id': instance.id,
-      'avatarUrl': instance.avatarUrl,
-      'name': instance.name,
+      'followerId': instance.followerId,
+      'toUserId': instance.toUserId,
+      'avatar': instance.avatar,
+      'username': instance.username,
       'tag': instance.tag,
     };

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sweetpet/api/api_client.dart';
+import 'package:sweetpet/model/comment.dart';
 
 class CommentsPage extends StatefulWidget {
   @override
@@ -6,19 +8,29 @@ class CommentsPage extends StatefulWidget {
 }
 
 class _CommentsPageState extends State<CommentsPage> {
-  final List<Map<String, String>> commentsData = [
-    {
-      'userName': 'User1',
-      'postTitle': 'Title1',
-      'commentContent': 'comment1 === xxxxx',
-    },
-    {
-      'userName': 'User2',
-      'postTitle': 'Title2',
-      'commentContent': 'comment2 === xxxxx',
-    },
-    // ... 更多评论数据
-  ];
+  late List<Comment> commentsData;
+
+  @override
+  void initState() {
+    super.initState();
+    commentsData = [];
+    // 在初始化时调用方法来获取评论数据
+    fetchCommentsData();
+  }
+
+  Future<void> fetchCommentsData() async {
+    try {
+      // 执行网络请求，获取评论数据
+      List<Comment> fetchedData =
+          await ApiClient().getCommentListData(); // 请替换成你的实际网络请求代码
+      setState(() {
+        commentsData = fetchedData;
+      });
+    } catch (e) {
+      // 处理异常
+      print("Error fetching comments data: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,18 +38,22 @@ class _CommentsPageState extends State<CommentsPage> {
       appBar: AppBar(
         title: const Text('Comments'),
       ),
-      body: ListView.builder(
-        itemCount: commentsData.length,
-        itemBuilder: (context, index) {
-          final item = commentsData[index];
-          return CommentTile(
-            userName: item['userName']!,
-            postTitle: item['postTitle']!,
-            commentContent: item['commentContent']!,
-            avatarUrl: 'https://example.com/user_avatar_${index + 1}.png',
-          );
-        },
-      ),
+      body: commentsData != null
+          ? ListView.builder(
+              itemCount: commentsData.length,
+              itemBuilder: (context, index) {
+                Comment item = commentsData[index];
+                return CommentTile(
+                  userName: item.nickname,
+                  postTitle: item.title,
+                  commentContent: item.content,
+                  avatarUrl: item.avatar,
+                );
+              },
+            )
+          : const Center(
+              child: CircularProgressIndicator(), // 加载指示器
+            ),
     );
   }
 }

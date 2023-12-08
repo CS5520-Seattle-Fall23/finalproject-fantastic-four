@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:sweetpet/controller/home_controller/home_controller.dart';
 import 'package:sweetpet/model/post.dart';
 import 'package:uuid/uuid.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,6 +22,7 @@ class PublishController extends GetxController {
   late String avatarUrl;
   late String userName;
   List<String> uploadedImageUrls = [];
+  HomeController homeController = Get.find<HomeController>();
 
   void pickImages() async {
     final ImagePicker picker = ImagePicker();
@@ -48,12 +51,6 @@ class PublishController extends GetxController {
     }
 
     return uploadedImageUrls;
-  }
-
-  void savePost() {
-    // Implement the save functionality
-    Get.snackbar('Success', 'Post saved successfully');
-    getUserData(globalUid);
   }
 
   Future<void> uploadPostToFirebase(PostDetail post) async {
@@ -131,6 +128,8 @@ class PublishController extends GetxController {
       // 等待 imagesUrls 获取完成后再执行 createPostAndUpload
       await createPostViewAndUpload(content, imagesUrls[0], postId);
       await createPostAndUpload(title, content, imagesUrls, postId);
+      Get.snackbar('Success', 'Post saved successfully');
+      homeController.onChangePage(0);
     } catch (error) {
       // 处理上传图片失败的情况
       Get.snackbar('Error', 'Failed to upload images: ${error.toString()}');
