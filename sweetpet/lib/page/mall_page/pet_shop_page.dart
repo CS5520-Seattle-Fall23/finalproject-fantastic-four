@@ -23,7 +23,7 @@ class PetShopPage extends StatelessWidget {
     PetProduct(imageUrl: 'assets/images/catfood.png', name: 'Food'),
     PetProduct(imageUrl: 'assets/images/cattreat.png', name: 'Treats'),
     PetProduct(imageUrl: 'assets/images/cattoy.png', name: 'Toys'),
-    PetProduct(imageUrl: 'assets/images/catfood.png', name: 'Treatment'),
+    PetProduct(imageUrl: 'assets/images/cattreatment.jpg', name: 'Treatment'),
     // 添加更多产品
   ];
 
