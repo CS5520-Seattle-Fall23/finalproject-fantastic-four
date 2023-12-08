@@ -56,17 +56,20 @@ class _IndexPageState extends State<IndexPage> {
               ),
             ),
             Expanded(
-              child: GetBuilder<IndexController>(
-                builder: (_) {
-                  return TabBarView(
-                    controller: controller.tabController,
-                    children: [
-                      buildFollowPage(),
-                      buildDiscoverPage(),
-                      buildShoppingPage(),
-                    ],
-                  );
-                },
+              child: RefreshIndicator(
+                onRefresh: onRefresh,
+                child: GetBuilder<IndexController>(
+                  builder: (_) {
+                    return TabBarView(
+                      controller: controller.tabController,
+                      children: [
+                        buildFollowPage(),
+                        buildDiscoverPage(),
+                        buildShoppingPage(),
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
           ],
@@ -75,36 +78,42 @@ class _IndexPageState extends State<IndexPage> {
     );
   }
 
+  Future<void> onRefresh() async {
+    print("我刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷");
+    await controller.refreshData();
+  }
+
   Widget buildFollowPage() {
     return SummaryPage();
   }
 
   Widget buildDiscoverPage() {
     int halfLength = (controller.data.length / 2).ceil();
-    return ListView(
-      children: [
-        Image.asset(
-          "assets/images/test.png",
-          width: 300,
-          height: 200,
-        ),
-        Row(
-          children: [
-            Column(
-              children: controller.data
-                  .sublist(0, halfLength)
-                  .map((e) => buildCardItem(e, controller.thumbs))
-                  .toList(),
-            ),
-            Column(
-              children: controller.data
-                  .sublist(halfLength)
-                  .map((e) => buildCardItem(e, controller.thumbs))
-                  .toList(),
-            ),
-          ],
-        ),
-      ],
+    return RefreshIndicator(
+      onRefresh: () async {
+        // 在此处执行刷新操作，例如从服务器获取新数据
+        await onRefresh(); // 替换为您的刷新逻辑
+      },
+      child: ListView(
+        children: [
+          Row(
+            children: [
+              Column(
+                children: controller.data
+                    .sublist(0, halfLength)
+                    .map((e) => buildCardItem(e, controller.thumbs))
+                    .toList(),
+              ),
+              Column(
+                children: controller.data
+                    .sublist(halfLength)
+                    .map((e) => buildCardItem(e, controller.thumbs))
+                    .toList(),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 

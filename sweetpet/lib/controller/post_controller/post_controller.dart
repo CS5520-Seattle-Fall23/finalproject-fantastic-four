@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sweetpet/api/api_client.dart';
 import 'package:sweetpet/constant/uid.dart';
+import 'package:sweetpet/model/follower.dart';
 import 'package:sweetpet/model/post_detail.dart';
 import 'package:sweetpet/model/comment.dart';
 import 'package:get/get.dart';
@@ -14,11 +15,13 @@ class PostController extends GetxController {
   late String id;
   bool isLoading = true;
   bool isFail = false;
+  late String userId = '';
+  late String avatar = '';
+  late String username = '';
   List<Comment> commentList = [];
   late List<THUMB> thumbs = [];
-  late String userId;
-  late String avatarUrl;
-  late String userName;
+  late List<Follower> followers = [];
+  late bool isFollowing = false;
 
   @override
   void onInit() {
@@ -29,10 +32,12 @@ class PostController extends GetxController {
   }
 
   void getIndexDetailData(String id) async {
-    // await updateUserThumbPosts();
+    await getUserData(globalUid);
+    await updateUserFollow();
     ApiClient().getIndexDetailDataById(id).then((response) {
       if (response != null) {
         postDetail = response;
+        getFollowUser(postDetail.uid);
       } else {
         isFail = true;
       }
@@ -41,6 +46,20 @@ class PostController extends GetxController {
       isFail = true;
     }).whenComplete(() {
       isLoading = false;
+    });
+  }
+
+  Future<void> updateUserFollow() async {
+    ApiClient().getUserFollowUsers().then((response) {
+      followers = response;
+      update();
+    });
+  }
+
+  Future getFollowUser(String toUserId) async {
+    ApiClient().getFollowUser(toUserId).then((response) {
+      isFollowing = response;
+      update();
     });
   }
 
@@ -59,6 +78,8 @@ class PostController extends GetxController {
           .set({
         'id': comment.id,
         'toPostId': comment.toPostId,
+        'userId': comment.userId,
+        'title': comment.title,
         'content': comment.content,
         'avatar': comment.avatar,
         'nickname': comment.nickname,
@@ -88,8 +109,10 @@ class PostController extends GetxController {
     Comment comment = Comment(
       commentId,
       id,
-      userName,
-      avatarUrl,
+      postDetail.uid,
+      globalUsername,
+      globalAvatar,
+      postDetail.title,
       content,
       DateTime.now().toString(),
     );
@@ -133,13 +156,8 @@ class PostController extends GetxController {
       if (userSnapshot.exists) {
         Map<String, dynamic> userData =
             userSnapshot.data() as Map<String, dynamic>;
-
-        String username = userData['username'];
-        String email = userData['email'];
-        String imageUrl = userData['image_url'];
-        userId = email;
-        userName = username;
-        avatarUrl = imageUrl;
+        globalUsername = userData['username'];
+        globalAvatar = userData['image_url'];
       } else {
         print("user doesn't exit");
       }
@@ -148,104 +166,64 @@ class PostController extends GetxController {
     }
   }
 
-  // Future<void> updateUserThumbPosts() async {
-  //   thumbs = await ApiClient().getUserThumbPosts();
-  // }
+  void toggleFollow() async {
+    print(isFollowing);
+    isFollowing = !isFollowing;
+    createFollowAndUpload(postDetail.uid, isFollowing);
+  }
 
-  // Future<void> uploadThumbToFirebase(THUMB thumb) async {
-  //   try {
-  //     await FirebaseFirestore.instance.collection('thumb').doc().set({
-  //       'id': thumb.id,
-  //       'postId': thumb.postId,
-  //       'userId': thumb.userId,
-  //       'tag': thumb.tag,
-  //     });
-  //     print('点赞成功！');
-  //   } catch (e) {
-  //     print('点赞出现错误：$e');
-  //   }
-  // }
+  Future<void> uploadFollowToFirebase(Follower follower) async {
+    try {
+      await FirebaseFirestore.instance.collection('follow').doc().set({
+        'id': follower.id,
+        'followerId': follower.followerId,
+        'toUserId': follower.toUserId,
+        'avatar': follower.avatar,
+        'username': follower.username,
+        'tag': follower.tag,
+      });
+      print('关注成功！');
+    } catch (e) {
+      print('关注出现错误：$e');
+    }
+  }
 
-  // Future<void> createThumbAndUpload(String postId, int tag) async {
-  //   // 查询 thumb 集合以查找匹配的文档
-  //   QuerySnapshot thumbQuery = await FirebaseFirestore.instance
-  //       .collection('thumb')
-  //       .where('userId', isEqualTo: globalUid)
-  //       .where('postId', isEqualTo: postId)
-  //       .get();
+  Future<void> createFollowAndUpload(String toUserId, bool tag) async {
+    // 查询 thumb 集合以查找匹配的文档
+    QuerySnapshot thumbQuery = await FirebaseFirestore.instance
+        .collection('follow')
+        .where('followerId', isEqualTo: globalUid)
+        .where('toUserId', isEqualTo: toUserId)
+        .get();
 
-  //   if (thumbQuery.docs.isNotEmpty) {
-  //     // 如果找到匹配的文档，更新 tag 字段
-  //     thumbQuery.docs.forEach((QueryDocumentSnapshot doc) {
-  //       DocumentReference thumbDocRef =
-  //           FirebaseFirestore.instance.collection('thumb').doc(doc.id);
+    if (thumbQuery.docs.isNotEmpty) {
+      // 如果找到匹配的文档，更新 tag 字段
+      thumbQuery.docs.forEach((QueryDocumentSnapshot doc) {
+        DocumentReference thumbDocRef =
+            FirebaseFirestore.instance.collection('follow').doc(doc.id);
 
-  //       Map<String, dynamic> updatedData = {
-  //         'tag': tag, // 更新 tag 字段
-  //       };
+        Map<String, dynamic> updatedData = {
+          'tag': tag, // 更新 tag 字段
+        };
 
-  //       thumbDocRef.set(updatedData, SetOptions(merge: true)).then((_) {
-  //         print('Tag updated successfully for document ${doc.id}');
-  //       }).catchError((error) {
-  //         print('Error updating tag for document ${doc.id}: $error');
-  //       });
-  //     });
-  //   } else {
-  //     final String id = const Uuid().v4();
-  //     THUMB newThumb = THUMB(
-  //       id,
-  //       globalUid,
-  //       postId,
-  //       tag,
-  //     );
-  //     // 调用上传方法
-  //     uploadThumbToFirebase(newThumb);
-  //   }
-  // }
-
-  // void modifyPostFavCount(String postId, int num) async {
-  //   // 查询 thumb 集合以查找匹配的文档
-  //   QuerySnapshot thumbQuery1 = await FirebaseFirestore.instance
-  //       .collection('postView')
-  //       .where('id', isEqualTo: postId)
-  //       .get();
-  //   QuerySnapshot thumbQuery2 = await FirebaseFirestore.instance
-  //       .collection('post')
-  //       .where('id', isEqualTo: postId)
-  //       .get();
-
-  //   if (thumbQuery1.docs.isNotEmpty && thumbQuery2.docs.isNotEmpty) {
-  //     // 如果找到匹配的文档，更新 tag 字段
-  //     thumbQuery1.docs.forEach((QueryDocumentSnapshot doc) {
-  //       DocumentReference thumbDocRef =
-  //           FirebaseFirestore.instance.collection('postView').doc(doc.id);
-  //       // 计算新的 fav 值
-  //       int newFav = max(0, num);
-  //       Map<String, dynamic> updatedData = {
-  //         'fav': newFav, // 更新 tag 字段
-  //       };
-
-  //       thumbDocRef.set(updatedData, SetOptions(merge: true)).then((_) {
-  //         print('Tag updated successfully for document ${doc.id}');
-  //       }).catchError((error) {
-  //         print('Error updating tag for document ${doc.id}: $error');
-  //       });
-  //     });
-  //   }
-  //   thumbQuery2.docs.forEach((QueryDocumentSnapshot doc) {
-  //     DocumentReference thumbDocRef =
-  //         FirebaseFirestore.instance.collection('post').doc(doc.id);
-  //     // 计算新的 fav 值
-  //     int newFav = max(0, num);
-  //     Map<String, dynamic> updatedData = {
-  //       'fav': newFav, // 更新 tag 字段
-  //     };
-
-  //     thumbDocRef.set(updatedData, SetOptions(merge: true)).then((_) {
-  //       print('Tag updated successfully for document ${doc.id}');
-  //     }).catchError((error) {
-  //       print('Error updating tag for document ${doc.id}: $error');
-  //     });
-  //   });
-  // }
+        thumbDocRef.set(updatedData, SetOptions(merge: true)).then((_) {
+          print('Tag updated successfully for document ${doc.id}');
+        }).catchError((error) {
+          print('Error updating tag for document ${doc.id}: $error');
+        });
+      });
+    } else {
+      final String id = const Uuid().v4();
+      Follower newFollower = Follower(
+        id,
+        globalUid,
+        toUserId,
+        globalUsername,
+        globalAvatar,
+        tag,
+      );
+      // 调用上传方法
+      uploadFollowToFirebase(newFollower);
+    }
+  }
 }

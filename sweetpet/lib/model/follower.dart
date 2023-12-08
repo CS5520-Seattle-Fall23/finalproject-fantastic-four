@@ -5,17 +5,21 @@ part 'follower.g.dart';
 
 @JsonSerializable()
 class Follower {
-  final String id;
-  final String avatarUrl;
-  final String name;
-  bool tag; // 注意：Bool 应该是 bool，Dart 的布尔类型是小写的
+  String id;
+  String followerId;
+  String toUserId;
+  String avatar;
+  String username;
+  bool tag;
 
-  Follower({
-    required this.id,
-    required this.avatarUrl,
-    required this.name,
-    required this.tag,
-  });
+  Follower(
+    this.id,
+    this.followerId,
+    this.toUserId,
+    this.username,
+    this.avatar,
+    this.tag,
+  );
 
   // 从 JSON 生成 Follower
   factory Follower.fromJson(Map<String, dynamic> json) =>

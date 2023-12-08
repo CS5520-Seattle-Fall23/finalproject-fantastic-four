@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:sweetpet/constant/uid.dart';
 import 'package:sweetpet/model/comment.dart';
+import 'package:sweetpet/model/follower.dart';
 import 'package:sweetpet/model/post.dart';
 import 'package:http/http.dart' as http;
 import 'package:sweetpet/model/post_detail.dart';
@@ -96,6 +97,86 @@ class ApiClient {
         }
       }
       return thumbs;
+    } catch (e) {
+      print('Error getting collection data: $e');
+    }
+  }
+
+  Future<bool> getFollowUser(String toUserId) async {
+    print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+    print(globalUid);
+    print(toUserId);
+    // 查询 thumb 集合以查找匹配的文档
+    QuerySnapshot thumbQuery = await FirebaseFirestore.instance
+        .collection('follow')
+        .where('followerId', isEqualTo: globalUid)
+        .where('toUserId', isEqualTo: toUserId)
+        .get();
+
+    if (thumbQuery.docs.isNotEmpty) {
+      QueryDocumentSnapshot doc = thumbQuery.docs.first;
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+      bool isFollowing = data['tag'];
+
+      print(isFollowing);
+      return isFollowing;
+    } else {
+      return false; // 如果没有找到匹配的数据，返回 false
+    }
+  }
+
+  Future getUserFollowUsers() async {
+    final FirebaseFirestore firestore2 = FirebaseFirestore.instance;
+    final CollectionReference collection2 = firestore2.collection('follow');
+    try {
+      List<Follower> followers = [];
+      QuerySnapshot querySnapshot2 = await collection2.get();
+      for (QueryDocumentSnapshot document in querySnapshot2.docs) {
+        Map<String, dynamic> data2 = document.data() as Map<String, dynamic>;
+        Follower follower = Follower.fromJson(data2);
+        if (follower.followerId == globalUid && follower.tag == true) {
+          followers.add(follower);
+        }
+      }
+      return followers;
+    } catch (e) {
+      print('Error getting collection data: $e');
+    }
+  }
+
+  Future<dynamic> getCommentListData() async {
+    final FirebaseFirestore firestore2 = FirebaseFirestore.instance;
+    final CollectionReference collection2 = firestore2.collection('comment');
+    try {
+      List<Comment> comments = [];
+      QuerySnapshot querySnapshot2 = await collection2.get();
+      for (QueryDocumentSnapshot document in querySnapshot2.docs) {
+        Map<String, dynamic> data2 = document.data() as Map<String, dynamic>;
+        Comment comment = Comment.fromJson(data2);
+        if (comment.userId == globalUid) {
+          comments.add(comment);
+        }
+      }
+      return comments;
+    } catch (e) {
+      print('Error getting collection data: $e');
+    }
+  }
+
+  Future<dynamic> getFollowerListData() async {
+    final FirebaseFirestore firestore2 = FirebaseFirestore.instance;
+    final CollectionReference collection2 = firestore2.collection('follow');
+    try {
+      List<Follower> followers = [];
+      QuerySnapshot querySnapshot2 = await collection2.get();
+      for (QueryDocumentSnapshot document in querySnapshot2.docs) {
+        Map<String, dynamic> data2 = document.data() as Map<String, dynamic>;
+        Follower follower = Follower.fromJson(data2);
+        if (follower.followerId == globalUid) {
+          followers.add(follower);
+        }
+      }
+      return followers;
     } catch (e) {
       print('Error getting collection data: $e');
     }

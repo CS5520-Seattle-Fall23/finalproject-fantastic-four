@@ -8,9 +8,15 @@ import 'package:sweetpet/constant/color_library.dart';
 import 'package:sweetpet/controller/post_controller/post_controller.dart';
 import 'package:get/get.dart';
 
-class PostPage extends StatelessWidget {
+class PostPage extends StatefulWidget {
   PostPage({Key? key}) : super(key: key);
-  final PostController controller = Get.put(PostController());
+
+  @override
+  _PostPageState createState() => _PostPageState();
+}
+
+class _PostPageState extends State<PostPage> {
+  PostController controller = Get.put(PostController());
   TextEditingController commentController = TextEditingController();
 
   @override
@@ -24,65 +30,65 @@ class PostPage extends StatelessWidget {
         return const Scaffold(body: Center(child: Text("Load failure")));
       }
       return Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back), // 在此处使用您自定义的返回按钮图标
-              onPressed: () {
-                // 在此处处理返回按钮点击事件，例如，返回上一个页面
-                Navigator.of(context).pop();
-              },
-            ),
-            title: Row(
-              children: [
-                ClipOval(
-                    child: Image.network(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          title: Row(
+            children: [
+              ClipOval(
+                child: Image.network(
                   controller.postDetail.avatar,
                   width: 40,
                   height: 40,
                   fit: BoxFit.cover,
-                )),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(controller.postDetail.nickname),
-                ),
-              ],
-            ),
-            actions: [
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-                decoration: const ShapeDecoration(
-                    shape: StadiumBorder(
-                        side: BorderSide(color: ColorLibrary.primary))),
-                child: const Text(
-                  "Follow",
-                  style: TextStyle(color: ColorLibrary.primary, fontSize: 12),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 12.0, right: 14),
-                child: Image.asset("assets/images/share.png",
-                    width: 20, height: 20),
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Text(controller.postDetail.nickname),
               ),
             ],
           ),
-          backgroundColor: Colors.white,
-          body: SafeArea(
-            child: Column(
-              children: [
-                Expanded(
-                  child: ListView(
-                    children: [
-                      buildImageSwiper(),
-                      buildContent(),
-                      buildComment(),
-                    ],
-                  ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                controller.toggleFollow();
+                setState(() {}); // 通知框架重新构建页面
+              },
+              style: TextButton.styleFrom(
+                primary: Colors.white,
+                backgroundColor:
+                    controller.isFollowing ? Colors.grey : Colors.red,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
                 ),
-                buildBottom(controller.thumbs),
-              ],
-            ),
-          ));
+              ),
+              child: Text(controller.isFollowing ? 'No Follow' : 'Follow'),
+            )
+          ],
+        ),
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView(
+                  children: [
+                    buildImageSwiper(),
+                    buildContent(),
+                    buildComment(),
+                  ],
+                ),
+              ),
+              buildBottom(controller.thumbs),
+            ],
+          ),
+        ),
+      );
     });
   }
 
@@ -258,24 +264,6 @@ class PostPage extends StatelessWidget {
             },
             child: const Text('Send'),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          //   child: LikeButton(
-          //     initialCount: controller.postDetail.fav,
-          //     onLiked: (tag, num) {
-          //       // 在这里调用 controller 中的方法
-          //       controller.createThumbAndUpload(controller.postDetail.id, tag);
-          //       controller.modifyPostFavCount(controller.postDetail.id, num);
-          //     },
-          //     userLikedPosts: list,
-          //     postId: controller.postDetail.id,
-          //   ),
-          // ),
-          // Image.asset("assets/images/comment.png", width: 25, height: 25),
-          // Padding(
-          //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          //   child: Text("${controller.commentList.length}"),
-          // ),
         ],
       ),
     );

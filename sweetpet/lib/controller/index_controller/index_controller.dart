@@ -25,6 +25,10 @@ class IndexController extends GetxController
     getIndexData();
   }
 
+  Future<void> refreshData() async {
+    getIndexData();
+  }
+
   Future<void> getIndexData() async {
     await updateUserThumbPosts();
     ApiClient().getIndexData().then((response) {
