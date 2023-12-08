@@ -13,9 +13,17 @@ class PetShopPage extends StatelessWidget {
 
   final List<PetProduct> products = [
     PetProduct(imageUrl: 'assets/images/dog_food.png', name: 'Food'),
-    PetProduct(imageUrl: 'assets/images/dog_food.png', name: 'Treats'),
-    PetProduct(imageUrl: 'assets/images/dog_food.png', name: 'Toys'),
-    PetProduct(imageUrl: 'assets/images/dog_food.png', name: 'Treatment'),
+    PetProduct(imageUrl: 'assets/images/dogtreat.png', name: 'Treats'),
+    PetProduct(imageUrl: 'assets/images/dogtoy.png', name: 'Toys'),
+    PetProduct(imageUrl: 'assets/images/dogtreatment.png', name: 'Treatment'),
+    // 添加更多产品
+  ];
+
+  final List<PetProduct> products_cat = [
+    PetProduct(imageUrl: 'assets/images/catfood.png', name: 'Food'),
+    PetProduct(imageUrl: 'assets/images/cattreat.png', name: 'Treats'),
+    PetProduct(imageUrl: 'assets/images/cattoy.png', name: 'Toys'),
+    PetProduct(imageUrl: 'assets/images/catfood.png', name: 'Treatment'),
     // 添加更多产品
   ];
 
@@ -42,9 +50,9 @@ class PetShopPage extends StatelessWidget {
                 crossAxisCount: 2,
                 childAspectRatio: 0.8,
               ),
-              itemCount: products.length,
+              itemCount: name == 'dog' ? products.length : products_cat.length,
               itemBuilder: (context, index) {
-                return PetProductWidget(product: products[index], category: name);
+                return PetProductWidget(product: name == 'dog' ? products[index] : products_cat[index], category: name);
               },
             ),
           ),
