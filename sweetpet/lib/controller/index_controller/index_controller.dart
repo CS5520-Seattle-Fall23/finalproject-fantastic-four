@@ -49,6 +49,7 @@ class IndexController extends GetxController
     try {
       await FirebaseFirestore.instance.collection('thumb').doc().set({
         'id': thumb.id,
+        'authorId': thumb.authorId,
         'postId': thumb.postId,
         'userId': thumb.userId,
         'tag': thumb.tag,
@@ -59,7 +60,8 @@ class IndexController extends GetxController
     }
   }
 
-  Future<void> createThumbAndUpload(String postId, int tag) async {
+  Future<void> createThumbAndUpload(
+      String postId, String authorId, int tag) async {
     // 查询 thumb 集合以查找匹配的文档
     QuerySnapshot thumbQuery = await FirebaseFirestore.instance
         .collection('thumb')
@@ -87,6 +89,7 @@ class IndexController extends GetxController
       final String id = const Uuid().v4();
       THUMB newThumb = THUMB(
         id,
+        authorId,
         globalUid,
         postId,
         tag,

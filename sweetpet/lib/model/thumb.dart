@@ -4,12 +4,14 @@ part 'thumb.g.dart';
 @JsonSerializable()
 class THUMB {
   String id;
+  String authorId;
   String userId;
   String postId;
   int tag;
 
   THUMB(
     this.id,
+    this.authorId,
     this.userId,
     this.postId,
     this.tag,

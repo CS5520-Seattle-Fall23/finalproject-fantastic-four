@@ -79,7 +79,6 @@ class _IndexPageState extends State<IndexPage> {
   }
 
   Future<void> onRefresh() async {
-    print("我刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷刷");
     await controller.refreshData();
   }
 
@@ -167,7 +166,7 @@ class _IndexPageState extends State<IndexPage> {
                     initialCount: post.fav,
                     onLiked: (tag, num) {
                       // 在这里调用 controller 中的方法
-                      controller.createThumbAndUpload(post.id, tag);
+                      controller.createThumbAndUpload(post.id, post.uid, tag);
                       controller.modifyPostFavCount(post.id, num);
                     },
                     userLikedPosts: list,
