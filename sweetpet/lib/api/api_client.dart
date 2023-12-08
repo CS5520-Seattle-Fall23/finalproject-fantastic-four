@@ -186,13 +186,14 @@ class ApiClient {
     }
   }
 
-  Future<dynamic> getMallData() async {
+  // MainView Data
+  Future<dynamic> getMallData(String category, String name) async {
     try {
       // 获取 Firebase Storage 实例
       FirebaseStorage storage = FirebaseStorage.instance;
 
       // 获取文件的引用，路径应根据您的 Firebase Storage 结构调整
-      Reference ref = storage.ref('mall/mallData.json');
+      Reference ref = storage.ref('mall/${category.toLowerCase()}$name.json');
 
       // 获取文件的下载 URL
       String url = await ref.getDownloadURL();

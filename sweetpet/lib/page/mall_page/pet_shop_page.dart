@@ -1,22 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:sweetpet/model/mall.dart';
 import 'package:sweetpet/page/mall_page/shopping_list_page.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class PetShopPage extends StatelessWidget {
-  final Mall mall;
+
+  final String name;
 
   PetShopPage({
     Key? key,
-    required this.mall,
+    required this.name,
   }) : super(key: key);
 
-  void _submit() async {
-    final Uri url = Uri.parse(mall.realBuyLink);
-    if (!await launchUrl(url)) {
-          throw Exception('Could not launch $url');
-    }
-  }
+
+  final List<PetProduct> products = [
+    PetProduct(imageUrl: 'assets/images/dog_food.png', name: 'Food'),
+    PetProduct(imageUrl: 'assets/images/dogtreat.png', name: 'Treats'),
+    PetProduct(imageUrl: 'assets/images/dogtoy.png', name: 'Toys'),
+    PetProduct(imageUrl: 'assets/images/dogtreatment.png', name: 'Treatment'),
+    // 添加更多产品
+  ];
+
+  final List<PetProduct> products_cat = [
+    PetProduct(imageUrl: 'assets/images/catfood.png', name: 'Food'),
+    PetProduct(imageUrl: 'assets/images/cattreat.png', name: 'Treats'),
+    PetProduct(imageUrl: 'assets/images/cattoy.png', name: 'Toys'),
+    PetProduct(imageUrl: 'assets/images/cattreatment.jpg', name: 'Treatment'),
+    // 添加更多产品
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -24,48 +33,31 @@ class PetShopPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Mall'),
       ),
-      body: Column(children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextField(
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'Find the best for your pet...',
+      body: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Find the best for your pet...',
+              ),
             ),
           ),
-        ),
-        Expanded(
-            child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                mall.title,
-                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+          Expanded(
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.8,
               ),
+              itemCount: name == 'Dog' ? products.length : products_cat.length,
+              itemBuilder: (context, index) {
+                return PetProductWidget(product: name == 'Dog' ? products[index] : products_cat[index], category: name);
+              },
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.network(
-                mall.pic,
-                fit: BoxFit.cover,
-                height: 400,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                onPressed: _submit,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      Theme.of(context).colorScheme.primaryContainer,
-                ),
-                child: Text('Link to ${mall.store}'),
-              ),
-            )
-          ],
-        )),
-      ]),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -79,16 +71,17 @@ class PetProduct {
 
 class PetProductWidget extends StatelessWidget {
   final PetProduct product;
+  final String category;
 
-  const PetProductWidget({Key? key, required this.product}) : super(key: key);
+  const PetProductWidget({Key? key, required this.product, required this.category}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ShopList()),
+          MaterialPageRoute(builder: (context) => ShopList(product.name, category)),
         );
       },
       child: Card(

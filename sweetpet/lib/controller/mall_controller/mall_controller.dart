@@ -7,8 +7,8 @@ class MallController extends GetxController
     with GetSingleTickerProviderStateMixin {
   final storageRef = FirebaseStorage.instance.ref();
 
-  Future<dynamic> getMallData() async {
-    return await ApiClient().getMallData();
+  Future<dynamic> getMallData(String category, String name) async {
+    return await ApiClient().getMallData(category, name);
   }
 
   void openMallDetailPage(String title) {
