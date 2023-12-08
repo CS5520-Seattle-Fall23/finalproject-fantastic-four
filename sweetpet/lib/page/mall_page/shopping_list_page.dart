@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sweetpet/controller/mall_controller/mall_controller.dart';
+import 'package:sweetpet/model/mall.dart';
+import 'package:sweetpet/page/mall_page/shopping_detail_page.dart';
 
 class ShopList extends StatelessWidget {
-  
+  final String name;
+  final String category;
+
+  ShopList(this.name, this.category);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,119 +21,230 @@ class ShopList extends StatelessWidget {
             icon: Icon(Icons.arrow_back),
             onPressed: () {
               // Handle back button
-               Navigator.pop(context);
+              Navigator.pop(context);
             },
+          ),
         ),
-        ),
-        body: ListView(
-          children: <Widget>[
-            CategoryHeader(title: 'Dog/Food'),
-            Padding(
-            padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Find the best for your pet...',
+        body: PetDiscoveryPage(name: name, category: category),
+      ),
+    );
+  }
+}
+
+class PetDiscoveryPage extends StatefulWidget {
+  final String name;
+  final String category;
+
+  const PetDiscoveryPage({Key? key, required this.name, required this.category}) : super(key: key);
+
+  @override
+  _PetDiscoveryPageState createState() => _PetDiscoveryPageState(name, category);
+}
+
+class _PetDiscoveryPageState extends State<PetDiscoveryPage> {
+  final String name;
+  final String category;
+  final MallController controller = Get.put(MallController());
+  late String searchText = '';
+  List<Mall> mallList = [];
+
+  _PetDiscoveryPageState(this.name, this.category);
+
+  void _onSearchChanged(text) async {
+    setState(() => searchText = text);
+  }
+
+  getMallList() async {
+    controller.getMallData(category, name).then((value) {
+      setState(() {
+        mallList = value;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getMallList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('${category}/${name}'),
+      ),
+      body: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextFormField(
+              decoration: InputDecoration(
+                hintText: 'Find the best for your pet...',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
                 ),
               ),
+              onChanged: _onSearchChanged,
             ),
-            ProductTile(
-              name: 'Purina Pro Plan Sensitive Skin & Stomach Adult with Probiotics Lamb & Oat Meal F...',
-              price: 'US\$71.98',
-              originalPrice: 'US\$74.99',
-              image: 'assets/purina_pro_plan.jpg', // Add your asset image
+          ),
+          Expanded(
+            child: ListView(
+              children: <Widget>[
+                Row(
+                  children: [
+                    Column(
+                      children: mallList
+                          .where((mall) => (searchText == '' ||
+                              mall.title.contains(searchText)))
+                          .toList()
+                          .map((e) => buildCardItem(e, context))
+                          .toList(),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            ProductTile(
-              name: 'Purina ONE Natural SmartBlend Chicken & Rice Formula Dry Dog Food, 40-lb...',
-              price: 'US\$60.48',
-              originalPrice: 'US\$62.88',
-              image: 'assets/purina_one.jpg', // Add your asset image
-            ),
-            // ... more products
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
-}
 
-class CategoryHeader extends StatelessWidget {
-  final String title;
-
-  CategoryHeader({required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(16.0),
-      child: Text(
-        title,
-        style: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
+  Widget buildCardItem(Mall mall, BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        // Handle tap
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ShopDetailPage(
+                    mall: mall,
+                  )),
+        );
+      },
+      child: Container(
+        width: Get.width,
+        margin: const EdgeInsets.all(4),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(4),
         ),
-      ),
-    );
-  }
-}
-
-class ProductTile extends StatelessWidget {
-  final String name;
-  final String price;
-  final String originalPrice;
-  final String image;
-
-  ProductTile({
-    required this.name,
-    required this.price,
-    required this.originalPrice,
-    required this.image,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: EdgeInsets.all(8.0),
         child: Row(
-          children: <Widget>[
-            Image.asset(
-              image,
-              width: 100, // Set your image width
-              height: 100, // Set your image height
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    name,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text(
-                    price,
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 16,
-                    ),
-                  ),
-                  Text(
-                    originalPrice,
-                    style: TextStyle(
-                      color: Colors.grey,
-                      decoration: TextDecoration.lineThrough,
-                    ),
-                  ),
-                ],
+          children: [
+            ClipRRect(
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(4)),
+              child: Image.network(
+                mall.pic,
+                width: Get.width / 2 - 100,
+                height: Get.width / 2 - 100,
+                fit: BoxFit.cover,
               ),
             ),
-            // Implement more choices available if necessary
+            Expanded(
+                child: Column(
+              children: [
+                Text(mall.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(mall.price,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red[700],
+                      )),
+                ),
+              ],
+            ))
           ],
         ),
       ),
     );
   }
 }
+
+// class CategoryHeader extends StatelessWidget {
+//   final String title;
+
+//   CategoryHeader({required this.title});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: EdgeInsets.all(16.0),
+//       child: Text(
+//         title,
+//         style: TextStyle(
+//           fontSize: 24,
+//           fontWeight: FontWeight.bold,
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// class ProductTile extends StatelessWidget {
+//   final String name;
+//   final String price;
+//   final String originalPrice;
+//   final String image;
+
+//   ProductTile({
+//     required this.name,
+//     required this.price,
+//     required this.originalPrice,
+//     required this.image,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Card(
+//       child: Padding(
+//         padding: EdgeInsets.all(8.0),
+//         child: Row(
+//           children: <Widget>[
+//             Image.asset(
+//               image,
+//               width: 100, // Set your image width
+//               height: 100, // Set your image height
+//             ),
+//             Expanded(
+//               child: Column(
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 children: <Widget>[
+//                   Text(
+//                     name,
+//                     style: TextStyle(
+//                       fontSize: 18,
+//                       fontWeight: FontWeight.bold,
+//                     ),
+//                   ),
+//                   Text(
+//                     price,
+//                     style: TextStyle(
+//                       color: Colors.red,
+//                       fontSize: 16,
+//                     ),
+//                   ),
+//                   Text(
+//                     originalPrice,
+//                     style: TextStyle(
+//                       color: Colors.grey,
+//                       decoration: TextDecoration.lineThrough,
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//             // Implement more choices available if necessary
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
