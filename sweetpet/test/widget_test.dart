@@ -1,20 +1,15 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sweetpet/controller/login_controller/login_controller.dart';
 
-import 'package:sweetpet/main.dart';
-
 void main() {
   testWidgets('Login Page Widget Test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(LoginController());
+    await tester.pumpWidget(
+      MaterialApp(
+        home: LoginController(),
+      ),
+    );
 
     // Verify that the initial state is as expected.
     expect(find.text('Welcome'), findsOneWidget);
@@ -22,7 +17,7 @@ void main() {
 
     // Tap the "New User? Register Now!" button and trigger a frame.
     await tester.tap(find.text('New User? Register Now!'));
-    await tester.pump();
+    await tester.pumpAndSettle();
 
     // Verify that the state is updated after tapping the button.
     expect(find.text('Welcome'), findsNothing);
@@ -35,6 +30,7 @@ void main() {
     await tester
         .tap(find.text('Log In')); // Try to log in with invalid credentials.
     await tester.pump();
+
     expect(find.text('Please enter a valid email address'), findsOneWidget);
     expect(find.text('Password must be at least 6 characters long'),
         findsOneWidget);
@@ -49,9 +45,10 @@ void main() {
         find.byKey(const Key('usernameTextField')), 'testuser');
     await tester.tap(find.text('Sign Up'));
     await tester.pumpAndSettle(); // Wait for animations to complete.
+
+    // You might want to check for widgets that should be present after a successful registration.
     expect(find.text('Welcome'), findsNothing);
     expect(find.text('Join Us'), findsNothing);
-    // Add more assertions based on your application's behavior.
 
     // Test error handling for authentication failure.
     // This assumes you have an invalid login scenario in your app.
@@ -62,6 +59,8 @@ void main() {
         find.byKey(const Key('passwordTextField')), 'wrongpassword');
     await tester.tap(find.text('Log In'));
     await tester.pumpAndSettle(); // Wait for animations to complete.
+
+    // Check if the error message is displayed.
     expect(find.text('Authentication failed'), findsOneWidget);
   });
 }
