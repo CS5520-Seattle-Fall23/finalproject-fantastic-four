@@ -50,9 +50,9 @@ class PetShopPage extends StatelessWidget {
                 crossAxisCount: 2,
                 childAspectRatio: 0.8,
               ),
-              itemCount: name == 'dog' ? products.length : products_cat.length,
+              itemCount: name == 'Dog' ? products.length : products_cat.length,
               itemBuilder: (context, index) {
-                return PetProductWidget(product: name == 'dog' ? products[index] : products_cat[index], category: name);
+                return PetProductWidget(product: name == 'Dog' ? products[index] : products_cat[index], category: name);
               },
             ),
           ),
