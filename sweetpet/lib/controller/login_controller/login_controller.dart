@@ -1,32 +1,31 @@
-/*
-  The following Dart code represents a Flutter application for user authentication
-  using Firebase. The code includes a login screen with email/password and email
-  link authentication options. It features form validation, user image upload, and
-  navigation to the home page upon successful authentication. The UI dynamically
-  adjusts based on whether the user is logging in or signing up.
+/// The following Dart code represents a Flutter application for user authentication
+/// using Firebase. The code includes a login screen with email/password and email
+/// link authentication options. It features form validation, user image upload, and
+/// navigation to the home page upon successful authentication. The UI dynamically
+/// adjusts based on whether the user is logging in or signing up.
 
-  Lint Rule Exclusion:
-  - The 'use_build_context_synchronously' lint rule is ignored to suppress warnings.
+/// Lint Rule Exclusion:
+/// - The 'use_build_context_synchronously' lint rule is ignored to suppress warnings.
 
-  Key Components:
-  - FirebaseAuth, FirebaseFirestore, and FirebaseStorage instances for authentication.
-  - LoginController StatefulWidget to manage login state.
-  - _AuthScreenState as the state class for LoginController.
-  - GlobalKey<FormState> for managing the form state.
+/// Key Components:
+/// - FirebaseAuth, FirebaseFirestore, and FirebaseStorage instances for authentication.
+/// - LoginController StatefulWidget to manage login state.
+/// - _AuthScreenState as the state class for LoginController.
+/// - GlobalKey<FormState> for managing the form state.
 
-  Features:
-  - Authentication logic based on login state and email/password or email link.
-  - Form validation and saving of user input.
-  - User image upload to Firebase Storage during registration.
-  - Snackbar feedback for authentication success or failure.
-  - Dynamic UI adjustments based on login/signup state.
+/// Features:
+/// - Authentication logic based on login state and email/password or email link.
+/// - Form validation and saving of user input.
+/// - User image upload to Firebase Storage during registration.
+/// - Snackbar feedback for authentication success or failure.
+/// - Dynamic UI adjustments based on login/signup state.
 
-  Note: This code assumes the existence of certain dependencies, such as Get package
-  for navigation and constant values (e.g., globalUid) for tracking user information.
+/// Note: This code assumes the existence of certain dependencies, such as Get package
+/// for navigation and constant values (e.g., globalUid) for tracking user information.
 
-  Author: [Xu Tan]
-  Date: [12/8/2023]
-*/
+/// Author: [Xu Tan]
+/// Date: [12/8/2023]
+
 // ignore_for_file: use_build_context_synchronously
 // Ignoring the use_build_context_synchronously lint rule to suppress warnings.
 
@@ -94,7 +93,7 @@ class _AuthScreenState extends State<LoginController> {
 
       // Perform authentication based on the login state.
       if (_isLogin) {
-        if (_isEmailAndPassword) {
+        if (!_isEmailAndPassword) {
           // Sign in with email and password.
           final userCredentials = await _firebase.signInWithEmailAndPassword(
             email: _enteredEmail,
@@ -103,8 +102,34 @@ class _AuthScreenState extends State<LoginController> {
           // Set the globalUid with the user's UID.
           globalUid = userCredentials.user!.uid;
         } else {
-          // Send an email link for authentication.
-          await _sendEmailLink();
+          // Confirm the link is a sign-in with an email link.
+          if (FirebaseAuth.instance.isSignInWithEmailLink(_enteredEmail)) {
+            try {
+              // The client SDK will parse the code from the link for you.
+              final userCredential =
+                  await FirebaseAuth.instance.signInWithEmailLink(
+                email: _enteredEmail,
+                emailLink: 'https://sweetpet-e5c86.firebaseapp.com',
+              );
+
+              // You can access the new user via userCredential.user.
+              final emailAddress = userCredential.user?.email;
+
+              print('Successfully signed in with email link!');
+
+              // Update the button text
+              setState(() {
+                _buttonText = 'Verify Code';
+              });
+
+              // Update the state if necessary
+              setState(() {
+                // Perform any state updates here
+              });
+            } catch (error) {
+              print('Error signing in with email link.');
+            }
+          }
         }
       } else {
         // Create a new user with email and password.
@@ -310,19 +335,22 @@ class _AuthScreenState extends State<LoginController> {
                               if (_isAuthenticating)
                                 const CircularProgressIndicator(),
                               // Display a "Sign Up" button only during signup.
-                              if (!_isAuthenticating && !_isLogin)
+                              if (!_isAuthenticating)
                                 Container(
-                                  width: double
-                                      .infinity, // Set the width to match the parent
+                                  width: double.infinity,
                                   child: ElevatedButton(
                                     onPressed: _submit,
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: const Color.fromRGBO(
                                           200, 248, 255, 1),
-                                      elevation: 0, // Remove button shadow
+                                      elevation: 0,
                                     ),
-                                    child: const Text(
-                                      'Sign Up',
+                                    child: Text(
+                                      _isLogin
+                                          ? (_isEmailAndPassword
+                                              ? 'Log In'
+                                              : 'Send Code')
+                                          : 'Sign Up',
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontFamily: 'Mont',
@@ -333,62 +361,6 @@ class _AuthScreenState extends State<LoginController> {
                                     ),
                                   ),
                                 ),
-                              // Display "Send Code" or "Log In" button based on the state.
-                              Visibility(
-                                visible: _isLogin,
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    if (_isLogin && !_isEmailAndPassword) {
-                                      // Confirm the link is a sign-in with email link.
-                                      if (FirebaseAuth.instance
-                                          .isSignInWithEmailLink(
-                                              _enteredEmail)) {
-                                        try {
-                                          // The client SDK will parse the code from the link for you.
-                                          final userCredential =
-                                              await FirebaseAuth.instance
-                                                  .signInWithEmailLink(
-                                            email: _enteredEmail,
-                                            emailLink:
-                                                'https://sweetpet-e5c86.firebaseapp.com',
-                                          );
-
-                                          // You can access the new user via userCredential.user.
-                                          final emailAddress =
-                                              userCredential.user?.email;
-
-                                          print(
-                                              'Successfully signed in with email link!');
-
-                                          // Update the button text
-                                          setState(() {
-                                            _buttonText = 'Verify Code';
-                                          });
-
-                                          // Update the state if necessary
-                                          setState(() {
-                                            // Perform any state updates here
-                                          });
-                                        } catch (error) {
-                                          print(
-                                              'Error signing in with email link.');
-                                        }
-                                      }
-                                    }
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Color.fromARGB(255, 106, 187, 241),
-                                  ),
-                                  child: Text(
-                                    _isLogin && !_isEmailAndPassword
-                                        ? 'Send Code'
-                                        : 'Log In',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                              ),
 
                               // Toggle button for trying another way to log in (shown only during login).
                               if (_isLogin)
