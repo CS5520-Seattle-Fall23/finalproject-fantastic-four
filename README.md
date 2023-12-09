@@ -47,7 +47,6 @@ graph TD;
     productReviewAndECommerce --> logOut
 ```
 
-
 ## Requirements:
 
 #### Functional:
@@ -97,7 +96,8 @@ graph TD;
 
 ## Wireframe
 
-[SweetPet HiFi PDF](https://github.com/CS5520-Seattle-Fall23/finalproject-fantastic-four/blob/main/SweetPet%20HiFi.pdf)
+[Hi-fi wireframe](https://github.com/CS5520-Seattle-Fall23/finalproject-fantastic-four/blob/main/Hi-fi%20wireframe.pdf)
+
 
 
 
