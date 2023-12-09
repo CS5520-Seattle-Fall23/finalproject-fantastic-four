@@ -17,7 +17,7 @@ class LikeController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    tabController = TabController(length: 3, vsync: this, initialIndex: 1);
+    tabController = TabController(length: 1, vsync: this, initialIndex: 0);
     getIndexData();
   }
 
@@ -27,15 +27,14 @@ class LikeController extends GetxController
       list = response;
       for (var post in list) {
         for (var thumb in thumbs) {
-          if (post.uid == thumb.userId &&
+          if (post.uid == thumb.authorId &&
               thumb.tag == 1 &&
               post.id == thumb.postId) {
             data.add(post);
-            break; // 找到匹配项后，退出内部循环
+            // break; // 找到匹配项后，退出内部循环
           }
         }
       }
-      print(data);
       // 更新状态，将满足条件的帖子列表传递给界面
       update();
     });

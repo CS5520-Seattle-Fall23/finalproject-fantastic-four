@@ -57,6 +57,7 @@ class PublishPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8),
               child: ElevatedButton(
+                key: const Key('pickImagesButton'),
                 onPressed: controller.pickImages,
                 child: const Text(
                   'Pick Images',
@@ -72,6 +73,7 @@ class PublishPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8),
               child: TextField(
+                key: const Key('titleField'),
                 controller: titleController, // 使用TextEditingController
                 decoration: const InputDecoration(
                   labelText: 'Add title....',
@@ -82,6 +84,7 @@ class PublishPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8),
               child: TextField(
+                key: const Key('contentField'),
                 controller: contentController, // 使用TextEditingController
                 maxLines: 5, // 增加TextField的行数
                 keyboardType: TextInputType.multiline,
@@ -99,6 +102,7 @@ class PublishPage extends StatelessWidget {
                   const SizedBox(width: 8),
                   Expanded(
                     child: ElevatedButton(
+                      key: const Key('shareButton'),
                       onPressed: () {
                         controller.sharePost(
                             titleController.text, contentController.text);

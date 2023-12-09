@@ -1,20 +1,22 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:io';
-import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:sweetpet/controller/login_controller/UserProvider.dart';
+import 'package:sweetpet/model/userModel.dart';
+import 'package:sweetpet/page/chat_page/user_image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:sweetpet/controller/login_controller/forget_password.dart';
-import 'package:sweetpet/page/chat_page/user_image_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sweetpet/page/home_page/home_page.dart';
+import 'package:provider/provider.dart';
 import 'package:sweetpet/constant/uid.dart';
 
 final _firebase = FirebaseAuth.instance;
 
 class LoginController extends StatefulWidget {
-  const LoginController({Key? key}) : super(key: key);
+  const LoginController({super.key});
 
   @override
   State<LoginController> createState() {
@@ -27,6 +29,7 @@ class _AuthScreenState extends State<LoginController> {
 
   bool _isLogin = true;
   bool _isEmailAndPassword = true;
+
   bool _isAuthenticating = false;
 
   String _enteredEmail = '';
@@ -37,7 +40,7 @@ class _AuthScreenState extends State<LoginController> {
   void _submit() async {
     final isValid = _form.currentState!.validate();
 
-    if (!isValid || (!_isLogin && _selectedImage == null)) {
+    if (!isValid || !_isLogin && _selectedImage == null) {
       return;
     }
 
@@ -45,23 +48,15 @@ class _AuthScreenState extends State<LoginController> {
     try {
       setState(() {
         _isAuthenticating = true;
+        Get.offAll(() => HomePage());
       });
-
       if (_isLogin) {
-        if (_isEmailAndPassword) {
-          final userCredentials = await _firebase.signInWithEmailAndPassword(
-            email: _enteredEmail,
-            password: _enteredPassword,
-          );
-          globalUid = userCredentials.user!.uid;
-        } else {
-          await _sendEmailLink();
-        }
+        final userCredentials = await _firebase.signInWithEmailAndPassword(
+            email: _enteredEmail, password: _enteredPassword);
+        globalUid = userCredentials.user!.uid;
       } else {
         final userCredentials = await _firebase.createUserWithEmailAndPassword(
-          email: _enteredEmail,
-          password: _enteredPassword,
-        );
+            email: _enteredEmail, password: _enteredPassword);
 
         final storageRef = FirebaseStorage.instance
             .ref()
@@ -82,8 +77,6 @@ class _AuthScreenState extends State<LoginController> {
         });
         globalUid = userCredentials.user!.uid;
       }
-
-      Get.offAll(() => HomePage());
     } on FirebaseAuthException catch (error) {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
@@ -91,7 +84,6 @@ class _AuthScreenState extends State<LoginController> {
           content: Text(error.message ?? 'Authentication failed'),
         ),
       );
-    } finally {
       setState(() {
         _isAuthenticating = false;
       });

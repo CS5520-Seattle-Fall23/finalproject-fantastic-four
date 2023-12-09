@@ -24,17 +24,12 @@ Hao Luo, Xu Tan, Xuan Lei, Guodong Mao
 
 - As a pet owner, I want to have a profile creation feature so that I can create and manage profiles for each of my pets, including their names, breeds, ages, and photos.
 
-- As a pet owner, I would like to have a feature for sharing my pets' daily life. This way, I can share adorable daily photos of my pets with the pet community, fostering connections and making new friends. It enables me to interact and socialize with fellow pet owners while also receiving likes and comments, enhancing the sense of community and engagement.
-
-- As a pet owner，I want a pet matchmaking feature that allows me and my pet to have the opportunity to socialize with other pet owners and their pets, and even help my pet find their partner to have cute little babies.
-
-- As a potential pet adopter, I hope to find a suitable pet on the pet adoption platform to provide them with a happy home.
-
-- As a pet owner, if my pet gives birth to several adorable offspring, I also wish to be able to post adoption messages on the pet adoption platform to find a loving and reliable home for my pets. 
+- As a pet owner, I would like to have a feature for sharing my pets' daily life. This way, I can post adorable daily photos of my pets with the pet community, fostering connections and making new friends. It enables me to interact and socialize with fellow pet owners while also receiving likes and comments, enhancing the sense of community and engagement.
 
 - As a pet owner, I want to record my pet's daily sleep time, number of steps, active energy, caloric intake from their food and so on.
 
 - As a pet owner, I hope to have a pet shopping mall in this app so that I can find the pet products information, such as food, toys, medications, and other items.And it can provide me with  the links that are related to other marketplaces where I can buy them.
+
 
 #### App Workflow (flowchart)
 
@@ -52,7 +47,6 @@ graph TD;
     productReviewAndECommerce --> logOut
 ```
 
-
 ## Requirements:
 
 #### Functional:
@@ -67,17 +61,13 @@ graph TD;
 
 5. Users can browse and interact with these shares by liking and commenting.
 
-6. Pet Adoption: Prospective pet adopters can browse the list of pets available for adoption on the pet adoption platform.
+6. Pet Health: Pet owners can track their pet's daily sleep duration, number of steps taken, active energy, and caloric intake from food to maintain a daily record of their pet's health status.
 
-7. Pet owners can post and edit adoption messages, including contact information, photos, descriptions, and adoption requirements, to find new homes for their pets.
+7. Product Catalog: The app should have a complete product catalog, including various pet supplies such as food, toys, medications, and other items.
 
-8. Pet Health: Pet owners can track their pet's daily sleep duration, number of steps taken, active energy, and caloric intake from food to maintain a daily record of their pet's health status.
+8. Product Details: Users should be able to view detailed information about each product, including product descriptions, prices, and other relevant information. Additionally, there should be links to these products on Amazon, Petco, or Petsmart.
 
-9. Product Catalog: The app should have a complete product catalog, including various pet supplies such as food, toys, medications, and other items.
-
-10. Product Details: Users should be able to view detailed information about each product, including product descriptions, prices, and other relevant information. Additionally, there should be links to these products on Amazon, Petco, or Petsmart.
-
-11. Search Function: The app must provide a search function, allowing users to easily find specific pet supplies by entering keywords or applying filtering criteria.
+9. Search Function: The app must provide a search function, allowing users to easily find specific pet supplies by entering keywords or applying filtering criteria.
 
 
 #### Non-functional:
@@ -106,7 +96,10 @@ graph TD;
 
 ## Wireframe
 
-[Link to Figma](https://www.figma.com/file/78ZtKw4L9yxla978XeZEFU/Sweet-Pet?type=design&node-id=210%3A2008&mode=design&t=rnyde130V5gGQ33J-1)
+[Hi-fi wireframe](https://github.com/CS5520-Seattle-Fall23/finalproject-fantastic-four/blob/main/Hi-fi%20wireframe.pdf)
+
+
+
 
 ## UML
 ```mermaid
@@ -194,9 +187,10 @@ section A section
 SRS draft and Low-fi wireframes    :done,    des1, 2023-10-01,2023-10-15
 SRS and Hi-fi wireframes      :done,    des2, 2023-10-15,2023-10-25
 UML dradf                     :done,    des3, 2023-10-25,2023-10-30
-UML                            :active,  des4, 2023-10-31, 5d
-Implementation               : des5, after des4, 40d
-Presentation               :  des6, after des5, 5d
+UML                            :done,  des4, 2023-10-31, 5d
+Implementation               : des5, after des4, 33d
+Demo prepare              : des6, after des5, 4d
+Presentation			: des7, after des6, 1d
 ```
 
 ## Traceability Matrix
