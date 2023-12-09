@@ -97,7 +97,8 @@ graph TD;
 
 ## Wireframe
 
-[Link to Figma](https://www.figma.com/file/78ZtKw4L9yxla978XeZEFU/Sweet-Pet?type=design&node-id=210%3A2008&mode=design&t=rnyde130V5gGQ33J-1)
+[SweetPet HiFi.pdf](./SweetPet HiFi.pdf)
+
 
 ## UML
 ```mermaid
