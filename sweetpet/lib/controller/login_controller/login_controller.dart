@@ -164,6 +164,7 @@ class _AuthScreenState extends State<LoginController> {
                                   },
                                 ),
                               TextFormField(
+                                key: const Key('emailField'),
                                 decoration: const InputDecoration(
                                   labelText: 'Email Address',
                                   hintText: 'Enter your email address',
@@ -203,6 +204,7 @@ class _AuthScreenState extends State<LoginController> {
                                   },
                                 ),
                               TextFormField(
+                                key: const Key('passwordField'),
                                 decoration: InputDecoration(
                                   labelText: _isEmailAndPassword
                                       ? 'Password'
@@ -249,6 +251,7 @@ class _AuthScreenState extends State<LoginController> {
                               Visibility(
                                 visible: _isLogin,
                                 child: ElevatedButton(
+                                  key: const Key('loginButton'),
                                   onPressed: () {
                                     if (_isLogin && !_isEmailAndPassword) {
                                       // Handle the logic for sending the code
@@ -373,14 +376,14 @@ class _AuthScreenState extends State<LoginController> {
               ),
             ),
           ),
-          Positioned(
-            bottom: 0,
-            child: Image.asset(
-              'sweetpet/assets/images/loginpet.jpg',
-              fit: BoxFit.cover,
-              width: MediaQuery.of(context).size.width,
-            ),
-          ),
+          // Positioned(
+          //   bottom: 0,
+          //   child: Image.asset(
+          //     'sweetpet/assets/images/loginpet.jpg',
+          //     fit: BoxFit.cover,
+          //     width: MediaQuery.of(context).size.width,
+          //   ),
+          // ),
         ],
       ),
     );
