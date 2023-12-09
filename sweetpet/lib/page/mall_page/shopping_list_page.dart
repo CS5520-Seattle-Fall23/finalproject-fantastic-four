@@ -4,6 +4,7 @@ import 'package:sweetpet/controller/mall_controller/mall_controller.dart';
 import 'package:sweetpet/model/mall.dart';
 import 'package:sweetpet/page/mall_page/shopping_detail_page.dart';
 
+/// This StatelessWidget that creates and displays a pet shop list for a specific category. 
 class ShopList extends StatelessWidget {
   final String name;
   final String category;
@@ -31,6 +32,7 @@ class ShopList extends StatelessWidget {
   }
 }
 
+///This stateful widget designed to display pet products for a selected category and name. It takes category name and type as parameters and contains a search box and a list view of pet products.
 class PetDiscoveryPage extends StatefulWidget {
   final String name;
   final String category;
@@ -41,6 +43,7 @@ class PetDiscoveryPage extends StatefulWidget {
   _PetDiscoveryPageState createState() => _PetDiscoveryPageState(name, category);
 }
 
+///This class is the state management class for PetDiscoveryPage, responsible for handling the page's state and logic. It includes references to MallController, manages the search text state, and maintains a list of pet products. The class implements the initialization of data fetching, search functionality, and the logic to construct individual pet product items.
 class _PetDiscoveryPageState extends State<PetDiscoveryPage> {
   final String name;
   final String category;
@@ -167,84 +170,3 @@ class _PetDiscoveryPageState extends State<PetDiscoveryPage> {
     );
   }
 }
-
-// class CategoryHeader extends StatelessWidget {
-//   final String title;
-
-//   CategoryHeader({required this.title});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: EdgeInsets.all(16.0),
-//       child: Text(
-//         title,
-//         style: TextStyle(
-//           fontSize: 24,
-//           fontWeight: FontWeight.bold,
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class ProductTile extends StatelessWidget {
-//   final String name;
-//   final String price;
-//   final String originalPrice;
-//   final String image;
-
-//   ProductTile({
-//     required this.name,
-//     required this.price,
-//     required this.originalPrice,
-//     required this.image,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Card(
-//       child: Padding(
-//         padding: EdgeInsets.all(8.0),
-//         child: Row(
-//           children: <Widget>[
-//             Image.asset(
-//               image,
-//               width: 100, // Set your image width
-//               height: 100, // Set your image height
-//             ),
-//             Expanded(
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: <Widget>[
-//                   Text(
-//                     name,
-//                     style: TextStyle(
-//                       fontSize: 18,
-//                       fontWeight: FontWeight.bold,
-//                     ),
-//                   ),
-//                   Text(
-//                     price,
-//                     style: TextStyle(
-//                       color: Colors.red,
-//                       fontSize: 16,
-//                     ),
-//                   ),
-//                   Text(
-//                     originalPrice,
-//                     style: TextStyle(
-//                       color: Colors.grey,
-//                       decoration: TextDecoration.lineThrough,
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//             // Implement more choices available if necessary
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

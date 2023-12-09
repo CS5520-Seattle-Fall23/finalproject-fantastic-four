@@ -5,6 +5,7 @@ import 'package:sweetpet/model/mall.dart';
 import 'package:sweetpet/page/mall_page/shopping_list_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+///  This is a StatelessWidget designed to display detailed information about a specific shop in a mall. It takes a Mall type object, mall, as a parameter, showcasing the shop's title and image, and includes a button that, when clicked, attempts to open the shop's purchase link using the url_launcher package.
 class ShopDetailPage extends StatelessWidget {
   final Mall mall;
 
@@ -72,6 +73,7 @@ class ShopDetailPage extends StatelessWidget {
   }
 }
 
+/// This class is a simple model representing an individual pet product. It includes two fields: imageUrl (the link to the product's image) and name (the product's name).
 class PetProduct {
   final String imageUrl;
   final String name;
@@ -79,6 +81,7 @@ class PetProduct {
   PetProduct({required this.imageUrl, required this.name});
 }
 
+///  This is a StatelessWidget for displaying a single pet product in the interface. It includes a PetProduct object as a parameter, displaying the product's image and name. Clicking on the widget closes the current view.
 class PetProductWidget extends StatelessWidget {
   final PetProduct product;
 
