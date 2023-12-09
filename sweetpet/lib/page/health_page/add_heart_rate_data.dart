@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-/// [AddActiveEnergyDataPage] provides a user interface for adding active energy data.
-/// It includes fields for date, time, and calories burned, which the user can fill to record their activity.
-class AddActiveEnergyDataPage extends StatefulWidget {
+/// [AddHeartRateDataPage] facilitates the input of heart rate data by the user.
+/// This page provides text fields to input heart rate in beats per minute (BPM),
+/// along with the date and time of the measurement.
+class AddHeartRateDataPage extends StatefulWidget {
   @override
-  _AddActiveEnergyDataPageState createState() =>
-      _AddActiveEnergyDataPageState();
+  _AddHeartRateDataPageState createState() => _AddHeartRateDataPageState();
 }
 
-/// State class for [AddActiveEnergyDataPage].
-/// Manages the input fields and data submission process.
-class _AddActiveEnergyDataPageState extends State<AddActiveEnergyDataPage> {
-  // Controllers to manage text field inputs.
+/// State class for [AddHeartRateDataPage] that manages the input fields
+/// and handles the data submission process.
+class _AddHeartRateDataPageState extends State<AddHeartRateDataPage> {
+  // Controllers for managing the content of each text field.
   TextEditingController _dateController = TextEditingController();
   TextEditingController _timeController = TextEditingController();
-  TextEditingController _caloriesController = TextEditingController();
+  TextEditingController _bpmController = TextEditingController();
 
-  // Variables to hold the selected date and time.
+  // Variables to hold the current selected date and time for the heart rate measurement.
   DateTime _selectedDate = DateTime.now();
   TimeOfDay _selectedTime = TimeOfDay.now();
 
-  /// Asynchronously opens a date picker for the user to select a date.
-  /// Once a date is selected, updates the state and the date input field.
+  /// Asynchronously triggers the date picker dialog and updates the date input field
+  /// with the selected date formatted in a user-friendly format.
   Future<void> _pickDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -38,8 +38,8 @@ class _AddActiveEnergyDataPageState extends State<AddActiveEnergyDataPage> {
     }
   }
 
-  /// Asynchronously opens a time picker for the user to select a time.
-  /// Once a time is selected, updates the state and the time input field.
+  /// Asynchronously triggers the time picker dialog and updates the time input field
+  /// with the selected time.
   Future<void> _pickTime(BuildContext context) async {
     final TimeOfDay? pickedTime = await showTimePicker(
       context: context,
@@ -53,35 +53,35 @@ class _AddActiveEnergyDataPageState extends State<AddActiveEnergyDataPage> {
     }
   }
 
-  /// Validates if all form fields are filled out.
+  /// Checks if all the form fields have been filled out by the user.
   bool _isFormFilled() {
     return _dateController.text.isNotEmpty &&
         _timeController.text.isNotEmpty &&
-        _caloriesController.text.isNotEmpty;
+        _bpmController.text.isNotEmpty;
   }
 
-  /// Submits the active energy data if the form is fully filled out.
-  /// Placeholder for actual data submission logic.
+  /// Handles the submission of the entered data. It performs validation to ensure
+  /// that all fields have data before proceeding with the submission logic.
   void _submitData() {
     if (!_isFormFilled()) return;
-    // Implement the data submission logic.
-    // This could include API calls to backend services or database interactions.
+    // TODO: Add the data submission logic, such as saving to a database or sending to a server.
 
-    Navigator.pop(context); // Returns to the previous screen after submission.
+    Navigator.pop(
+        context); // Navigates back to the previous page after data submission.
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Active Energy'),
+        title: Text('Add Heart Rate Data'),
         leading: IconButton(
           icon: Icon(Icons.cancel),
-          onPressed: () => Navigator.pop(
-              context), // Allows the user to cancel the operation.
+          onPressed: () =>
+              Navigator.pop(context), // Allows user to cancel the operation.
         ),
         actions: [
-          // Button to submit the form if all fields are filled.
+          // Button to trigger the submission of the heart rate data.
           TextButton(
             onPressed: _isFormFilled() ? _submitData : null,
             child: Text(
@@ -95,8 +95,8 @@ class _AddActiveEnergyDataPageState extends State<AddActiveEnergyDataPage> {
       body: Padding(
         padding: EdgeInsets.all(16),
         child: Column(
-          children: <Widget>[
-            // Field for selecting the date.
+          children: [
+            // Date input field with a calendar date picker.
             TextFormField(
               controller: _dateController,
               decoration: InputDecoration(
@@ -106,7 +106,7 @@ class _AddActiveEnergyDataPageState extends State<AddActiveEnergyDataPage> {
               readOnly: true,
               onTap: () => _pickDate(context),
             ),
-            // Field for selecting the time.
+            // Time input field with a clock time picker.
             TextFormField(
               controller: _timeController,
               decoration: InputDecoration(
@@ -116,11 +116,11 @@ class _AddActiveEnergyDataPageState extends State<AddActiveEnergyDataPage> {
               readOnly: true,
               onTap: () => _pickTime(context),
             ),
-            // Field for inputting calories.
+            // Heart rate input field accepting numerical BPM values.
             TextField(
-              controller: _caloriesController,
+              controller: _bpmController,
               decoration: InputDecoration(
-                labelText: 'Calories (cal)',
+                labelText: 'Heart Rate (BPM)',
               ),
               keyboardType: TextInputType.number,
               onChanged: (value) => setState(() {}),

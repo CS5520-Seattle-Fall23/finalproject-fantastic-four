@@ -5,8 +5,7 @@ import 'active_energy.dart';
 import 'heart_rate.dart';
 import 'sleep.dart';
 import 'stand_hours.dart';
-import 'steps.dart';
-import 'walking_asymmetry.dart';
+
 
 /// SummaryPage provides an overview of the user's health metrics.
 ///
@@ -86,19 +85,7 @@ class _SummaryPageState extends State<SummaryPage> {
             subtitle: 'No Data',
             onTap: () => _navigateToPage(StandHoursPage()),
             icon: Icons.accessibility_new,
-          ),
-          _buildMetricTile(
-            title: 'Steps',
-            subtitle: '4,254 steps',
-            onTap: () => _navigateToPage(StepsPage()),
-            icon: Icons.directions_walk,
-          ),
-          _buildMetricTile(
-            title: 'Walking Asymmetry',
-            subtitle: '3.6%',
-            onTap: () => _navigateToPage(WalkingAsymmetryPage()),
-            icon: Icons.transfer_within_a_station,
-          ),
+          )
         ],
       ),
     );
