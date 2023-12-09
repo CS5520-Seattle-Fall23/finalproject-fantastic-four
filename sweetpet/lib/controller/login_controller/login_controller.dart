@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:sweetpet/controller/login_controller/UserProvider.dart';
+import 'package:sweetpet/controller/login_controller/forget_password.dart';
 import 'package:sweetpet/model/userModel.dart';
 import 'package:sweetpet/page/chat_page/user_image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
