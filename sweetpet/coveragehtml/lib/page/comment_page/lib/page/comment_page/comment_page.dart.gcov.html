@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntryLo">43.2&nbsp;%</td>
+            <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
             <td class="headerCovTableEntry">37</td>
-            <td class="headerCovTableEntry">16</td>
+            <td class="headerCovTableEntry">0</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2023-12-08 21:38:33</td>
+            <td class="headerValue">2023-12-08 22:45:17</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -65,45 +65,45 @@
 <span id="L3"><span class="lineNum">       3</span>              : import 'package:sweetpet/model/comment.dart';</span>
 <span id="L4"><span class="lineNum">       4</span>              : </span>
 <span id="L5"><span class="lineNum">       5</span>              : class CommentsPage extends StatefulWidget {</span>
-<span id="L6"><span class="lineNum">       6</span> <span class="tlaGNC tlaBgGNC">           1 :   @override</span></span>
-<span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC">           1 :   _CommentsPageState createState() =&gt; _CommentsPageState();</span></span>
+<span id="L6"><span class="lineNum">       6</span> <span class="tlaUNC tlaBgUNC">           0 :   @override</span></span>
+<span id="L7"><span class="lineNum">       7</span> <span class="tlaUNC">           0 :   _CommentsPageState createState() =&gt; _CommentsPageState();</span></span>
 <span id="L8"><span class="lineNum">       8</span>              : }</span>
 <span id="L9"><span class="lineNum">       9</span>              : </span>
 <span id="L10"><span class="lineNum">      10</span>              : class _CommentsPageState extends State&lt;CommentsPage&gt; {</span>
 <span id="L11"><span class="lineNum">      11</span>              :   late List&lt;Comment&gt; commentsData;</span>
 <span id="L12"><span class="lineNum">      12</span>              : </span>
-<span id="L13"><span class="lineNum">      13</span> <span class="tlaGNC">           1 :   @override</span></span>
+<span id="L13"><span class="lineNum">      13</span> <span class="tlaUNC">           0 :   @override</span></span>
 <span id="L14"><span class="lineNum">      14</span>              :   void initState() {</span>
-<span id="L15"><span class="lineNum">      15</span> <span class="tlaGNC">           1 :     super.initState();</span></span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           2 :     commentsData = [];</span></span>
+<span id="L15"><span class="lineNum">      15</span> <span class="tlaUNC">           0 :     super.initState();</span></span>
+<span id="L16"><span class="lineNum">      16</span> <span class="tlaUNC">           0 :     commentsData = [];</span></span>
 <span id="L17"><span class="lineNum">      17</span>              :     // 在初始化时调用方法来获取评论数据</span>
-<span id="L18"><span class="lineNum">      18</span> <span class="tlaGNC">           1 :     fetchCommentsData();</span></span>
+<span id="L18"><span class="lineNum">      18</span> <span class="tlaUNC">           0 :     fetchCommentsData();</span></span>
 <span id="L19"><span class="lineNum">      19</span>              :   }</span>
 <span id="L20"><span class="lineNum">      20</span>              : </span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           1 :   Future&lt;void&gt; fetchCommentsData() async {</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC">           0 :   Future&lt;void&gt; fetchCommentsData() async {</span></span>
 <span id="L22"><span class="lineNum">      22</span>              :     try {</span>
 <span id="L23"><span class="lineNum">      23</span>              :       // 执行网络请求，获取评论数据</span>
 <span id="L24"><span class="lineNum">      24</span>              :       List&lt;Comment&gt; fetchedData =</span>
-<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">           2 :           await ApiClient().getCommentListData(); // 请替换成你的实际网络请求代码</span></span>
-<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">           1 :       setState(() {</span></span>
-<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC tlaBgUNC">           0 :         commentsData = fetchedData;</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 :           await ApiClient().getCommentListData(); // 请替换成你的实际网络请求代码</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :       setState(() {</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :         commentsData = fetchedData;</span></span>
 <span id="L28"><span class="lineNum">      28</span>              :       });</span>
 <span id="L29"><span class="lineNum">      29</span>              :     } catch (e) {</span>
 <span id="L30"><span class="lineNum">      30</span>              :       // 处理异常</span>
-<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC tlaBgGNC">           2 :       print(&quot;Error fetching comments data: $e&quot;);</span></span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :       print(&quot;Error fetching comments data: $e&quot;);</span></span>
 <span id="L32"><span class="lineNum">      32</span>              :     }</span>
 <span id="L33"><span class="lineNum">      33</span>              :   }</span>
 <span id="L34"><span class="lineNum">      34</span>              : </span>
-<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">           1 :   @override</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaUNC">           0 :   @override</span></span>
 <span id="L36"><span class="lineNum">      36</span>              :   Widget build(BuildContext context) {</span>
-<span id="L37"><span class="lineNum">      37</span> <span class="tlaGNC">           1 :     return Scaffold(</span></span>
-<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">           1 :       appBar: AppBar(</span></span>
+<span id="L37"><span class="lineNum">      37</span> <span class="tlaUNC">           0 :     return Scaffold(</span></span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaUNC">           0 :       appBar: AppBar(</span></span>
 <span id="L39"><span class="lineNum">      39</span>              :         title: const Text('Comments'),</span>
 <span id="L40"><span class="lineNum">      40</span>              :       ),</span>
-<span id="L41"><span class="lineNum">      41</span> <span class="tlaGNC">           1 :       body: commentsData != null</span></span>
-<span id="L42"><span class="lineNum">      42</span> <span class="tlaGNC">           1 :           ? ListView.builder(</span></span>
-<span id="L43"><span class="lineNum">      43</span> <span class="tlaGNC">           2 :               itemCount: commentsData.length,</span></span>
-<span id="L44"><span class="lineNum">      44</span> <span class="tlaUNC tlaBgUNC">           0 :               itemBuilder: (context, index) {</span></span>
+<span id="L41"><span class="lineNum">      41</span> <span class="tlaUNC">           0 :       body: commentsData != null</span></span>
+<span id="L42"><span class="lineNum">      42</span> <span class="tlaUNC">           0 :           ? ListView.builder(</span></span>
+<span id="L43"><span class="lineNum">      43</span> <span class="tlaUNC">           0 :               itemCount: commentsData.length,</span></span>
+<span id="L44"><span class="lineNum">      44</span> <span class="tlaUNC">           0 :               itemBuilder: (context, index) {</span></span>
 <span id="L45"><span class="lineNum">      45</span> <span class="tlaUNC">           0 :                 Comment item = commentsData[index];</span></span>
 <span id="L46"><span class="lineNum">      46</span> <span class="tlaUNC">           0 :                 return CommentTile(</span></span>
 <span id="L47"><span class="lineNum">      47</span> <span class="tlaUNC">           0 :                   userName: item.nickname,</span></span>

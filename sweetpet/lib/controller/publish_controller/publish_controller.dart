@@ -92,6 +92,7 @@ class PublishController extends GetxController {
     }
   }
 
+  /// Create a model of the post and upload it to Firebase
   Future<void> createPostAndUpload(String title, String content,
       List<String> imagesUrls, String postId) async {
     PostDetail newPost = PostDetail(
@@ -107,7 +108,6 @@ class PublishController extends GetxController {
       imagesUrls,
     );
 
-    // 调用上传方法
     uploadPostToFirebase(newPost);
   }
 
@@ -115,11 +115,10 @@ class PublishController extends GetxController {
       String content, String imagesUrl, String postId) async {
     Post newPost = Post(
         postId, globalUid, imagesUrl, content, avatarUrl, userName, 20, 10);
-
-    // 调用上传方法
     uploadPostViewToFirebase(newPost);
   }
 
+  /// After clicking the share button, upload the image to firebase and write the URL link of the resulting image to firebase along with the title and content entered by the user.
   void sharePost(String title, String content) async {
     try {
       final String postId = const Uuid().v4();
@@ -136,6 +135,7 @@ class PublishController extends GetxController {
     }
   }
 
+  /// Get information about a user based on their id
   Future<void> getUserData(String uid) async {
     try {
       DocumentSnapshot userSnapshot =

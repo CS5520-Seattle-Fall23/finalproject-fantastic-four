@@ -1,3 +1,4 @@
+/// Define the names of the different controllers
 class Pages {
   static const String init = "/init";
   static const String login = "/login";

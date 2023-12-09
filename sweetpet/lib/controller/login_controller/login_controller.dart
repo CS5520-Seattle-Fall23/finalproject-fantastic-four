@@ -1,3 +1,34 @@
+/*
+  The following Dart code represents a Flutter application for user authentication
+  using Firebase. The code includes a login screen with email/password and email
+  link authentication options. It features form validation, user image upload, and
+  navigation to the home page upon successful authentication. The UI dynamically
+  adjusts based on whether the user is logging in or signing up.
+
+  Lint Rule Exclusion:
+  - The 'use_build_context_synchronously' lint rule is ignored to suppress warnings.
+
+  Key Components:
+  - FirebaseAuth, FirebaseFirestore, and FirebaseStorage instances for authentication.
+  - LoginController StatefulWidget to manage login state.
+  - _AuthScreenState as the state class for LoginController.
+  - GlobalKey<FormState> for managing the form state.
+
+  Features:
+  - Authentication logic based on login state and email/password or email link.
+  - Form validation and saving of user input.
+  - User image upload to Firebase Storage during registration.
+  - Snackbar feedback for authentication success or failure.
+  - Dynamic UI adjustments based on login/signup state.
+
+  Note: This code assumes the existence of certain dependencies, such as Get package
+  for navigation and constant values (e.g., globalUid) for tracking user information.
+
+  Author: [Xu Tan]
+  Date: [12/8/2023]
+*/
+// ignore_for_file: use_build_context_synchronously
+// Ignoring the use_build_context_synchronously lint rule to suppress warnings.
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';

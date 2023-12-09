@@ -17,10 +17,10 @@ class CommentController extends GetxController
   @override
   void onInit() {
     super.onInit();
-
     getIndexData();
   }
 
+  /// Getting comment data from Firebase
   Future<void> getIndexData() async {
     ApiClient().getCommentListData().then((response) {
       data = response;

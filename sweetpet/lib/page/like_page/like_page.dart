@@ -6,6 +6,9 @@ import 'package:get/get.dart';
 
 import 'package:sweetpet/controller/index_controller/index_controller.dart';
 
+/// A StatelessWidget representing the Like Page, displaying posts that users have liked.
+///
+/// Users can view posts they have liked in this page.
 class LikePage extends StatelessWidget {
   LikePage({Key? key}) : super(key: key);
   final LikeController controller = Get.put(LikeController());
@@ -46,6 +49,7 @@ class LikePage extends StatelessWidget {
     );
   }
 
+  /// Interface for producing user liked posts
   Widget buildLikePage() {
     int halfLength = (controller.data.length / 2).ceil();
     return ListView(
