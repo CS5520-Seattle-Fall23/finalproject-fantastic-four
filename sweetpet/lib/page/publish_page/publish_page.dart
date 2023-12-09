@@ -7,11 +7,16 @@ import 'package:sweetpet/controller/home_controller/home_controller.dart';
 import 'package:sweetpet/controller/index_controller/index_controller.dart';
 import 'package:sweetpet/controller/publish_controller/publish_controller.dart';
 
+/// A StatelessWidget representing the publish page for creating new posts.
+///
+/// Users can select images, provide a title, and write the content of their post.
+/// Once ready, they can share the post with others.
+///
+/// This page uses the [PublishController] to manage the publishing process.
 class PublishPage extends StatelessWidget {
   final PublishController controller = Get.put(PublishController());
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
-  // HomeController homeController = Get.find<HomeController>();
 
   RxInt currentIndex = 0.obs;
   @override

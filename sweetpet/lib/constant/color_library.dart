@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+/// Color library, other frames can be used directly
 class ColorLibrary {
   static const Color background = Color(0xfff3f3f3);
   static const Color grey = Color(0xffd3d3d3);

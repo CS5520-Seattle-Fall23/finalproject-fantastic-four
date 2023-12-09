@@ -18,10 +18,10 @@ class IndexPage extends StatefulWidget {
 class _IndexPageState extends State<IndexPage> {
   final IndexController controller = Get.put(IndexController());
 
+  /// Initialize page data
   @override
   void initState() {
     super.initState();
-    // 初始化页面数据
   }
 
   @override
@@ -78,14 +78,17 @@ class _IndexPageState extends State<IndexPage> {
     );
   }
 
+  /// Method of refreshing data
   Future<void> onRefresh() async {
     await controller.refreshData();
   }
 
+  /// Build Health Page
   Widget buildFollowPage() {
     return SummaryPage();
   }
 
+  /// Build Discover Page
   Widget buildDiscoverPage() {
     int halfLength = (controller.data.length / 2).ceil();
     return RefreshIndicator(
@@ -116,10 +119,12 @@ class _IndexPageState extends State<IndexPage> {
     );
   }
 
+  /// Build Shopping Mall Page
   Widget buildShoppingPage() {
     return PetDiscoveryPage();
   }
 
+  /// Build Posts
   Widget buildCardItem(Post post, List<THUMB> list) {
     return GestureDetector(
       onTap: () {
@@ -210,6 +215,7 @@ class _LikeButtonState extends State<LikeButton> {
         widget.userLikedPosts.any((thumb) => thumb.postId == widget.postId);
   }
 
+  /// Click on the Like button to cancel the Like if it is already in the Like status, or to proceed if it is in the Unliked status
   void toggleLike() {
     setState(() {
       isLiked = !isLiked;

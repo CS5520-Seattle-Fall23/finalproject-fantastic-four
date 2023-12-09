@@ -31,6 +31,7 @@ class PostController extends GetxController {
     getCommentList(id);
   }
 
+  /// Get post specific data from Firebase based on post ids and refresh User Interface
   void getIndexDetailData(String id) async {
     await getUserData(globalUid);
     await updateUserFollow();
@@ -49,6 +50,7 @@ class PostController extends GetxController {
     });
   }
 
+  /// Fetching data from firebase and updating the user's follow statuses
   Future<void> updateUserFollow() async {
     ApiClient().getUserFollowUsers().then((response) {
       followers = response;
@@ -56,6 +58,7 @@ class PostController extends GetxController {
     });
   }
 
+  /// Get a list of people this user follows
   Future getFollowUser(String toUserId) async {
     ApiClient().getFollowUser(toUserId).then((response) {
       isFollowing = response;
@@ -63,6 +66,7 @@ class PostController extends GetxController {
     });
   }
 
+  /// Get the list of comments on this post
   void getCommentList(String id) {
     ApiClient().getCommentList(id).then((response) {
       commentList = response;
@@ -70,6 +74,7 @@ class PostController extends GetxController {
     });
   }
 
+  /// Upload user comments into Firebase
   Future<void> uploadCommentToFirebase(Comment comment) async {
     try {
       await FirebaseFirestore.instance
@@ -92,6 +97,7 @@ class PostController extends GetxController {
     }
   }
 
+  /// After the user clicks the send button, the Comment model is generated and sent to Firebase
   void sendComment(String content) async {
     try {
       await getUserData(globalUid);
@@ -120,6 +126,7 @@ class PostController extends GetxController {
     uploadCommentToFirebase(comment);
   }
 
+  /// After a user comments, update the number of Comment properties in the post
   void modifyPostCommentCount() async {
     // 查询 thumb 集合以查找匹配的文档
     QuerySnapshot thumbQuery1 = await FirebaseFirestore.instance
@@ -166,6 +173,7 @@ class PostController extends GetxController {
     }
   }
 
+  /// Follow the current user after the user clicks on the follow button
   void toggleFollow() async {
     print(isFollowing);
     isFollowing = !isFollowing;
@@ -188,6 +196,7 @@ class PostController extends GetxController {
     }
   }
 
+  /// After the user clicks the follow button, the Follower model is generated and sent to Firebase
   Future<void> createFollowAndUpload(String toUserId, bool tag) async {
     // 查询 thumb 集合以查找匹配的文档
     QuerySnapshot thumbQuery = await FirebaseFirestore.instance

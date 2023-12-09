@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:sweetpet/page/mall_page/mall_page.dart';
 import 'package:sweetpet/page/post_page/post_page.dart';
 
+/// Generate different controllers for jumping through GetPage method
 class Routes {
   static final List<GetPage> getPages = [
     GetPage(name: Pages.login, page: () => const LoginController()),

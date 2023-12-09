@@ -45,6 +45,7 @@ class IndexController extends GetxController
     Get.toNamed(Pages.indexDetail, arguments: {"id": id});
   }
 
+  /// After the user likes the model, a thumb model is generated and passed into firebase
   Future<void> uploadThumbToFirebase(THUMB thumb) async {
     try {
       await FirebaseFirestore.instance.collection('thumb').doc().set({
@@ -99,8 +100,8 @@ class IndexController extends GetxController
     }
   }
 
+  /// After a user likes a post, modify the number of likes for that post by looking up the post in firebase
   void modifyPostFavCount(String postId, int num) async {
-    // 查询 thumb 集合以查找匹配的文档
     QuerySnapshot thumbQuery1 = await FirebaseFirestore.instance
         .collection('postView')
         .where('id', isEqualTo: postId)
