@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:sweetpet/constant/pages.dart';
-import 'package:sweetpet/controller/login_controller/UserProvider.dart';
 import 'package:sweetpet/controller/login_controller/login_controller.dart';
 import 'package:sweetpet/page/vc_router.dart';
 import 'package:get/get.dart';

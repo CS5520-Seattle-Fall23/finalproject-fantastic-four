@@ -6,25 +6,25 @@ import 'package:get/get.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:sweetpet/page/comment_page/comment_page.dart';
 
-// class CommentController extends GetxController
-//     with GetSingleTickerProviderStateMixin {
-//   late TabController tabController;
-//   List<Comment> data = [];
-//   CommentsPage page = CommentsPage();
+class CommentController extends GetxController
+    with GetSingleTickerProviderStateMixin {
+  late TabController tabController;
+  List<Comment> data = [];
+  CommentsPage page = CommentsPage();
 
-//   final storageRef = FirebaseStorage.instance.ref();
+  final storageRef = FirebaseStorage.instance.ref();
 
-//   @override
-//   void onInit() {
-//     super.onInit();
-    
-//     getIndexData();
-//   }
+  @override
+  void onInit() {
+    super.onInit();
 
-//   Future<void> getIndexData() async {
-//     ApiClient().getCommentListData().then((response) {
-//       data = response;
-//       update();
-//     });
-//   }
-// }
+    getIndexData();
+  }
+
+  Future<void> getIndexData() async {
+    ApiClient().getCommentListData().then((response) {
+      data = response;
+      update();
+    });
+  }
+}

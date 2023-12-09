@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:sweetpet/controller/home_controller/home_controller.dart';
 import 'package:sweetpet/page/mall_page/pet_shop_page.dart';
 
-
 class MallPage extends StatelessWidget {
   MallPage({Key? key}) : super(key: key);
   final HomeController homeController = Get.put(HomeController());
@@ -39,7 +38,7 @@ class PetDiscoveryPage extends StatelessWidget {
           ),
           Expanded(
             child: ListView(
-              children: <Widget>[
+              children: const <Widget>[
                 PetCategoryWidget(
                   imageName: 'assets/images/dog.png',
                   categoryName: 'Dog',
@@ -78,7 +77,7 @@ class PetCategoryWidget extends StatelessWidget {
       ),
       title: Text(
         categoryName,
-        style: TextStyle(
+        style: const TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 24.0,
         ),
@@ -87,7 +86,10 @@ class PetCategoryWidget extends StatelessWidget {
         // Handle tap
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => PetShopPage(name: categoryName,)),
+          MaterialPageRoute(
+              builder: (context) => PetShopPage(
+                    name: categoryName,
+                  )),
         );
       },
     );
