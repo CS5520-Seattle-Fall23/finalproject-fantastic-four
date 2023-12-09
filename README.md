@@ -97,7 +97,9 @@ graph TD;
 
 ## Wireframe
 
-[Link to Figma](https://www.figma.com/file/78ZtKw4L9yxla978XeZEFU/Sweet-Pet?type=design&node-id=210%3A2008&mode=design&t=rnyde130V5gGQ33J-1)
+[SweetPet HiFi PDF](https://github.com/CS5520-Seattle-Fall23/finalproject-fantastic-four/blob/main/SweetPet%20HiFi.pdf)
+
+
 
 ## UML
 ```mermaid
@@ -187,8 +189,8 @@ SRS and Hi-fi wireframes      :done,    des2, 2023-10-15,2023-10-25
 UML dradf                     :done,    des3, 2023-10-25,2023-10-30
 UML                            :done,  des4, 2023-10-31, 5d
 Implementation               : des5, after des4, 33d
-Presentation prepare              :  des6, after des5, 4d
-Presentation			:des7, 2023-12-13
+Presentation prepare              : des6, after des5, 4d
+Presentation			: des7, after des6, 1d
 ```
 
 ## Traceability Matrix
