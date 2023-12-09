@@ -214,6 +214,4 @@ Presentation			: des7, after des6, 1d
 
 
 
-## Instructions
 
-Your team's code and documentation will be here.
