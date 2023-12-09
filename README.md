@@ -189,7 +189,7 @@ SRS and Hi-fi wireframes      :done,    des2, 2023-10-15,2023-10-25
 UML dradf                     :done,    des3, 2023-10-25,2023-10-30
 UML                            :done,  des4, 2023-10-31, 5d
 Implementation               : des5, after des4, 33d
-Presentation prepare              : des6, after des5, 4d
+Demo prepare              : des6, after des5, 4d
 Presentation			: des7, after des6, 1d
 ```
 
