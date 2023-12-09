@@ -1,30 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:math';
+import 'add_active_energy_data.dart';
 
-import 'add_active_energy_data.dart'; // Assuming you have this file for adding data.
-
+/// [ActiveEnergyPage] is a StatefulWidget that renders a visual representation
+/// of a user's active energy expenditure over different time frames.
+/// It provides interactive elements to switch between time frames and add new data.
 class ActiveEnergyPage extends StatefulWidget {
   @override
   _ActiveEnergyPageState createState() => _ActiveEnergyPageState();
 }
 
+/// The state for [ActiveEnergyPage], holding logic for data generation and UI state.
 class _ActiveEnergyPageState extends State<ActiveEnergyPage> {
-  int _selectedTimeFrame = 0; // Index for time frames: 0 = 'D', 1 = 'W', etc.
+  /// The index to track which time frame is selected ('D', 'W', 'M', '6M', 'Y').
+  int _selectedTimeFrame = 0;
+
+  /// An instance of [Random] to generate dummy data for the chart.
   final Random _random = Random();
 
-  // Dummy data generation for the bar chart.
+  /// Generates data for the bar chart based on the selected time frame.
+  ///
+  /// [timeFrameIndex] is the index representing the current time frame.
+  /// It returns a list of [BarChartGroupData] which the [BarChart] widget uses to render the bars.
   List<BarChartGroupData> _randomBarData(int timeFrameIndex) {
-    // You can adjust the range based on the timeframe if needed.
     int count =
-        timeFrameIndex == 0 ? 24 : 7; // 24 hours for 'D', 7 days for 'W', etc.
+        timeFrameIndex == 0 ? 24 : 7; // 24 data points for 'D', 7 for 'W', etc.
     return List.generate(count, (index) {
       return BarChartGroupData(
         x: index,
         barRods: [
           BarChartRodData(
             y: _random.nextDouble() *
-                (timeFrameIndex == 0 ? 60 : 300), // Adjust the max value
+                (timeFrameIndex == 0 ? 60 : 300), // Random energy value
             colors: [Colors.orange],
           ),
         ],
@@ -32,7 +40,10 @@ class _ActiveEnergyPageState extends State<ActiveEnergyPage> {
     });
   }
 
+  /// Generates a random total calorie count.
   double _randomTotalCalories() => _random.nextDouble() * 1000;
+
+  /// Generates a random average calorie count.
   double _randomAverageCalories() => _random.nextDouble() * 100;
 
   @override
@@ -44,9 +55,9 @@ class _ActiveEnergyPageState extends State<ActiveEnergyPage> {
             onPressed: () =>
                 Navigator.pop(context)), // Navigates back to summary
         actions: [
+          // Button to navigate to the page for adding active energy data.
           TextButton(
             onPressed: () {
-              // Navigate to the page for adding data.
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -58,6 +69,7 @@ class _ActiveEnergyPageState extends State<ActiveEnergyPage> {
       ),
       body: Column(
         children: [
+          // Toggle buttons to switch between different time frames.
           ToggleButtons(
             children: ['D', 'W', 'M', '6M', 'Y']
                 .map((label) => Padding(
@@ -73,6 +85,7 @@ class _ActiveEnergyPageState extends State<ActiveEnergyPage> {
               });
             },
           ),
+          // Display total or average active energy based on the selected time frame.
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
@@ -82,6 +95,7 @@ class _ActiveEnergyPageState extends State<ActiveEnergyPage> {
               style: Theme.of(context).textTheme.headline6,
             ),
           ),
+          // Bar chart visualization of the active energy data.
           Expanded(
             child: BarChart(
               BarChartData(
@@ -89,11 +103,11 @@ class _ActiveEnergyPageState extends State<ActiveEnergyPage> {
               ),
             ),
           ),
+          // Placeholder for trend or additional data insights.
           Padding(
             padding: EdgeInsets.all(16),
             child: Text('Trend'),
           ),
-          // Placeholder for other UI elements if needed.
         ],
       ),
     );

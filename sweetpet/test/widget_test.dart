@@ -15,6 +15,9 @@ import 'package:sweetpet/model/post.dart';
 import 'package:sweetpet/model/thumb.dart';
 import 'package:sweetpet/page/chat_page/chat_message.dart';
 import 'package:sweetpet/page/follow_page/follow_page.dart';
+import 'package:sweetpet/page/health_page/add_sleep_data.dart';
+import 'package:sweetpet/page/health_page/heart_rate.dart';
+import 'package:sweetpet/page/health_page/sleep.dart';
 import 'package:sweetpet/page/home_page/home_page.dart';
 import 'package:sweetpet/page/index_page/index_page.dart';
 import 'package:sweetpet/page/like_page/like_page.dart';
@@ -226,5 +229,179 @@ void main() {
     // // 验证是否已导航到 LikePage 页面
     expect(find.text('Like Page'), findsOneWidget);
     // expect(find.byIcon(Icons.arrow_back), findsOneWidget);
+  });
+
+  testWidgets('HeartRatePage UI Test', (WidgetTester tester) async {
+    // Build our widget and trigger a frame.
+    await tester.pumpWidget(MaterialApp(
+      home: HeartRatePage(),
+    ));
+
+    // Verify that the AppBar title is displayed.
+    expect(find.text('Heart Rate'), findsOneWidget);
+
+    // Verify the existence of 'Add Data' button in the AppBar.
+    expect(find.text('Add Data'), findsOneWidget);
+
+    // Tap the 'Add Data' button and verify navigation.
+    await tester.tap(find.text('Add Data'));
+    await tester.pumpAndSettle();
+    expect(find.text('Add Heart Rate Data'),
+        findsOneWidget); // Assuming this is the title on the Add Data page.
+
+    // Verify the existence of ToggleButtons.
+    expect(find.byType(ToggleButtons), findsOneWidget);
+
+    // Verify the existence of the 'Trend' text.
+    expect(find.text('Trend'), findsOneWidget);
+  });
+
+  testWidgets('SleepPage UI Test', (WidgetTester tester) async {
+    // Build our widget and trigger a frame.
+    await tester.pumpWidget(MaterialApp(
+      home: SleepPage(),
+    ));
+
+    // Verify that the AppBar title is displayed.
+    expect(find.text('Sleep'), findsOneWidget);
+
+    // Verify the existence of 'Add Data' button in the AppBar.
+    expect(find.text('Add Data'), findsOneWidget);
+
+    // Tap the 'Add Data' button and verify navigation.
+    await tester.tap(find.text('Add Data'));
+    await tester.pumpAndSettle();
+    expect(find.text('Add Sleep Data'),
+        findsOneWidget); // Assuming this is the title on the Add Data page.
+
+    // Verify the existence of ToggleButtons.
+    expect(find.byType(ToggleButtons), findsOneWidget);
+
+    // Tap on one of the toggle buttons and verify the change.
+    await tester.tap(find.text('W'));
+    await tester.pump();
+    expect(find.text('AVG. TIME IN BED'),
+        findsOneWidget); // Check if UI updates accordingly.
+
+    // Verify the existence of 'Trend' text.
+    expect(find.text('Trend'), findsOneWidget);
+
+
+    // Verify that the data displayed matches the expected format.
+    final sleepTimeTextFinder = find.byWidgetPredicate((widget) =>
+        widget is Text && (widget.data?.startsWith('TIME IN BED ') ?? false));
+    expect(sleepTimeTextFinder, findsOneWidget);
+
+    // Verify the presence of the Back button in the AppBar.
+    expect(find.byType(BackButton), findsOneWidget);
+  });
+
+  group('AddSleepDataPage Tests', () {
+    testWidgets('Page should have a title and action buttons',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(MaterialApp(home: AddSleepDataPage()));
+
+      // Verify the app bar title is present.
+      expect(find.text('Add Sleep Data'), findsOneWidget);
+      // Verify the cancel button is present.
+      expect(find.byIcon(Icons.cancel), findsOneWidget);
+      // Verify the add button is present.
+      expect(find.text('Add'), findsOneWidget);
+    });
+
+    testWidgets('Should display DateTime pickers when tapping on fields',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(MaterialApp(home: AddSleepDataPage()));
+
+      // Tap on the 'In Bed' ListTile to trigger the date picker.
+      await tester.tap(find.text('In Bed'));
+      await tester.pump(); // Rebuild the widget after the state has changed.
+
+      // Verify that the date and time pickers are displayed.
+      expect(find.byType(DatePickerDialog), findsOneWidget);
+      expect(find.byType(TimePickerDialog), findsOneWidget);
+    });
+
+    testWidgets('Add button should be disabled if form is not filled',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(MaterialApp(home: AddSleepDataPage()));
+
+      // Initially, the add button should be disabled.
+      final addBtn =
+          tester.widget<TextButton>(find.widgetWithText(TextButton, 'Add'));
+      expect(addBtn.onPressed, isNull);
+    });
+
+    testWidgets('Add button should enable when form is filled',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(MaterialApp(home: AddSleepDataPage()));
+
+      // Input mock data into the fields.
+      await tester.enterText(find.byType(TextFormField).at(0), 'Dec 8, 2023');
+      await tester.enterText(find.byType(TextFormField).at(1), '11:00 PM');
+      await tester.enterText(find.byType(TextField),
+          '5'); // Assuming this is an input field for hours of REM sleep.
+      await tester.pumpAndSettle(); // Wait until all animations have completed.
+
+      // The add button should now be enabled.
+      final addBtn =
+          tester.widget<TextButton>(find.widgetWithText(TextButton, 'Add'));
+      expect(addBtn.onPressed, isNotNull);
+    });
+
+    group('AddSleepDataPage Tests', () {
+      testWidgets('Page should have a title and action buttons',
+          (WidgetTester tester) async {
+        await tester.pumpWidget(MaterialApp(home: AddSleepDataPage()));
+
+        // Verify the app bar title is present.
+        expect(find.text('Add Sleep Data'), findsOneWidget);
+        // Verify the cancel button is present.
+        expect(find.byIcon(Icons.cancel), findsOneWidget);
+        // Verify the add button is present.
+        expect(find.text('Add'), findsOneWidget);
+      });
+
+      testWidgets('Should display DateTime pickers when tapping on fields',
+          (WidgetTester tester) async {
+        await tester.pumpWidget(MaterialApp(home: AddSleepDataPage()));
+
+        // Tap on the 'In Bed' ListTile to trigger the date picker.
+        await tester.tap(find.text('In Bed'));
+        await tester.pump(); // Rebuild the widget after the state has changed.
+
+        // Verify that the date and time pickers are displayed.
+        expect(find.byType(DatePickerDialog), findsOneWidget);
+        expect(find.byType(TimePickerDialog), findsOneWidget);
+      });
+
+      testWidgets('Add button should be disabled if form is not filled',
+          (WidgetTester tester) async {
+        await tester.pumpWidget(MaterialApp(home: AddSleepDataPage()));
+
+        // Initially, the add button should be disabled.
+        final addBtn =
+            tester.widget<TextButton>(find.widgetWithText(TextButton, 'Add'));
+        expect(addBtn.onPressed, isNull);
+      });
+
+      testWidgets('Add button should enable when form is filled',
+          (WidgetTester tester) async {
+        await tester.pumpWidget(MaterialApp(home: AddSleepDataPage()));
+
+        // Input mock data into the fields.
+        await tester.enterText(find.byType(TextFormField).at(0), 'Dec 8, 2023');
+        await tester.enterText(find.byType(TextFormField).at(1), '11:00 PM');
+        await tester.enterText(find.byType(TextField),
+            '5'); // Assuming this is an input field for hours of REM sleep.
+        await tester
+            .pumpAndSettle(); // Wait until all animations have completed.
+
+        // The add button should now be enabled.
+        final addBtn =
+            tester.widget<TextButton>(find.widgetWithText(TextButton, 'Add'));
+        expect(addBtn.onPressed, isNotNull);
+      });
+    });
   });
 }
