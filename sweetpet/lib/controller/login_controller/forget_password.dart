@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+/// `ForgotPassword` class represents the screen for resetting the password.
 class ForgotPassword extends StatefulWidget {
   @override
   _ForgotPasswordState createState() => _ForgotPasswordState();
@@ -42,6 +43,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     );
   }
 
+  /// Build the UI with an email form for resetting the password.
   Widget withEmail() {
     return SingleChildScrollView(
       child: Form(
@@ -96,8 +98,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 padding: const EdgeInsets.only(top: 16.0),
                 alignment: Alignment.center,
                 child: SizedBox(
-                  // Added container to wrap the FlatButton
-                  width: double.infinity, // Make the button take the full width
+                  width: double.infinity,
                   child: TextButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
@@ -132,6 +133,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     );
   }
 
+  /// Show an alert dialog with a confirmation message.
   showAlertDialog(BuildContext context) async {
     Widget okButton = TextButton(
       child: const Text("OK"),
@@ -140,7 +142,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       },
     );
 
-    // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: const Text("Password reset link sent"),
       content: const Text(
@@ -150,7 +151,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       ],
     );
 
-    // show the dialog
     await showDialog(
       context: context,
       builder: (BuildContext context) {
