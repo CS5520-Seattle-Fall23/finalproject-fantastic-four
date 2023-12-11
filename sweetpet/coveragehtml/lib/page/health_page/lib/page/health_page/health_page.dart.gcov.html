@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
+            <td class="headerCovTableEntryLo">68.8&nbsp;%</td>
             <td class="headerCovTableEntry">16</td>
-            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">11</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2023-12-08 22:45:17</td>
+            <td class="headerValue">2023-12-10 21:51:06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -64,14 +64,14 @@
 <span id="L2"><span class="lineNum">       2</span>              : import 'package:image_picker/image_picker.dart';</span>
 <span id="L3"><span class="lineNum">       3</span>              : </span>
 <span id="L4"><span class="lineNum">       4</span>              : class SummaryPage extends StatefulWidget {</span>
-<span id="L5"><span class="lineNum">       5</span> <span class="tlaUNC tlaBgUNC">           0 :   @override</span></span>
-<span id="L6"><span class="lineNum">       6</span> <span class="tlaUNC">           0 :   _SummaryPageState createState() =&gt; _SummaryPageState();</span></span>
+<span id="L5"><span class="lineNum">       5</span> <span class="tlaGNC tlaBgGNC">           1 :   @override</span></span>
+<span id="L6"><span class="lineNum">       6</span> <span class="tlaGNC">           1 :   _SummaryPageState createState() =&gt; _SummaryPageState();</span></span>
 <span id="L7"><span class="lineNum">       7</span>              : }</span>
 <span id="L8"><span class="lineNum">       8</span>              : </span>
 <span id="L9"><span class="lineNum">       9</span>              : class _SummaryPageState extends State&lt;SummaryPage&gt; {</span>
 <span id="L10"><span class="lineNum">      10</span>              :   XFile? _image;</span>
 <span id="L11"><span class="lineNum">      11</span>              : </span>
-<span id="L12"><span class="lineNum">      12</span> <span class="tlaUNC">           0 :   Future&lt;void&gt; _pickImage() async {</span></span>
+<span id="L12"><span class="lineNum">      12</span> <span class="tlaUNC tlaBgUNC">           0 :   Future&lt;void&gt; _pickImage() async {</span></span>
 <span id="L13"><span class="lineNum">      13</span> <span class="tlaUNC">           0 :     final ImagePicker _picker = ImagePicker();</span></span>
 <span id="L14"><span class="lineNum">      14</span> <span class="tlaUNC">           0 :     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);</span></span>
 <span id="L15"><span class="lineNum">      15</span> <span class="tlaUNC">           0 :     setState(() {</span></span>
@@ -79,19 +79,19 @@
 <span id="L17"><span class="lineNum">      17</span>              :     });</span>
 <span id="L18"><span class="lineNum">      18</span>              :   }</span>
 <span id="L19"><span class="lineNum">      19</span>              : </span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC">           0 :   @override</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC tlaBgGNC">           1 :   @override</span></span>
 <span id="L21"><span class="lineNum">      21</span>              :   Widget build(BuildContext context) {</span>
-<span id="L22"><span class="lineNum">      22</span> <span class="tlaUNC">           0 :     return Scaffold(</span></span>
-<span id="L23"><span class="lineNum">      23</span> <span class="tlaUNC">           0 :       appBar: AppBar(</span></span>
-<span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC">           0 :         title: Text('Health'),</span></span>
-<span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 :         actions: [</span></span>
-<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :           IconButton(</span></span>
-<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :             icon: Icon(Icons.account_circle),</span></span>
-<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :             onPressed: _pickImage,</span></span>
+<span id="L22"><span class="lineNum">      22</span> <span class="tlaGNC">           1 :     return Scaffold(</span></span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">           1 :       appBar: AppBar(</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           1 :         title: Text('Health'),</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">           1 :         actions: [</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">           1 :           IconButton(</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">           1 :             icon: Icon(Icons.account_circle),</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">           1 :             onPressed: _pickImage,</span></span>
 <span id="L29"><span class="lineNum">      29</span>              :           ),</span>
 <span id="L30"><span class="lineNum">      30</span>              :         ],</span>
 <span id="L31"><span class="lineNum">      31</span>              :       ),</span>
-<span id="L32"><span class="lineNum">      32</span> <span class="tlaUNC">           0 :       body: ListView(</span></span>
+<span id="L32"><span class="lineNum">      32</span> <span class="tlaGNC">           1 :       body: ListView(</span></span>
 <span id="L33"><span class="lineNum">      33</span>              :         children: const &lt;Widget&gt;[</span>
 <span id="L34"><span class="lineNum">      34</span>              :           ListTile(</span>
 <span id="L35"><span class="lineNum">      35</span>              :             leading: Icon(Icons.flash_on),</span>

@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
-            <td class="headerCovTableEntry">19</td>
-            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntryLo">65.0&nbsp;%</td>
+            <td class="headerCovTableEntry">20</td>
+            <td class="headerCovTableEntry">13</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2023-12-08 22:45:17</td>
+            <td class="headerValue">2023-12-10 21:51:06</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -73,23 +73,23 @@
 <span id="L11"><span class="lineNum">      11</span>              :   late TabController tabController;</span>
 <span id="L12"><span class="lineNum">      12</span>              :   List&lt;Post&gt; data = [];</span>
 <span id="L13"><span class="lineNum">      13</span>              :   List&lt;Post&gt; list = [];</span>
-<span id="L14"><span class="lineNum">      14</span>              :   late List&lt;THUMB&gt; thumbs = [];</span>
+<span id="L14"><span class="lineNum">      14</span> <span class="tlaUNC tlaBgUNC">           0 :   late List&lt;THUMB&gt; thumbs = [];</span></span>
 <span id="L15"><span class="lineNum">      15</span>              :   final storageRef = FirebaseStorage.instance.ref();</span>
 <span id="L16"><span class="lineNum">      16</span>              : </span>
-<span id="L17"><span class="lineNum">      17</span> <span class="tlaUNC tlaBgUNC">           0 :   @override</span></span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC tlaBgGNC">           1 :   @override</span></span>
 <span id="L18"><span class="lineNum">      18</span>              :   void onInit() {</span>
-<span id="L19"><span class="lineNum">      19</span> <span class="tlaUNC">           0 :     super.onInit();</span></span>
-<span id="L20"><span class="lineNum">      20</span> <span class="tlaUNC">           0 :     tabController = TabController(length: 1, vsync: this, initialIndex: 0);</span></span>
-<span id="L21"><span class="lineNum">      21</span> <span class="tlaUNC">           0 :     getIndexData();</span></span>
+<span id="L19"><span class="lineNum">      19</span> <span class="tlaGNC">           1 :     super.onInit();</span></span>
+<span id="L20"><span class="lineNum">      20</span> <span class="tlaGNC">           2 :     tabController = TabController(length: 1, vsync: this, initialIndex: 0);</span></span>
+<span id="L21"><span class="lineNum">      21</span> <span class="tlaGNC">           1 :     getIndexData();</span></span>
 <span id="L22"><span class="lineNum">      22</span>              :   }</span>
 <span id="L23"><span class="lineNum">      23</span>              : </span>
-<span id="L24"><span class="lineNum">      24</span> <span class="tlaUNC">           0 :   Future&lt;void&gt; getIndexData() async {</span></span>
-<span id="L25"><span class="lineNum">      25</span> <span class="tlaUNC">           0 :     await updateUserThumbPosts();</span></span>
-<span id="L26"><span class="lineNum">      26</span> <span class="tlaUNC">           0 :     ApiClient().getIndexData().then((response) {</span></span>
-<span id="L27"><span class="lineNum">      27</span> <span class="tlaUNC">           0 :       list = response;</span></span>
-<span id="L28"><span class="lineNum">      28</span> <span class="tlaUNC">           0 :       for (var post in list) {</span></span>
-<span id="L29"><span class="lineNum">      29</span> <span class="tlaUNC">           0 :         for (var thumb in thumbs) {</span></span>
-<span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC">           0 :           if (post.uid == thumb.authorId &amp;&amp;</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           1 :   Future&lt;void&gt; getIndexData() async {</span></span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC">           1 :     await updateUserThumbPosts();</span></span>
+<span id="L26"><span class="lineNum">      26</span> <span class="tlaGNC">           4 :     ApiClient().getIndexData().then((response) {</span></span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC">           1 :       list = response;</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">           2 :       for (var post in list) {</span></span>
+<span id="L29"><span class="lineNum">      29</span> <span class="tlaGNC">           1 :         for (var thumb in thumbs) {</span></span>
+<span id="L30"><span class="lineNum">      30</span> <span class="tlaUNC tlaBgUNC">           0 :           if (post.uid == thumb.authorId &amp;&amp;</span></span>
 <span id="L31"><span class="lineNum">      31</span> <span class="tlaUNC">           0 :               thumb.tag == 1 &amp;&amp;</span></span>
 <span id="L32"><span class="lineNum">      32</span> <span class="tlaUNC">           0 :               post.id == thumb.postId) {</span></span>
 <span id="L33"><span class="lineNum">      33</span> <span class="tlaUNC">           0 :             data.add(post);</span></span>
@@ -98,16 +98,16 @@
 <span id="L36"><span class="lineNum">      36</span>              :         }</span>
 <span id="L37"><span class="lineNum">      37</span>              :       }</span>
 <span id="L38"><span class="lineNum">      38</span>              :       // 更新状态，将满足条件的帖子列表传递给界面</span>
-<span id="L39"><span class="lineNum">      39</span> <span class="tlaUNC">           0 :       update();</span></span>
+<span id="L39"><span class="lineNum">      39</span> <span class="tlaGNC tlaBgGNC">           1 :       update();</span></span>
 <span id="L40"><span class="lineNum">      40</span>              :     });</span>
 <span id="L41"><span class="lineNum">      41</span>              :   }</span>
 <span id="L42"><span class="lineNum">      42</span>              : </span>
-<span id="L43"><span class="lineNum">      43</span> <span class="tlaUNC">           0 :   void openIndexDetailPage(String id) {</span></span>
+<span id="L43"><span class="lineNum">      43</span> <span class="tlaUNC tlaBgUNC">           0 :   void openIndexDetailPage(String id) {</span></span>
 <span id="L44"><span class="lineNum">      44</span> <span class="tlaUNC">           0 :     Get.toNamed(Pages.liked, arguments: {&quot;id&quot;: id});</span></span>
 <span id="L45"><span class="lineNum">      45</span>              :   }</span>
 <span id="L46"><span class="lineNum">      46</span>              : </span>
-<span id="L47"><span class="lineNum">      47</span> <span class="tlaUNC">           0 :   Future&lt;void&gt; updateUserThumbPosts() async {</span></span>
-<span id="L48"><span class="lineNum">      48</span> <span class="tlaUNC">           0 :     thumbs = await ApiClient().getUserThumbPosts();</span></span>
+<span id="L47"><span class="lineNum">      47</span> <span class="tlaGNC tlaBgGNC">           1 :   Future&lt;void&gt; updateUserThumbPosts() async {</span></span>
+<span id="L48"><span class="lineNum">      48</span> <span class="tlaGNC">           3 :     thumbs = await ApiClient().getUserThumbPosts();</span></span>
 <span id="L49"><span class="lineNum">      49</span>              :   }</span>
 <span id="L50"><span class="lineNum">      50</span>              : }</span>
         </pre>

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-// A MessageBubble for showing a single chat message on the ChatScreen.
+/// A MessageBubble for showing a single chat message on the ChatScreen.
 class MessageBubble extends StatefulWidget {
   // Create a message bubble which is meant to be the first in the sequence.
   const MessageBubble.first({
@@ -13,7 +13,7 @@ class MessageBubble extends StatefulWidget {
     required this.time,
   }) : isFirstInSequence = true;
 
-  // Create a amessage bubble that continues the sequence.
+  /// Create a amessage bubble that continues the sequence.
   const MessageBubble.next({
     super.key,
     required this.message,
@@ -23,22 +23,22 @@ class MessageBubble extends StatefulWidget {
         userImage = null,
         username = null;
 
-  // Whether or not this message bubble is the first in a sequence of messages
-  // from the same user.
-  // Modifies the message bubble slightly for these different cases - only
-  // shows user image for the first message from the same user, and changes
-  // the shape of the bubble for messages thereafter.
+  /// Whether or not this message bubble is the first in a sequence of messages
+  /// from the same user.
+  /// Modifies the message bubble slightly for these different cases - only
+  /// shows user image for the first message from the same user, and changes
+  /// the shape of the bubble for messages thereafter.
   final bool isFirstInSequence;
 
-  // time
+  /// time
   final Timestamp time;
 
-  // Image of the user to be displayed next to the bubble.
-  // Not required if the message is not the first in a sequence.
+  /// Image of the user to be displayed next to the bubble.
+  /// Not required if the message is not the first in a sequence.
   final String? userImage;
 
-  // Username of the user.
-  // Not required if the message is not the first in a sequence.
+  /// Username of the user.
+  /// Not required if the message is not the first in a sequence.
   final String? username;
   final String message;
 
