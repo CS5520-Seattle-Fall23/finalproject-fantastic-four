@@ -215,13 +215,30 @@ class _LikeButtonState extends State<LikeButton> {
         widget.userLikedPosts.any((thumb) => thumb.postId == widget.postId);
   }
 
-  /// Click on the Like button to cancel the Like if it is already in the Like status, or to proceed if it is in the Unliked status
+  /// Toggles the like status of an item and notifies the parent widget about the change.
+  ///
+  /// This function toggles the 'isLiked' status of an item. If 'isLiked' was `false`, it becomes `true`,
+  /// indicating that the user has liked the item. If 'isLiked' was `true`, it becomes `false`, indicating that
+  /// the user has unliked the item. Additionally, it updates the 'likeCount' to reflect the current number of likes.
+  ///
+  /// If the 'onLiked' callback is provided, this function calls the callback to notify the parent widget about the
+  /// change in the like status. It passes two arguments to the callback:
+  /// - An integer (1 for liking, 2 for unliking)
+  /// - The updated 'likeCount' value after the toggle.
+  ///
+  /// Example:
+  /// ```dart
+  /// // Toggle the like status and notify the parent widget.
+  /// toggleLike();
+  /// ```
+  ///
+  /// Note: Ensure that the 'isLiked' and 'likeCount' variables are correctly initialized before calling this function.
+  ///
   void toggleLike() {
     setState(() {
       isLiked = !isLiked;
       likeCount += isLiked ? 1 : -1;
     });
-    // 调用回调方法，如果回调存在的话
     if (isLiked == true && widget.onLiked != null) {
       widget.onLiked!(1, likeCount);
     } else if (isLiked == false && widget.onLiked != null) {

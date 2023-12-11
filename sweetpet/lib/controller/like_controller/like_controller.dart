@@ -39,7 +39,20 @@ class LikeController extends GetxController
     getIndexData();
   }
 
-  /// Fetch liked posts data and update the state.
+  /// Fetch and filter index data.
+  ///
+  /// This function retrieves index data, updates the user's thumb posts, and filters the posts based on specific conditions.
+  ///
+  /// It fetches the index data and filters it to include only posts that meet the following criteria:
+  /// - The post's author is being followed by the user.
+  /// - The post has received a positive thumb tag (tag equals 1) from the user.
+  ///
+  /// Example:
+  /// ```dart
+  /// // Fetch and filter index data
+  /// getIndexData();
+  /// ```
+  ///
   Future<void> getIndexData() async {
     await updateUserThumbPosts();
     ApiClient().getIndexData().then((response) {
@@ -50,11 +63,9 @@ class LikeController extends GetxController
               thumb.tag == 1 &&
               post.id == thumb.postId) {
             data.add(post);
-            // break; // Uncomment if you want to exit the inner loop after finding a match
           }
         }
       }
-      // Update the state to pass the list of liked posts that meet the condition to the UI
       update();
     });
   }

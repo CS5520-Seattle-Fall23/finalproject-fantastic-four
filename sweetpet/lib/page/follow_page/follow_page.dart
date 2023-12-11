@@ -25,16 +25,26 @@ class _FollowersPageState extends State<FollowersPage> {
     fetchCommentsData();
   }
 
+  /// Fetches and updates the follower data for the current user.
+  ///
+  /// This function retrieves a list of followers for the current user using the `ApiClient`.
+  /// It then updates the `followers` state variable to reflect the fetched follower data.
+  ///
+  /// Example:
+  /// ```dart
+  /// // Fetch and update follower data for the current user
+  /// await fetchFollowerData();
+  /// ```
+  ///
+  /// Note: Ensure that the `ApiClient` is properly configured, and that the `followers` state variable is appropriately initialized before calling this function.
+  ///
   Future<void> fetchCommentsData() async {
     try {
-      // 执行网络请求，获取评论数据
-      List<Follower> fetchedData =
-          await ApiClient().getFollowerListData(); // 请替换成你的实际网络请求代码
+      List<Follower> fetchedData = await ApiClient().getFollowerListData();
       setState(() {
         followers = fetchedData;
       });
     } catch (e) {
-      // 处理异常
       print("Error fetching comments data: $e");
     }
   }
@@ -71,7 +81,7 @@ class _FollowersPageState extends State<FollowersPage> {
               },
             )
           : const Center(
-              child: CircularProgressIndicator(), // 加载指示器
+              child: CircularProgressIndicator(),
             ),
     );
   }
@@ -128,14 +138,32 @@ Future<void> uploadFollowToFirebase(Follower follower) async {
       'username': follower.username,
       'tag': follower.tag,
     });
-    print('关注成功！');
+    print('successful！');
   } catch (e) {
-    print('关注出现错误：$e');
+    print('error：$e');
   }
 }
 
+/// Creates and uploads a new follower record to Firebase Firestore.
+///
+/// This function checks if there is an existing follower record between the current user (identified by `globalUid`)
+/// and the target user (identified by `toUserId`). If an existing record is found, it updates the 'tag' field to reflect
+/// the new follow status (`tag` is `true` for following, `false` for unfollowing). If no existing record is found,
+/// it creates a new follower record with a unique ID and uploads it to Firebase Firestore.
+///
+/// Parameters:
+/// - `toUserId`: The user ID of the target user.
+/// - `tag`: A boolean value indicating whether the user is following (`true`) or unfollowing (`false`) the target user.
+///
+/// Example:
+/// ```dart
+/// // Follow the target user
+/// await createFoAndUpload('targetUserId', true);
+/// ```
+///
+/// Note: Ensure that the `globalUid`, `globalUsername`, and `globalAvatar` variables are appropriately initialized before calling this function.
+///
 Future<void> createFoAndUpload(String toUserId, bool tag) async {
-  // 查询 thumb 集合以查找匹配的文档
   QuerySnapshot thumbQuery = await FirebaseFirestore.instance
       .collection('follow')
       .where('followerId', isEqualTo: globalUid)
@@ -143,13 +171,12 @@ Future<void> createFoAndUpload(String toUserId, bool tag) async {
       .get();
 
   if (thumbQuery.docs.isNotEmpty) {
-    // 如果找到匹配的文档，更新 tag 字段
     thumbQuery.docs.forEach((QueryDocumentSnapshot doc) {
       DocumentReference thumbDocRef =
           FirebaseFirestore.instance.collection('follow').doc(doc.id);
 
       Map<String, dynamic> updatedData = {
-        'tag': tag, // 更新 tag 字段
+        'tag': tag,
       };
 
       thumbDocRef.set(updatedData, SetOptions(merge: true)).then((_) {
@@ -168,7 +195,6 @@ Future<void> createFoAndUpload(String toUserId, bool tag) async {
       globalAvatar,
       tag,
     );
-    // 调用上传方法
     uploadFollowToFirebase(newFollower);
   }
 }

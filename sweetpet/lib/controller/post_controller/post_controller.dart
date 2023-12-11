@@ -61,7 +61,22 @@ class PostController extends GetxController {
     getCommentList(id);
   }
 
-  /// Get post-specific data from Firebase based on post IDs and refresh User Interface.
+  /// Fetch detailed information for a post by its [id].
+  ///
+  /// This function retrieves the user's data, updates the user's follow status, and fetches detailed information for the post with the specified [id].
+  ///
+  /// Parameters:
+  /// - [id]: A string representing the unique identifier of the post to fetch.
+  ///
+  /// Example:
+  /// ```dart
+  /// // Fetch detailed information for a post with the specified id
+  /// getIndexDetailData('12345');
+  /// ```
+  ///
+  /// Parameters:
+  /// - [id]: A string representing the unique identifier of the post to fetch.
+  ///
   void getIndexDetailData(String id) async {
     await getUserData(globalUid);
     await updateUserFollow();
@@ -120,25 +135,57 @@ class PostController extends GetxController {
         'nickname': comment.nickname,
         'createDate': comment.createDate,
       });
-
-      print('Comment uploaded successfully!');
+      print('comment successful！');
     } catch (e) {
-      print('Error uploading comment: $e');
+      print('error：$e');
     }
   }
 
-  /// After the user clicks the send button, the Comment model is generated and sent to Firebase.
+  /// Send a comment for a specific post.
+  ///
+  /// This function retrieves the user's data, creates a new comment with the provided [content], uploads the comment to Firebase Firestore,
+  /// and then fetches the updated list of comments for the specified post.
+  ///
+  /// Parameters:
+  /// - [content]: A string representing the content of the comment.
+  ///
+  /// Example:
+  /// ```dart
+  /// // Send a comment for the current post
+  /// sendComment('This is a great post!');
+  /// ```
+  ///
+  /// Parameters:
+  /// - [content]: A string representing the content of the comment.
+  ///
   void sendComment(String content) async {
     try {
       await getUserData(globalUid);
       await createCommentAndUpload(content);
       getCommentList(id);
     } catch (error) {
-      Get.snackbar('Error', 'Failed to upload comment: ${error.toString()}');
+      Get.snackbar('Error', 'Failed to upload images: ${error.toString()}');
     }
   }
 
-  /// Create Comment model and upload to Firebase.
+  /// Create a comment and upload it to Firebase Firestore.
+  ///
+  /// This function creates a new comment object with the provided [content] and uploads it to the 'comment' collection
+  /// in Firebase Firestore. The comment includes information such as the comment's unique identifier, the user who made
+  /// the comment, the post it belongs to, and the timestamp of when it was created.
+  ///
+  /// Parameters:
+  /// - [content]: A string representing the content of the comment.
+  ///
+  /// Example:
+  /// ```dart
+  /// // Create and upload a comment for a specific post
+  /// createCommentAndUpload('This is a great post!');
+  /// ```
+  ///
+  /// Parameters:
+  /// - [content]: A string representing the content of the comment.
+  ///
   Future<void> createCommentAndUpload(String content) async {
     final String commentId = const Uuid().v4();
     Comment comment = Comment(
@@ -154,7 +201,24 @@ class PostController extends GetxController {
     uploadCommentToFirebase(comment);
   }
 
-  /// After a user comments, update the number of Comment properties in the post.
+  /// Modify the comment count of a post in Firebase Firestore.
+  ///
+  /// This function increments the comment count of a post in the 'post' collection in Firebase Firestore
+  /// based on the provided [id]. It retrieves the current comment count, increments it by one, and updates
+  /// the 'comment' field in the post document with the new count.
+  ///
+  /// Parameters:
+  /// - [id]: A string representing the unique identifier of the post you want to modify.
+  ///
+  /// Example:
+  /// ```dart
+  /// // Modify the comment count for a specific post
+  /// modifyPostCommentCount('postID');
+  /// ```
+  ///
+  /// Parameters:
+  /// - [id]: A string representing the unique identifier of the post you want to modify.
+  ///
   void modifyPostCommentCount() async {
     QuerySnapshot thumbQuery1 = await FirebaseFirestore.instance
         .collection('post')
@@ -180,7 +244,24 @@ class PostController extends GetxController {
     }
   }
 
-  /// Get user data from Firebase based on UID.
+  /// Get user data from Firebase Firestore.
+  ///
+  /// This function retrieves user data from the 'users' collection in Firebase Firestore
+  /// based on the provided [uid]. It updates global variables [globalUsername] and [globalAvatar]
+  /// with the user's username and avatar URL if the user exists.
+  ///
+  /// Parameters:
+  /// - [uid]: A string representing the unique user ID whose data you want to retrieve.
+  ///
+  /// Example:
+  /// ```dart
+  /// // Retrieve user data for a specific user
+  /// getUserData('userUID');
+  /// ```
+  ///
+  /// Parameters:
+  /// - [uid]: A string representing the unique user ID whose data you want to retrieve.
+  ///
   Future<void> getUserData(String uid) async {
     try {
       DocumentSnapshot userSnapshot =
@@ -199,7 +280,18 @@ class PostController extends GetxController {
     }
   }
 
-  /// Follow or unfollow the current user after the user clicks on the follow button.
+  /// Toggle the follow status and upload the follow relationship to Firebase.
+  ///
+  /// This function toggles the follow status (follow/unfollow) and then calls the
+  /// [createFollowAndUpload] function to update the follow relationship on Firebase.
+  /// It also prints the current follow status to the console.
+  ///
+  /// Example:
+  /// ```dart
+  /// // Toggle the follow status for a user or post
+  /// toggleFollow();
+  /// ```
+  ///
   void toggleFollow() async {
     isFollowing = !isFollowing;
     createFollowAndUpload(postDetail.uid, isFollowing);
@@ -216,13 +308,37 @@ class PostController extends GetxController {
         'username': follower.username,
         'tag': follower.tag,
       });
-      print('Followed successfully!');
+      print('successful！');
     } catch (e) {
-      print('Error following: $e');
+      print('eroor：$e');
     }
   }
 
-  /// After the user clicks the follow button, the Follower model is generated and sent to Firebase.
+  /// Create a new follow relationship and upload it to Firebase.
+  ///
+  /// This function checks if a follow relationship between the current user
+  /// (identified by [globalUid]) and the target user (identified by [toUserId])
+  /// already exists in the 'follow' collection in Firestore. If a relationship exists,
+  /// it updates the 'tag' field with the specified [tag] value. If no relationship exists,
+  /// it creates a new follow relationship and uploads it to Firebase.
+  ///
+  /// Parameters:
+  /// - [toUserId]: The ID of the target user to follow or unfollow.
+  /// - [tag]: A boolean value representing the follow status (true for follow, false for unfollow).
+  ///
+  /// Example:
+  /// ```dart
+  /// // Follow a user with ID 'targetUserId'
+  /// createFollowAndUpload('targetUserId', true);
+  ///
+  /// // Unfollow a user with ID 'targetUserId'
+  /// createFollowAndUpload('targetUserId', false);
+  /// ```
+  ///
+  /// Parameters:
+  /// - [toUserId]: The ID of the target user.
+  /// - [tag]: A boolean value indicating the follow status (true for follow, false for unfollow).
+  ///
   Future<void> createFollowAndUpload(String toUserId, bool tag) async {
     QuerySnapshot thumbQuery = await FirebaseFirestore.instance
         .collection('follow')

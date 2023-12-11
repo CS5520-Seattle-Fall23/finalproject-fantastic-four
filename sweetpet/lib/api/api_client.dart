@@ -20,7 +20,7 @@ class ApiClient {
     return dynamicList.map((dynamic item) => Mall.fromJson(item)).toList();
   }
 
-  // MainView Data
+  /// MainView Data
   Future<dynamic> getIndexData() async {
     final FirebaseFirestore firestore1 = FirebaseFirestore.instance;
     final CollectionReference collection1 = firestore1.collection('postView');
@@ -55,7 +55,7 @@ class ApiClient {
     }
   }
 
-  // Post Detail Data
+  /// Post Detail Data
   Future<PostDetail?> getIndexDetailDataById(String id) async {
     List<PostDetail> postDetails = await getPostDetailData();
     for (var v in postDetails) {
@@ -107,11 +107,24 @@ class ApiClient {
     }
   }
 
+  /// Check if the current user is following another user.
+  ///
+  /// This function queries the Firestore 'follow' collection to determine if the
+  /// current user, identified by [globalUid], is following the user with the
+  /// provided [toUserId].
+  ///
+  /// If the current user is following the specified user, it returns `true`.
+  /// Otherwise, it returns `false`.
+  ///
+  /// Parameters:
+  /// - [toUserId]: The ID of the user to check for following status.
+  ///
+  /// Returns:
+  /// A [Future] that resolves to `true` if the current user is following the
+  /// specified user; otherwise, it resolves to `false`.
   Future<bool> getFollowUser(String toUserId) async {
-    print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
     print(globalUid);
     print(toUserId);
-    // 查询 thumb 集合以查找匹配的文档
     QuerySnapshot thumbQuery = await FirebaseFirestore.instance
         .collection('follow')
         .where('followerId', isEqualTo: globalUid)
@@ -126,10 +139,30 @@ class ApiClient {
       print(isFollowing);
       return isFollowing;
     } else {
-      return false; // 如果没有找到匹配的数据，返回 false
+      return false;
     }
   }
 
+  /// Retrieve a list of users that the current user is following.
+  ///
+  /// This function queries the Firestore 'follow' collection to retrieve a list
+  /// of users that the current user, identified by [globalUid], is following.
+  ///
+  /// It returns a [Future] that resolves to a list of [Follower] objects
+  /// representing users being followed by the current user.
+  ///
+  /// Example:
+  /// ```dart
+  /// List<Follower> followedUsers = await getUserFollowUsers();
+  /// for (Follower user in followedUsers) {
+  ///   print('User ${user.username} is being followed.');
+  /// }
+  /// ```
+  ///
+  /// Returns:
+  /// A [Future] that resolves to a list of [Follower] objects representing users
+  /// that the current user is following. If an error occurs during the query,
+  /// it returns an empty list.
   Future getUserFollowUsers() async {
     final FirebaseFirestore firestore2 = FirebaseFirestore.instance;
     final CollectionReference collection2 = firestore2.collection('follow');
@@ -149,6 +182,26 @@ class ApiClient {
     }
   }
 
+  /// Retrieve a list of comments made by the current user.
+  ///
+  /// This function queries the Firestore 'comment' collection to retrieve a list
+  /// of comments made by the current user, identified by [globalUid].
+  ///
+  /// It returns a [Future] that resolves to a list of [Comment] objects
+  /// representing comments made by the current user.
+  ///
+  /// Example:
+  /// ```dart
+  /// List<Comment> userComments = await getCommentListData();
+  /// for (Comment comment in userComments) {
+  ///   print('Comment: ${comment.text}');
+  /// }
+  /// ```
+  ///
+  /// Returns:
+  /// A [Future] that resolves to a list of [Comment] objects representing comments
+  /// made by the current user. If an error occurs during the query, it returns an empty list.
+  ///
   Future<dynamic> getCommentListData() async {
     final FirebaseFirestore firestore2 = FirebaseFirestore.instance;
     final CollectionReference collection2 = firestore2.collection('comment');
@@ -168,6 +221,26 @@ class ApiClient {
     }
   }
 
+  /// Retrieve a list of followers for the current user.
+  ///
+  /// This function queries the Firestore 'follow' collection to retrieve a list
+  /// of followers for the current user, identified by [globalUid].
+  ///
+  /// It returns a [Future] that resolves to a list of [Follower] objects
+  /// representing users who are following the current user.
+  ///
+  /// Example:
+  /// ```dart
+  /// List<Follower> userFollowers = await getFollowerListData();
+  /// for (Follower follower in userFollowers) {
+  ///   print('Follower: ${follower.username}');
+  /// }
+  /// ```
+  ///
+  /// Returns:
+  /// A [Future] that resolves to a list of [Follower] objects representing users
+  /// who are following the current user. If an error occurs during the query, it returns an empty list.
+  ///
   Future<dynamic> getFollowerListData() async {
     final FirebaseFirestore firestore2 = FirebaseFirestore.instance;
     final CollectionReference collection2 = firestore2.collection('follow');
@@ -187,47 +260,85 @@ class ApiClient {
     }
   }
 
-
-  // MainView Data
-  /// This method is to get product data.
+  /// Retrieve mall data for a specific category and name.
+  ///
+  /// This function fetches mall data from Firebase Storage based on the provided
+  /// [category] and [name]. It constructs a URL to download the JSON data file
+  /// from Firebase Storage, fetches the data using HTTP, and returns it as a list
+  /// of [Mall] objects.
+  ///
+  /// Parameters:
+  /// - [category]: The category of the mall data (e.g., "electronics").
+  /// - [name]: The name of the mall data file (e.g., "products").
+  ///
+  /// Example:
+  /// ```dart
+  /// List<Mall> mallData = await getMallData("electronics", "products");
+  /// if (mallData != null) {
+  ///   for (Mall mall in mallData) {
+  ///     print('Mall Name: ${mall.title}, Price: ${mall.price}');
+  ///   }
+  /// }
+  /// ```
+  ///
+  /// Parameters:
+  /// - [category]: The category of the mall data.
+  /// - [name]: The name of the mall data file.
+  ///
+  /// Returns:
+  /// A [Future] that resolves to a list of [Mall] objects representing the mall data
+  /// for the specified category and name. If an error occurs during the retrieval,
+  /// it returns `null`.
+  ///
   Future<dynamic> getMallData(String category, String name) async {
     try {
-      // 获取 Firebase Storage 实例
       FirebaseStorage storage = FirebaseStorage.instance;
-
-      // 获取文件的引用，路径应根据您的 Firebase Storage 结构调整
       Reference ref = storage.ref('mall/${category.toLowerCase()}$name.json');
-
-      // 获取文件的下载 URL
       String url = await ref.getDownloadURL();
-      // 使用 http 包下载文件
       final response = await http.get(Uri.parse(url));
       List<Mall> data =
           convertDynamicListToMallList(json.decode(response.body));
       return data;
     } catch (e) {
-      // 打印并处理任何异常
       print('Error occurred while fetching data: $e');
       return null;
     }
   }
 
-    // Post Detail Data
-    /// This method is to get product detail.
+
+  /// Retrieve mall detail data by title.
+  ///
+  /// This function fetches mall detail data from Firebase Storage by downloading a JSON
+  /// data file containing mall information. It then searches for a mall with a matching
+  /// [title] and returns it as a [Mall] object. If no mall with the specified [title]
+  /// is found, it returns `null`.
+  ///
+  /// Parameters:
+  /// - [title]: The title of the mall for which you want to retrieve detail data.
+  ///
+  /// Example:
+  /// ```dart
+  /// Mall mallDetail = await getMallDetailDataByTitle("Electronics Store");
+  /// if (mallDetail != null) {
+  ///   print('Mall Title: ${mallDetail.title}, Price: ${mallDetail.price}');
+  /// } else {
+  ///   print('Mall not found.');
+  /// }
+  /// ```
+  ///
+  /// Parameters:
+  /// - [title]: The title of the mall.
+  ///
+  /// Returns:
+  /// A [Future] that resolves to a [Mall] object representing the detail data of the mall
+  /// with the specified [title]. If no matching mall is found, it returns `null`.
+  ///
   Future getMallDetailDataByTitle(String title) async {
-// 获取 Firebase Storage 实例
     FirebaseStorage storage = FirebaseStorage.instance;
-
-    // 获取文件的引用，路径应根据您的 Firebase Storage 结构调整
     Reference ref = storage.ref('mall/mallData.json');
-
-    // 获取文件的下载 URL
     String url = await ref.getDownloadURL();
-    // 使用 http 包下载文件
     final response = await http.get(Uri.parse(url));
-    List<Mall> data =
-        convertDynamicListToMallList(json.decode(response.body));
-
+    List<Mall> data = convertDynamicListToMallList(json.decode(response.body));
     for (var mall in data) {
       if (mall.title == title) {
         return mall;

@@ -61,9 +61,25 @@ class IndexController extends GetxController
     }
   }
 
+  /// Create a new thumb or update an existing thumb and upload it to Firebase.
+  ///
+  /// This function creates a new thumb model or updates an existing one with a new tag value and uploads it to the 'thumb' collection in Firebase Firestore.
+  ///
+  /// Parameters:
+  /// - `postId`: The ID of the post for which the thumb is being created or updated.
+  /// - `authorId`: The ID of the author of the post.
+  /// - `tag`: The new tag value to assign to the thumb.
+  ///
+  /// Example:
+  /// ```dart
+  /// // Create a new thumb or update an existing thumb for a post
+  /// createThumbAndUpload('post123', 'author456', 1);
+  /// ```
+  ///
+  /// If a thumb for the specified post and user already exists, this function updates the tag value. Otherwise, it creates a new thumb model and uploads it to Firebase Firestore.
+  ///
   Future<void> createThumbAndUpload(
       String postId, String authorId, int tag) async {
-    // 查询 thumb 集合以查找匹配的文档
     QuerySnapshot thumbQuery = await FirebaseFirestore.instance
         .collection('thumb')
         .where('userId', isEqualTo: globalUid)
@@ -71,13 +87,12 @@ class IndexController extends GetxController
         .get();
 
     if (thumbQuery.docs.isNotEmpty) {
-      // 如果找到匹配的文档，更新 tag 字段
       thumbQuery.docs.forEach((QueryDocumentSnapshot doc) {
         DocumentReference thumbDocRef =
             FirebaseFirestore.instance.collection('thumb').doc(doc.id);
 
         Map<String, dynamic> updatedData = {
-          'tag': tag, // 更新 tag 字段
+          'tag': tag,
         };
 
         thumbDocRef.set(updatedData, SetOptions(merge: true)).then((_) {
@@ -95,7 +110,6 @@ class IndexController extends GetxController
         postId,
         tag,
       );
-      // 调用上传方法
       uploadThumbToFirebase(newThumb);
     }
   }
@@ -112,14 +126,12 @@ class IndexController extends GetxController
         .get();
 
     if (thumbQuery1.docs.isNotEmpty && thumbQuery2.docs.isNotEmpty) {
-      // 如果找到匹配的文档，更新 tag 字段
       thumbQuery1.docs.forEach((QueryDocumentSnapshot doc) {
         DocumentReference thumbDocRef =
             FirebaseFirestore.instance.collection('postView').doc(doc.id);
-        // 计算新的 fav 值
         int newFav = max(0, num);
         Map<String, dynamic> updatedData = {
-          'fav': newFav, // 更新 tag 字段
+          'fav': newFav,
         };
 
         thumbDocRef.set(updatedData, SetOptions(merge: true)).then((_) {
@@ -132,10 +144,9 @@ class IndexController extends GetxController
     thumbQuery2.docs.forEach((QueryDocumentSnapshot doc) {
       DocumentReference thumbDocRef =
           FirebaseFirestore.instance.collection('post').doc(doc.id);
-      // 计算新的 fav 值
       int newFav = max(0, num);
       Map<String, dynamic> updatedData = {
-        'fav': newFav, // 更新 tag 字段
+        'fav': newFav,
       };
 
       thumbDocRef.set(updatedData, SetOptions(merge: true)).then((_) {

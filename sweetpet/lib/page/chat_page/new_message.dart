@@ -20,6 +20,20 @@ class _NewMessageState extends State<NewMessage> {
     super.dispose();
   }
 
+  /// Submit a chat message to Firebase Firestore.
+  ///
+  /// This function sends a chat message to the 'chat' collection in Firebase Firestore. It includes the message text, the current timestamp, the user's ID, username, and user image URL in the message document.
+  ///
+  /// If the entered message is empty or consists only of whitespace, the function returns without sending the message.
+  ///
+  /// Example:
+  /// ```dart
+  /// // Submit a chat message
+  /// _submitMessage();
+  /// ```
+  ///
+  /// Note: Make sure the user is authenticated before using this function, as it relies on the current user's information.
+  ///
   void _submitMessage() async {
     final enteredMessage = _messageController.text;
 
