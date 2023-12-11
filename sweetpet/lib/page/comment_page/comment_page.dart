@@ -14,20 +14,29 @@ class _CommentsPageState extends State<CommentsPage> {
   void initState() {
     super.initState();
     commentsData = [];
-    // 在初始化时调用方法来获取评论数据
     fetchCommentsData();
   }
 
+  /// Fetches and updates the comments data for a specific post.
+  ///
+  /// This function retrieves a list of comments for a specific post using the `ApiClient`.
+  /// It then updates the `commentsData` state variable to reflect the fetched comments.
+  ///
+  /// Example:
+  /// ```dart
+  /// // Fetch and update comments data for a post
+  /// await fetchCommentsData();
+  /// ```
+  ///
+  /// Note: Ensure that the `ApiClient` is properly configured and that the `commentsData` state variable is appropriately initialized before calling this function.
+  ///
   Future<void> fetchCommentsData() async {
     try {
-      // 执行网络请求，获取评论数据
-      List<Comment> fetchedData =
-          await ApiClient().getCommentListData(); // 请替换成你的实际网络请求代码
+      List<Comment> fetchedData = await ApiClient().getCommentListData();
       setState(() {
         commentsData = fetchedData;
       });
     } catch (e) {
-      // 处理异常
       print("Error fetching comments data: $e");
     }
   }

@@ -8,6 +8,9 @@ import 'package:sweetpet/constant/color_library.dart';
 import 'package:sweetpet/controller/post_controller/post_controller.dart';
 import 'package:get/get.dart';
 
+/// A StatefulWidget representing the Post Page for displaying post details and comments.
+///
+/// Users can view post details, comments, and interact with the post on this page.
 class PostPage extends StatefulWidget {
   PostPage({Key? key}) : super(key: key);
 
