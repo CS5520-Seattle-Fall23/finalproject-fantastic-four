@@ -16,14 +16,35 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sweetpet/page/publish_page/publish_page.dart';
 
+/// `PublishController` manages the state and functionality for publishing posts.
+///
+/// This controller is responsible for picking images, uploading images to Firebase,
+/// creating and uploading post details and post views, and handling the post sharing process.
+///
+/// ## Usage:
+/// ```dart
+/// PublishController publishController = Get.put(PublishController());
+/// ```
 class PublishController extends GetxController {
+  /// List of selected images to be uploaded.
   var selectedImages = <XFile>[].obs;
+
+  /// User ID.
   late String userId;
+
+  /// User avatar URL.
   late String avatarUrl;
+
+  /// User username.
   late String userName;
+
+  /// List of uploaded image URLs.
   List<String> uploadedImageUrls = [];
+
+  /// Instance of `HomeController` for accessing home-related functionalities.
   HomeController homeController = Get.find<HomeController>();
 
+  /// Open image picker to select multiple images.
   void pickImages() async {
     final ImagePicker picker = ImagePicker();
     try {
@@ -36,6 +57,7 @@ class PublishController extends GetxController {
     }
   }
 
+  /// Upload selected images to Firebase storage and return a list of image URLs.
   Future<List<String>> uploadImagesToFirebase(List<XFile> images) async {
     try {
       for (var image in images) {
@@ -53,6 +75,7 @@ class PublishController extends GetxController {
     return uploadedImageUrls;
   }
 
+  /// Upload post details to Firebase.
   Future<void> uploadPostToFirebase(PostDetail post) async {
     try {
       await FirebaseFirestore.instance.collection('post').doc(post.id).set({
@@ -68,12 +91,13 @@ class PublishController extends GetxController {
         'images': post.images,
       });
 
-      print('帖子上传成功！');
+      print('Post uploaded successfully!');
     } catch (e) {
-      print('上传帖子时出现错误：$e');
+      print('Error uploading post: $e');
     }
   }
 
+  /// Upload post view details to Firebase.
   Future<void> uploadPostViewToFirebase(Post post) async {
     try {
       await FirebaseFirestore.instance.collection('postView').doc(post.id).set({
@@ -86,13 +110,13 @@ class PublishController extends GetxController {
         'fav': post.fav,
         'like': post.like,
       });
-      print('帖子View上传成功！');
+      print('Post view uploaded successfully!');
     } catch (e) {
-      print('上传帖子View时出现错误：$e');
+      print('Error uploading post view: $e');
     }
   }
 
-  /// Create a model of the post and upload it to Firebase
+  /// Create a model of the post and upload it to Firebase.
   Future<void> createPostAndUpload(String title, String content,
       List<String> imagesUrls, String postId) async {
     PostDetail newPost = PostDetail(
@@ -111,6 +135,7 @@ class PublishController extends GetxController {
     uploadPostToFirebase(newPost);
   }
 
+  /// Create a model of the post view and upload it to Firebase.
   Future<void> createPostViewAndUpload(
       String content, String imagesUrl, String postId) async {
     Post newPost = Post(
@@ -118,24 +143,22 @@ class PublishController extends GetxController {
     uploadPostViewToFirebase(newPost);
   }
 
-  /// After clicking the share button, upload the image to firebase and write the URL link of the resulting image to firebase along with the title and content entered by the user.
+  /// After clicking the share button, upload the image to Firebase and write the URL link of the resulting image to Firebase along with the title and content entered by the user.
   void sharePost(String title, String content) async {
     try {
       final String postId = const Uuid().v4();
       List<String> imagesUrls = await uploadImagesToFirebase(selectedImages);
       await getUserData(globalUid);
-      // 等待 imagesUrls 获取完成后再执行 createPostAndUpload
       await createPostViewAndUpload(content, imagesUrls[0], postId);
       await createPostAndUpload(title, content, imagesUrls, postId);
       Get.snackbar('Success', 'Post saved successfully');
       homeController.onChangePage(0);
     } catch (error) {
-      // 处理上传图片失败的情况
       Get.snackbar('Error', 'Failed to upload images: ${error.toString()}');
     }
   }
 
-  /// Get information about a user based on their id
+  /// Get information about a user based on their id.
   Future<void> getUserData(String uid) async {
     try {
       DocumentSnapshot userSnapshot =
@@ -152,10 +175,10 @@ class PublishController extends GetxController {
         userName = username;
         avatarUrl = imageUrl;
       } else {
-        print("user doesn't exit");
+        print("User doesn't exist");
       }
     } catch (e) {
-      print('error: $e');
+      print('Error: $e');
     }
   }
 }

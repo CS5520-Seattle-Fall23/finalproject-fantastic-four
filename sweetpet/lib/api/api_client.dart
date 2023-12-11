@@ -94,6 +94,7 @@ class ApiClient {
       for (QueryDocumentSnapshot document in querySnapshot2.docs) {
         Map<String, dynamic> data2 = document.data() as Map<String, dynamic>;
         THUMB thumb = THUMB.fromJson(data2);
+        print(thumb.userId);
         if (thumb.userId == globalUid) {
           if (thumb.tag == 1) {
             thumbs.add(thumb);
@@ -303,6 +304,7 @@ class ApiClient {
       return null;
     }
   }
+
 
   /// Retrieve mall detail data by title.
   ///

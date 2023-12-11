@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sweetpet/page/mall_page/shopping_list_page.dart';
 
+
+/// This class is designed to display a list of products for specific pet categories, like dogs or cats. It includes a field named name, which is used to identify the pet category. Based on this category, the class determines which products to display.
 class PetShopPage extends StatelessWidget {
 
   final String name;
@@ -62,6 +64,7 @@ class PetShopPage extends StatelessWidget {
   }
 }
 
+/// This class represents a model for an individual pet product. Each PetProduct object contains the product's image URL (imageUrl) and its name (name).
 class PetProduct {
   final String imageUrl;
   final String name;
@@ -69,6 +72,7 @@ class PetProduct {
   PetProduct({required this.imageUrl, required this.name});
 }
 
+/// This class is used to display individual pet products in the user interface. It takes a PetProduct object and a category name as parameters. When clicked, it navigates to the detailed product page (ShopList). The widget includes a card view featuring the product's image and name.
 class PetProductWidget extends StatelessWidget {
   final PetProduct product;
   final String category;
