@@ -211,7 +211,9 @@ Presentation			: des7, after des6, 1d
 | REQ-013       | Shopping Cart: Users should be able to add products to their shopping cart, review the cart contents, and proceed to checkout. | Shopping Cart and Checkout Feature |
 | REQ-014       | Ratings: Users should be able to leave ratings for products to assist others in making informed purchase decisions. | Product Ratings Feature |
 
+## Coverage Report
 
+![WechatIMG3326](https://github.com/danielluo77/finalproject-fantastic-four/assets/96103971/614dc129-7f56-4d56-825b-12ec8ff9a874)
 
 
 
